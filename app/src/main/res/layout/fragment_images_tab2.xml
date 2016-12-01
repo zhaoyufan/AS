@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.zyf.rxjavaretrofit_demo.view.pullrecyclerview.PullRecyclerView
+    <com.upic.asn.view.pullrecyclerview.PullRecyclerView
         android:id="@+id/mPullRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

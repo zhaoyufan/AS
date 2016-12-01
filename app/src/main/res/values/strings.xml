@@ -1,10 +1,20 @@
 <resources>
-    <string name="app_name">XiaoDemo</string>
+    <string name="app_name">爱上侬</string>
 
+    <!-- refresh -->
     <string name="pull_to_refresh_pull_label">下拉刷新</string>
     <string name="pull_to_refresh_release_label">松开刷新</string>
     <string name="pull_to_refresh_refreshing_label">正在刷新\u2026</string>
     <string name="pull_to_refresh_footer_release_label">松开加载更多</string>
     <string name="pull_to_refresh_footer_pull_label">上拉加载更多</string>
     <string name="pull_to_refresh_footer_refreshing_label">加载中\u2026</string>
+
+    <!-- home head -->
+    <string name="head_near">附近</string>
+    <string name="head_hot">最热</string>
+    <string name="head_weekned">周末</string>
+    <string name="head_publish">发布</string>
+    <string name="head_friend_group">熟人圈</string>
+
+
 </resources>

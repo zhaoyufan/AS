@@ -2,20 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/common_ui_bg"
     android:orientation="vertical">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:background="@mipmap/banner" />
-
-    <View
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginTop="5dp"
-        android:background="#d0d0d0" />
+        android:layout_height="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-24dp"
+        app:ci_drawable="@drawable/indicator_common_selector"
+        app:ci_drawable_unselected="@drawable/indicator_common_unselector"
+        app:ci_height="6dp"
+        app:ci_margin="10dp"
+        app:ci_width="6dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,18 +41,17 @@
             android:padding="10dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/home_icon_cg_glfriends" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/iv_next" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="新闻1"
+                android:text="@string/head_near"
                 android:textColor="#666666"
-                android:textSize="14sp" />
-
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -67,17 +72,17 @@
             android:padding="10dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/home_icon_cg_glhouse" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/iv_hot" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="新闻2"
+                android:text="@string/head_hot"
                 android:textColor="#666666"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -99,17 +104,17 @@
             android:padding="10dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/home_icon_cg_gllaw" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/iv_weekend" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="新闻3"
+                android:text="@string/head_weekned"
                 android:textColor="#666666"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -131,17 +136,49 @@
             android:padding="10dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/home_icon_cg_gllife" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/iv_publish" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="新闻4"
+                android:text="@string/head_publish"
                 android:textColor="#666666"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0.1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#d0d0d0" />
+
+        <LinearLayout
+            android:id="@+id/ll_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/iv_friend_group" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/head_friend_group"
+                android:textColor="#666666"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -150,12 +187,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:background="#d0d0d0" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginTop="5dp"
         android:background="#d0d0d0" />
 
 </LinearLayout>

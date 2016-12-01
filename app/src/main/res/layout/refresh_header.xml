@@ -6,9 +6,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1">
 
-        <com.zyf.rxjavaretrofit_demo.view.pullrecyclerview.RefreshAnimView
+        <com.upic.asn.view.pullrecyclerview.RefreshAnimView
             android:id="@+id/first_step_view"
             android:layout_width="160dp"
             android:layout_height="90dp"
@@ -16,7 +17,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp" />
 
-        <com.zyf.rxjavaretrofit_demo.view.pullrecyclerview.RefreshLoadingView
+        <com.upic.asn.view.pullrecyclerview.RefreshLoadingView
             android:id="@+id/second_step_view"
             android:layout_width="160dp"
             android:layout_height="90dp"
@@ -30,4 +31,5 @@
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:background="#D0D0D0" />
+
 </LinearLayout>

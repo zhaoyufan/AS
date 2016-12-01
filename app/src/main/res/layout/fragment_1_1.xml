@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.zyf.rxjavaretrofit_demo.view.pullrecyclerview.PullRecyclerView
+    <com.upic.asn.view.pullrecyclerview.PullRecyclerView
         android:id="@+id/mRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:layout_marginTop="40dp"/>
+        android:orientation="vertical" />
 </LinearLayout>
