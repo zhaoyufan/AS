@@ -11,7 +11,7 @@ import rx.Observable;
 
 public interface ApiService {
 
-    String API_ROOT = "http://151g61s040.imwork.net:17857/RxDemo/";
+    String API_ROOT = "http://maneng.uicp.io";
 
     /**
      * 登录
@@ -19,7 +19,7 @@ public interface ApiService {
      *
      * @return
      */
-    @POST("UserServlet?action=loginAction")
+    @POST("/login/")
     Observable<LoginBean> login(@QueryMap Map<String,String> maps);
 
 

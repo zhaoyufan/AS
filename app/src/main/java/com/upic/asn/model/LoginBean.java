@@ -6,6 +6,15 @@ package com.upic.asn.model;
 public class LoginBean {
     private String num;
     private String pass;
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 
     public LoginBean() {
     }

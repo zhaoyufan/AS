@@ -15,6 +15,7 @@ import com.upic.asn.model.LoginBean;
 import com.upic.asn.model.view.LoginListener;
 import com.upic.asn.ui.main.MainActivity;
 import com.upic.asn.ui.base.BaseActivity;
+import com.upic.asn.util.StatusBarCompat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,13 +41,14 @@ public class LoginActivity extends BaseActivity implements LoginListener {
 
     @Override
     public void initView() {
-        initTitleBar("","登录","注册",0,this);
-        title_bar.setBackgroundColor(getResources().getColor(R.color.common_title_bg));
+//        initTitleBar("","登录","注册",0,this);
+//        title_bar.setBackgroundColor(getResources().getColor(R.color.common_title_bg));
         etAccount = (EditText) $(R.id.account);
         etPwd = (EditText) $(R.id.password);
         btnLogin = (Button) $(R.id.login);
         progressBar = (ProgressBar) $(R.id.progressbar);
     }
+
 
     @Override
     public void initClick() {
@@ -86,9 +88,9 @@ public class LoginActivity extends BaseActivity implements LoginListener {
                 Toast.makeText(LoginActivity.this, "注册", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.login:
-                //doLogin();
-                startActivity(MainActivity.class);
-                finish();
+                doLogin();
+//                startActivity(MainActivity.class);
+//                finish();
                 break;
         }
     }
@@ -111,21 +113,30 @@ public class LoginActivity extends BaseActivity implements LoginListener {
         showProgressDialog();
         //开始一个请求
         Map<String,String> params = new HashMap<String,String>();
-        params.put("num",account);
-        params.put("pwd",pwd);
+        params.put("uname",account);
+        params.put("pass",pwd);
         mSubscription = ApiUtil.createApiService().login(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscribe<LoginBean>() {
+
                     @Override
                     protected void _onNext(LoginBean loginBean) {
-                        Log.d("aaa","电话="+loginBean.getNum());
-                        listener.loginSuccess("登录成功");
+                        Log.d("bbb","电话="+loginBean.getState());
+                        if(loginBean.getState()==1){
+                            listener.loginSuccess("");
+                        } else if(loginBean.getState()==2){
+                            listener.loginFail("密码错误");
+                        } else if(loginBean.getState()==3){
+                            listener.loginFail("账号不存在");
+                        } else {
+                            listener.loginFail("连接服务器失败！");
+                        }
                     }
                     @Override
                     protected void _onError(String message) {
-                        Log.d("aaa",message.toString());
-                        listener.loginFail("登录失败");
+                        Log.d("ccc",message.toString());
+                        listener.loginFail("登录失败!!!!"+message.toString());
                     }
                 });
 
