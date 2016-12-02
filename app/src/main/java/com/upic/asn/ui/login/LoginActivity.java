@@ -15,7 +15,6 @@ import com.upic.asn.model.LoginBean;
 import com.upic.asn.model.view.LoginListener;
 import com.upic.asn.ui.main.MainActivity;
 import com.upic.asn.ui.base.BaseActivity;
-import com.upic.asn.util.StatusBarCompat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -88,9 +87,9 @@ public class LoginActivity extends BaseActivity implements LoginListener {
                 Toast.makeText(LoginActivity.this, "注册", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.login:
-                doLogin();
-//                startActivity(MainActivity.class);
-//                finish();
+//                doLogin();
+                startActivity(MainActivity.class);
+                finish();
                 break;
         }
     }
