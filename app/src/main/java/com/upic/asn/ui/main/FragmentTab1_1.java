@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.upic.asn.R;
 import com.upic.asn.adapter.BaseAdapter;
-import com.upic.asn.adapter.NewsAdapter;
+import com.upic.asn.adapter.WanLeAdapter;
 import com.upic.asn.model.ImageModel;
 import com.upic.asn.model.News;
 import com.upic.asn.model.view.NewsListener;
@@ -30,7 +30,7 @@ public class FragmentTab1_1 extends BaseFragment implements
         BaseAdapter.OnViewClickListener,//item中view的点击事件，根据类型区分
         NewsListener {
     PullRecyclerView mRecyclerView;
-    NewsAdapter newsAdapter;
+    WanLeAdapter wanLeAdapter;
     List<Object> listbanner, listnews;
 
     int y, //滑动距离
@@ -39,6 +39,7 @@ public class FragmentTab1_1 extends BaseFragment implements
 
     int page;
 
+
     @Override
     public int getContentView() {
         return R.layout.fragment_1_1;
@@ -46,7 +47,6 @@ public class FragmentTab1_1 extends BaseFragment implements
 
     @Override
     public void initView() {
-
         mRecyclerView = (PullRecyclerView) $(R.id.mRecyclerView);
         mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView.setOnHeaderRefreshListener(this);//设置下拉监听
@@ -93,14 +93,21 @@ public class FragmentTab1_1 extends BaseFragment implements
         bannerH = SysUtil.dip2px(context, 200);//将banner高度转为px
         listbanner = new ArrayList<>();
         listnews = new ArrayList<>();
+        News news1 = new News("数据加载中...","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...","数据加载中...","1");
+        News news2 = new News("数据加载中...","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...","数据加载中...","2");
+        News news3 = new News("数据加载中...","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...","数据加载中...","3");
+        listnews.add(news1);
+        listnews.add(news2);
+        listnews.add(news3);
+        initRecyclerView();
         doHeaderRefresh(this);
     }
 
     void initRecyclerView() {
-        newsAdapter = new NewsAdapter(context, listbanner, listnews, this);
+        wanLeAdapter = new WanLeAdapter(context, listbanner, listnews, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        newsAdapter.setOnItemClickListener(this);
-        mRecyclerView.setAdapter(newsAdapter);
+        wanLeAdapter.setOnItemClickListener(this);
+        mRecyclerView.setAdapter(wanLeAdapter);
     }
 
     /**
@@ -186,7 +193,6 @@ public class FragmentTab1_1 extends BaseFragment implements
                 break;
         }
     }
-
     /**
      * 刷新成功回调方法
      * @param message
@@ -241,7 +247,7 @@ public class FragmentTab1_1 extends BaseFragment implements
         News news2 = new News("新增2","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","新增2","新增2","新增2");
         listnews.add(news1);
         listnews.add(news2);
-        newsAdapter.notifyDataSetChanged();
+        wanLeAdapter.notifyDataSetChanged();
     }
 
     /**

@@ -15,7 +15,7 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
 
     public Context context;//上下文
     public List<Object> listDatas;//数据源
-    public List<Object> listDatas1, listDatas2;//多数据源
+    public List<Object> listDatas1, listDatas2,listDatas3,listData4,listData5;//多数据源
     public LayoutInflater mInflater;
     public OnViewClickListener onViewClickListener;//item子view点击事件
     public OnItemClickListener onItemClickListener;//item点击事件

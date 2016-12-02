@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ import me.relex.circleindicator.CircleIndicator;
 /**
  * Created by ZYF on 2016/11/17.
  */
-public class NewsAdapter extends BaseAdapter<NewsAdapter.MyViewHolder> {
+public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
 
     boolean isViewPagerLoadScucess = false;//viewpager是否加载成功
 
@@ -35,7 +36,7 @@ public class NewsAdapter extends BaseAdapter<NewsAdapter.MyViewHolder> {
      * @param listDatas2          新闻列表数据
      * @param onViewClickListener 我们要设置item（header）中某控件的点击事件
      */
-    public NewsAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, OnViewClickListener onViewClickListener) {
+    public WanLeAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, OnViewClickListener onViewClickListener) {
         super(context, listDatas1, listDatas2, onViewClickListener);
     }
 
@@ -102,7 +103,9 @@ public class NewsAdapter extends BaseAdapter<NewsAdapter.MyViewHolder> {
     public int getItemViewType(int position) {
         if (position == 0) {
             return R.layout.item_home_head;
-        }else{
+//        } else if (position == 1){
+//            return R.layout.item_news;
+        } else {
             return R.layout.item_news;
         }
     }
@@ -112,6 +115,7 @@ public class NewsAdapter extends BaseAdapter<NewsAdapter.MyViewHolder> {
         LinearLayout ll_1, ll_2, ll_3, ll_4, ll_5;
         CircleIndicator indicator;
 
+        GridView gridView;
 
         ImageView iv_icon;//
         TextView tv_title, tv_des, tv_time;//
@@ -121,12 +125,17 @@ public class NewsAdapter extends BaseAdapter<NewsAdapter.MyViewHolder> {
             vp = (ViewPager) view.findViewById(R.id.vp);//banner
             indicator = (CircleIndicator) view.findViewById(R.id.indicator);
 
+            //head
             ll_1 = (LinearLayout) view.findViewById(R.id.ll_1);//附近
             ll_2 = (LinearLayout) view.findViewById(R.id.ll_2);//最热
             ll_3 = (LinearLayout) view.findViewById(R.id.ll_3);//周末
             ll_4 = (LinearLayout) view.findViewById(R.id.ll_4);//发布
             ll_5 = (LinearLayout) view.findViewById(R.id.ll_5);//熟人团
 
+            //
+//            gridView = (GridView) view.findViewById(R.id.hot_gridview);
+
+            //农场
             iv_icon = (ImageView) view.findViewById(R.id.iv_icon);//
             tv_title = (TextView) view.findViewById(R.id.tv_title);//标题
             tv_des = (TextView) view.findViewById(R.id.tv_des);//内容
@@ -135,6 +144,7 @@ public class NewsAdapter extends BaseAdapter<NewsAdapter.MyViewHolder> {
 
         }
     }
+    //初始化viewpager
     private void initViewPager(MyViewHolder holder) {
         isViewPagerLoadScucess = true;
         final List<View> imageViews = new ArrayList<>();
@@ -175,6 +185,31 @@ public class NewsAdapter extends BaseAdapter<NewsAdapter.MyViewHolder> {
             }
         });
         holder.indicator.setViewPager(holder.vp);
+    }
+
+    //初始化 gridView
+    private void initHotGridView(MyViewHolder holder){
+        holder.gridView.setAdapter(new android.widget.BaseAdapter() {
+            @Override
+            public int getCount() {
+                return 0;
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return null;
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return 0;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                return null;
+            }
+        });
     }
 
 }
