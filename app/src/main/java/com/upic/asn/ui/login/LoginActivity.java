@@ -138,7 +138,6 @@ public class LoginActivity extends BaseActivity implements LoginListener {
                         listener.loginFail("登录失败!!!!"+message.toString());
                     }
                 });
-
     }
     public void showProgressDialog() {
         progressBar.setVisibility(View.VISIBLE);

@@ -5,11 +5,12 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import com.upic.asn.R;
 import com.upic.asn.model.ImageModel;
 import com.upic.asn.model.News;
+import com.upic.asn.model.Recommend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,17 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
      */
     public WanLeAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, OnViewClickListener onViewClickListener) {
         super(context, listDatas1, listDatas2, onViewClickListener);
+    }
+
+    /**
+     * @param context
+     * @param listDatas1          banner图片数据
+     * @param listDatas2          新闻列表数据
+     * @param listDatas3          推荐数据源
+     * @param onViewClickListener 我们要设置item（header）中某控件的点击事件
+     */
+    public WanLeAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Recommend> listDatas3, OnViewClickListener onViewClickListener) {
+        super(context, listDatas1, listDatas2, listDatas3, onViewClickListener);
     }
 
     /**
@@ -63,9 +76,12 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
             holder.ll_3.setOnClickListener(new ViewClickListener(onViewClickListener, position, 3));
             holder.ll_4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 4));
             holder.ll_5.setOnClickListener(new ViewClickListener(onViewClickListener, position, 5));
-        }
-        else{//列表
-            News news = (News) listDatas2.get(position - 1);//转换（注意：是position-1）
+        } else if (position == 1){
+            if ( listDatas3.size() > 0) {
+                initListView(holder);
+            }
+        } else{//列表
+            News news = (News) listDatas2.get(position - 2);//转换（注意：是position-1）
             if (!TextUtils.isEmpty(news.getPicUrl())) {
                 Picasso.with(context).load(news.getPicUrl()).error(R.mipmap.banner).into(holder.iv_icon);
             } else {
@@ -78,7 +94,7 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(position - 1);
+                        onItemClickListener.onItemClick(position - 2);
                     }
                 }
             });
@@ -96,15 +112,15 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return 1 + listDatas2.size();
+        return 1 + listDatas2.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return R.layout.item_home_head;
-//        } else if (position == 1){
-//            return R.layout.item_news;
+        } else if (position == 1){
+            return R.layout.recommend;
         } else {
             return R.layout.item_news;
         }
@@ -115,7 +131,7 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
         LinearLayout ll_1, ll_2, ll_3, ll_4, ll_5;
         CircleIndicator indicator;
 
-        GridView gridView;
+        ListView listView;
 
         ImageView iv_icon;//
         TextView tv_title, tv_des, tv_time;//
@@ -133,7 +149,7 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
             ll_5 = (LinearLayout) view.findViewById(R.id.ll_5);//熟人团
 
             //
-//            gridView = (GridView) view.findViewById(R.id.hot_gridview);
+            listView = (ListView) view.findViewById(R.id.recommendlistview);
 
             //农场
             iv_icon = (ImageView) view.findViewById(R.id.iv_icon);//
@@ -187,29 +203,9 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
         holder.indicator.setViewPager(holder.vp);
     }
 
-    //初始化 gridView
-    private void initHotGridView(MyViewHolder holder){
-        holder.gridView.setAdapter(new android.widget.BaseAdapter() {
-            @Override
-            public int getCount() {
-                return 0;
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return null;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return 0;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                return null;
-            }
-        });
+    private void initListView(MyViewHolder holder){
+        RecommendAdapter adapter = new RecommendAdapter(listDatas3,context);
+        Log.d("aaa","适配adapter");
+        holder.listView.setAdapter(adapter);
     }
-
 }

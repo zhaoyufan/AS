@@ -8,8 +8,12 @@ import android.widget.Toast;
 import com.upic.asn.R;
 import com.upic.asn.adapter.BaseAdapter;
 import com.upic.asn.adapter.WanLeAdapter;
+import com.upic.asn.api.ApiUtil;
+import com.upic.asn.api.RxSubscribe;
 import com.upic.asn.model.ImageModel;
 import com.upic.asn.model.News;
+import com.upic.asn.model.NobleChoice;
+import com.upic.asn.model.Recommend;
 import com.upic.asn.model.view.NewsListener;
 import com.upic.asn.ui.base.BaseFragment;
 import com.upic.asn.util.SysUtil;
@@ -18,6 +22,9 @@ import com.upic.asn.view.pullrecyclerview.PullRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ZYF on 2016/11/16.
@@ -31,7 +38,9 @@ public class FragmentTab1_1 extends BaseFragment implements
         NewsListener {
     PullRecyclerView mRecyclerView;
     WanLeAdapter wanLeAdapter;
-    List<Object> listbanner, listnews;
+    List<Object> listbanner, listnews,listTuiJians;
+    List<Recommend> listRecommends;
+    List<NobleChoice> listNobleChoices;
 
     int y, //滑动距离
             bannerH;//banner高度
@@ -93,18 +102,26 @@ public class FragmentTab1_1 extends BaseFragment implements
         bannerH = SysUtil.dip2px(context, 200);//将banner高度转为px
         listbanner = new ArrayList<>();
         listnews = new ArrayList<>();
-        News news1 = new News("数据加载中...","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...","数据加载中...","1");
-        News news2 = new News("数据加载中...","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...","数据加载中...","2");
-        News news3 = new News("数据加载中...","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...","数据加载中...","3");
-        listnews.add(news1);
-        listnews.add(news2);
-        listnews.add(news3);
+        listTuiJians = new ArrayList<>();
+        listNobleChoices = new ArrayList<>();
+        listRecommends = new ArrayList<>();
+
+        NobleChoice nobleChoice1 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
+        NobleChoice nobleChoice2 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
+        NobleChoice nobleChoice3 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
+        NobleChoice nobleChoice4 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
+        listNobleChoices.add(nobleChoice1);
+        listNobleChoices.add(nobleChoice2);
+        listNobleChoices.add(nobleChoice3);
+        listNobleChoices.add(nobleChoice4);
+        Recommend recommend = new Recommend("数据加载中...","数据加载中...",listNobleChoices);
+        listRecommends.add(recommend);
         initRecyclerView();
         doHeaderRefresh(this);
     }
 
     void initRecyclerView() {
-        wanLeAdapter = new WanLeAdapter(context, listbanner, listnews, this);
+        wanLeAdapter = new WanLeAdapter(context, listbanner, listnews, listRecommends, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         wanLeAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(wanLeAdapter);
@@ -142,13 +159,22 @@ public class FragmentTab1_1 extends BaseFragment implements
     }
 
     private void doHeaderRefresh(final NewsListener listener) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listener.refreshSuccess("suceess");
-            }
-        },1500);
-
+        ApiUtil.createApiService().getRecommendDatas()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscribe<Recommend>() {
+                    @Override
+                    protected void _onNext(Recommend recommend) {
+                        listRecommends.clear();
+                        listRecommends.add(recommend);
+                        listener.refreshSuccess("success");
+                    }
+                    @Override
+                    protected void _onError(String message) {
+                        Toast.makeText(context,"请检查网络状态",Toast.LENGTH_SHORT).show();
+                        mRecyclerView.onHeaderRefreshComplete();
+                    }
+                });
 }
     /**
      * item点击监听
