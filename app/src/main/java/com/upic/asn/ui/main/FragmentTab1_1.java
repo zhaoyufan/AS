@@ -2,6 +2,7 @@ package com.upic.asn.ui.main;
 
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -173,6 +174,8 @@ public class FragmentTab1_1 extends BaseFragment implements
                     protected void _onError(String message) {
                         Toast.makeText(context,"请检查网络状态",Toast.LENGTH_SHORT).show();
                         mRecyclerView.onHeaderRefreshComplete();
+                        //测试时，避免连接服务器失败而导致其他数据也不加载
+                        listener.refreshSuccess("success");
                     }
                 });
 }
