@@ -1,5 +1,7 @@
 package com.upic.asn.api;
 
+import com.upic.asn.model.ActivityArea;
+import com.upic.asn.model.Banner;
 import com.upic.asn.model.LoginBean;
 import com.upic.asn.model.Recommend;
 
@@ -25,6 +27,20 @@ public interface ApiService {
     @POST("/login/")
     Observable<LoginBean> login(@QueryMap Map<String,String> maps);
 
+    /**
+     * 推荐
+     * @return
+     */
     @GET("load")
     Observable<Recommend> getRecommendDatas();
+
+    /**
+     * banner图
+     * @return
+     */
+    @GET("loadbanner")
+    Observable<List<Banner>> getBannerDatas();
+
+    @GET("loadAvtivity")
+    Observable<List<ActivityArea>> getActivityAreaDatas();
 }

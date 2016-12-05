@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.upic.asn.R;
+import com.upic.asn.model.ActivityArea;
 import com.upic.asn.model.ImageModel;
 import com.upic.asn.model.News;
 import com.upic.asn.model.Recommend;
@@ -46,11 +47,23 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
      * @param context
      * @param listDatas1          banner图片数据
      * @param listDatas2          新闻列表数据
-     * @param listDatas3          推荐数据源
+     * @param listRecommends          推荐数据源
      * @param onViewClickListener 我们要设置item（header）中某控件的点击事件
      */
-    public WanLeAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Recommend> listDatas3, OnViewClickListener onViewClickListener) {
-        super(context, listDatas1, listDatas2, listDatas3, onViewClickListener);
+    public WanLeAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Recommend> listRecommends, OnViewClickListener onViewClickListener) {
+        super(context, listDatas1, listDatas2, listRecommends, onViewClickListener);
+    }
+
+    /**
+     * @param context
+     * @param listDatas1          banner图片数据
+     * @param listDatas2          新闻列表数据
+     * @param listActivityAreas       区域数据源
+     * @param listRecommends          推荐数据源
+     * @param onViewClickListener 我们要设置item（header）中某控件的点击事件
+     */
+    public WanLeAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<ActivityArea> listActivityAreas, List<Recommend> listRecommends, OnViewClickListener onViewClickListener) {
+        super(context, listDatas1, listDatas2, listActivityAreas, listRecommends, onViewClickListener);
     }
 
     /**
@@ -76,12 +89,24 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
             holder.ll_3.setOnClickListener(new ViewClickListener(onViewClickListener, position, 3));
             holder.ll_4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 4));
             holder.ll_5.setOnClickListener(new ViewClickListener(onViewClickListener, position, 5));
-        } else if (position == 1){
-            if ( listDatas3.size() > 0) {
+        }
+            else if (position == 1){
+
+//        } else if (position == 1) {//area
+//            Log.d("aaa","size====="+listActivityAreas.size());
+//            if(listActivityAreas.size() > 0) {
+//                initArea(holder);
+//            }
+//            holder.area1.setOnClickListener(new ViewClickListener(onViewClickListener, position, 6));
+//            holder.area2.setOnClickListener(new ViewClickListener(onViewClickListener, position, 7));
+//            holder.area3.setOnClickListener(new ViewClickListener(onViewClickListener, position, 8));
+//            holder.area4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 9));
+        } else if (position == 2){
+            if ( listRecommends.size() > 0) {
                 initListView(holder);
             }
         } else{//列表
-            News news = (News) listDatas2.get(position - 2);//转换（注意：是position-1）
+            News news = (News) listDatas2.get(position - 3);//转换（注意：是position-1）
             if (!TextUtils.isEmpty(news.getPicUrl())) {
                 Picasso.with(context).load(news.getPicUrl()).error(R.mipmap.banner).into(holder.iv_icon);
             } else {
@@ -94,7 +119,7 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(position - 2);
+                        onItemClickListener.onItemClick(position - 3);
                     }
                 }
             });
@@ -112,7 +137,7 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return 1 + listDatas2.size() + 1;
+        return 1 + 1 + listDatas2.size() + 1;
     }
 
     @Override
@@ -120,6 +145,8 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
         if (position == 0) {
             return R.layout.item_home_head;
         } else if (position == 1){
+            return R.layout.item_area;
+        } else if (position == 2){
             return R.layout.recommend;
         } else {
             return R.layout.item_news;
@@ -128,11 +155,14 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         ViewPager vp;
+        //head
         LinearLayout ll_1, ll_2, ll_3, ll_4, ll_5;
         CircleIndicator indicator;
-
+        //area
+        ImageView area1,area2,area3,area4;
+        //recommend
         ListView listView;
-
+        //农场
         ImageView iv_icon;//
         TextView tv_title, tv_des, tv_time;//
 
@@ -148,7 +178,13 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
             ll_4 = (LinearLayout) view.findViewById(R.id.ll_4);//发布
             ll_5 = (LinearLayout) view.findViewById(R.id.ll_5);//熟人团
 
-            //
+            //area
+            area1 = (ImageView) view.findViewById(R.id.area1);
+            area2 = (ImageView) view.findViewById(R.id.area2);
+            area3 = (ImageView) view.findViewById(R.id.area3);
+            area4 = (ImageView) view.findViewById(R.id.area4);
+
+            //recommend
             listView = (ListView) view.findViewById(R.id.recommendlistview);
 
             //农场
@@ -203,9 +239,17 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
         holder.indicator.setViewPager(holder.vp);
     }
 
+    //初始化区域
+    private void initArea(MyViewHolder holder){
+        Picasso.with(context).load(listActivityAreas.get(0).getUrl()).error(R.mipmap.banner).into(holder.area1);
+        Picasso.with(context).load(listActivityAreas.get(1).getUrl()).error(R.mipmap.banner).into(holder.area2);
+        Picasso.with(context).load(listActivityAreas.get(2).getUrl()).error(R.mipmap.banner).into(holder.area3);
+        Picasso.with(context).load(listActivityAreas.get(3).getUrl()).error(R.mipmap.banner).into(holder.area4);
+    }
+
+    //recommonedlist初始化
     private void initListView(MyViewHolder holder){
-        RecommendAdapter adapter = new RecommendAdapter(listDatas3,context);
-        Log.d("aaa","适配adapter");
+        RecommendAdapter adapter = new RecommendAdapter(listRecommends,context);
         holder.listView.setAdapter(adapter);
     }
 }

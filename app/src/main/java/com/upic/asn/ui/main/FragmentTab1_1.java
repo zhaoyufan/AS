@@ -2,30 +2,27 @@ package com.upic.asn.ui.main;
 
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.upic.asn.R;
 import com.upic.asn.adapter.BaseAdapter;
 import com.upic.asn.adapter.WanLeAdapter;
-import com.upic.asn.api.ApiUtil;
-import com.upic.asn.api.RxSubscribe;
+import com.upic.asn.model.ActivityArea;
 import com.upic.asn.model.ImageModel;
 import com.upic.asn.model.News;
 import com.upic.asn.model.NobleChoice;
 import com.upic.asn.model.Recommend;
-import com.upic.asn.model.view.NewsListener;
+import com.upic.asn.model.view.WanLeListener;
+import com.upic.asn.presenter.WanLePersenter;
 import com.upic.asn.ui.base.BaseFragment;
 import com.upic.asn.util.SysUtil;
 import com.upic.asn.view.pullrecyclerview.PullBaseView;
 import com.upic.asn.view.pullrecyclerview.PullRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by ZYF on 2016/11/16.
@@ -36,12 +33,14 @@ public class FragmentTab1_1 extends BaseFragment implements
         PullBaseView.OnFooterRefreshListener,
         PullBaseView.OnPullDownScrollListener,
         BaseAdapter.OnViewClickListener,//item中view的点击事件，根据类型区分
-        NewsListener {
+        WanLeListener {
     PullRecyclerView mRecyclerView;
     WanLeAdapter wanLeAdapter;
-    List<Object> listbanner, listnews,listTuiJians;
+    List<Object> listBanners, listnews;
     List<Recommend> listRecommends;
+    List<ActivityArea> listActivityAreas;
     List<NobleChoice> listNobleChoices;
+    WanLePersenter wanLePersenter;
 
     int y, //滑动距离
             bannerH;//banner高度
@@ -101,28 +100,19 @@ public class FragmentTab1_1 extends BaseFragment implements
     @Override
     public void initData() {
         bannerH = SysUtil.dip2px(context, 200);//将banner高度转为px
-        listbanner = new ArrayList<>();
+        listBanners = new ArrayList<>();
         listnews = new ArrayList<>();
-        listTuiJians = new ArrayList<>();
-        listNobleChoices = new ArrayList<>();
-        listRecommends = new ArrayList<>();
-
-        NobleChoice nobleChoice1 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
-        NobleChoice nobleChoice2 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
-        NobleChoice nobleChoice3 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
-        NobleChoice nobleChoice4 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
-        listNobleChoices.add(nobleChoice1);
-        listNobleChoices.add(nobleChoice2);
-        listNobleChoices.add(nobleChoice3);
-        listNobleChoices.add(nobleChoice4);
-        Recommend recommend = new Recommend("数据加载中...","数据加载中...",listNobleChoices);
-        listRecommends.add(recommend);
+        listNobleChoices = new ArrayList<NobleChoice>();
+        listRecommends = new ArrayList<Recommend>();
+        listActivityAreas = new ArrayList<ActivityArea>();
+        wanLePersenter = new WanLePersenter();
+        monishuju();
         initRecyclerView();
-        doHeaderRefresh(this);
+        doHeaderRefresh();
     }
 
     void initRecyclerView() {
-        wanLeAdapter = new WanLeAdapter(context, listbanner, listnews, listRecommends, this);
+        wanLeAdapter = new WanLeAdapter(context, listBanners, listnews, listRecommends, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         wanLeAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(wanLeAdapter);
@@ -138,7 +128,7 @@ public class FragmentTab1_1 extends BaseFragment implements
         doFootRefresh(this);
     }
 
-    private void doFootRefresh(final NewsListener listener) {
+    private void doFootRefresh(final WanLeListener listener) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -155,29 +145,31 @@ public class FragmentTab1_1 extends BaseFragment implements
      */
     @Override
     public void onHeaderRefresh(PullBaseView view) {
-        doHeaderRefresh(this);
-
+        wanLePersenter.getRecommonedDatas(listRecommends,mRecyclerView,this);
+        //wanLePersenter.getBannerDatas(this);
+        //wanLePersenter.getActivityAreaDatas(this);
     }
 
-    private void doHeaderRefresh(final NewsListener listener) {
-        ApiUtil.createApiService().getRecommendDatas()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<Recommend>() {
-                    @Override
-                    protected void _onNext(Recommend recommend) {
-                        listRecommends.clear();
-                        listRecommends.add(recommend);
-                        listener.refreshSuccess("success");
-                    }
-                    @Override
-                    protected void _onError(String message) {
-                        Toast.makeText(context,"请检查网络状态",Toast.LENGTH_SHORT).show();
-                        mRecyclerView.onHeaderRefreshComplete();
-                        //测试时，避免连接服务器失败而导致其他数据也不加载
-                        listener.refreshSuccess("success");
-                    }
-                });
+    private void doHeaderRefresh() {
+//        ApiUtil.createApiService().getRecommendDatas()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new RxSubscribe<Recommend>() {
+//                    @Override
+//                    protected void _onNext(Recommend recommend) {
+//                        listRecommends.clear();
+//                        listRecommends.add(recommend);
+//                        listener.refreshSuccess("success");
+//                    }
+//                    @Override
+//                    protected void _onError(String message) {
+//                        Toast.makeText(context,"请检查网络状态",Toast.LENGTH_SHORT).show();
+//                        mRecyclerView.onHeaderRefreshComplete();
+//                        //测试时，避免连接服务器失败而导致其他数据也不加载
+//                        listener.refreshSuccess("success");
+//                    }
+//                });
+
 }
     /**
      * item点击监听
@@ -206,7 +198,7 @@ public class FragmentTab1_1 extends BaseFragment implements
     public void onItemViewClick(int position, int viewtype) {
         switch (viewtype) {
             case 1:
-                Toast.makeText(context, "附近", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "位置="+position+"附近", Toast.LENGTH_SHORT).show();
                 break;
             case 2:
                 Toast.makeText(context, "最热", Toast.LENGTH_SHORT).show();
@@ -215,31 +207,113 @@ public class FragmentTab1_1 extends BaseFragment implements
                 Toast.makeText(context, "周末", Toast.LENGTH_SHORT).show();
                 break;
             case 4:
-                Toast.makeText(context, "发布", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "位置="+position+"发布", Toast.LENGTH_SHORT).show();
                 break;
             case 5:
-                Toast.makeText(context, "熟人团", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "位置="+position+"熟人团", Toast.LENGTH_SHORT).show();
+                break;
+            case 6:
+                Toast.makeText(context, "位置="+position+"area1", Toast.LENGTH_SHORT).show();
+                break;
+            case 7:
+                Toast.makeText(context, "位置="+position+"area2", Toast.LENGTH_SHORT).show();
+                break;
+            case 8:
+                Toast.makeText(context, "位置="+position+"area3", Toast.LENGTH_SHORT).show();
+                break;
+            case 9:
+                Toast.makeText(context, "位置="+position+"area4", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
+
     /**
-     * 刷新成功回调方法
+     * 加载更多成功回调方法
      * @param message
      */
     @Override
-    public void refreshSuccess(String message) {
+    public void loadMoreSuccess(String message) {
+        mRecyclerView.onFooterRefreshComplete();
+        News news1 = new News("新增1","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","新增1","新增1","新增1");
+        News news2 = new News("新增2","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","新增2","新增2","新增2");
+        listnews.add(news1);
+        listnews.add(news2);
+        wanLeAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * banner回调方法
+     * @param listBanners
+     */
+    @Override
+    public void loadBanner(List listBanners) {
+        this.listBanners.clear();
+        this.listBanners = listBanners;
+    }
+
+    /**
+     * ActivityArea回调方法
+     * @param listActivityAreas
+     */
+    @Override
+    public void loadActivityArea(List<ActivityArea> listActivityAreas) {
+        this.listActivityAreas.clear();
+        this.listActivityAreas = listActivityAreas;
+    }
+
+    /**
+     * wanle界面数据监听
+     * @param lists
+     */
+    @Override
+    public void refreshSuccess(List lists) {
+        listRecommends = lists;
+        monishuju();
+    }
+
+    @Override
+    public void fail(String message, int type) {
+        switch (type){
+            case 1:Toast.makeText(context,"加载banner图失败",Toast.LENGTH_SHORT).show();
+                break;
+            case 2:Toast.makeText(context,"area区域加载失败",Toast.LENGTH_SHORT).show();
+                break;
+            case 3:Toast.makeText(context,"推荐数据失败",Toast.LENGTH_SHORT).show();
+                break;
+            case 4:break;
+            default:break;
+        }
+        monishuju();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+    public void monishuju(){
         mRecyclerView.onHeaderRefreshComplete();
         //banner 模拟数据
-        listbanner.clear();
+        listBanners.clear();
         ImageModel imageModel = new ImageModel();
         imageModel.setUrl("https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=650d5402a318972bbc3a07cad6cd7b9d/9f2f070828381f305c3fe5bfa1014c086e06f086.jpg");
-        listbanner.add(imageModel);
+        listBanners.add(imageModel);
         imageModel = new ImageModel();
         imageModel.setUrl("https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=a219dde79125bc31345d06986ede8de7/a5c27d1ed21b0ef494399077d5c451da80cb3ec1.jpg");
-        listbanner.add(imageModel);
+        listBanners.add(imageModel);
         imageModel = new ImageModel();
         imageModel.setUrl("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg");
-        listbanner.add(imageModel);
+        listBanners.add(imageModel);
+
+        //area
+        listActivityAreas.clear();
+        ActivityArea area1 = new ActivityArea("https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=650d5402a318972bbc3a07cad6cd7b9d/9f2f070828381f305c3fe5bfa1014c086e06f086.jpg","1");
+        ActivityArea area2 = new ActivityArea("https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=650d5402a318972bbc3a07cad6cd7b9d/9f2f070828381f305c3fe5bfa1014c086e06f086.jpg","1");
+        ActivityArea area3 = new ActivityArea("https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=650d5402a318972bbc3a07cad6cd7b9d/9f2f070828381f305c3fe5bfa1014c086e06f086.jpg","1");
+        ActivityArea area4 = new ActivityArea("https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=650d5402a318972bbc3a07cad6cd7b9d/9f2f070828381f305c3fe5bfa1014c086e06f086.jpg","1");
+        listActivityAreas.add(area1);
+        listActivityAreas.add(area2);
+        listActivityAreas.add(area3);
+        listActivityAreas.add(area4);
         //news 模拟数据
         listnews.clear();
         News news1 = new News("1","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","1","1","1");
@@ -262,34 +336,16 @@ public class FragmentTab1_1 extends BaseFragment implements
         listnews.add(news8);
         listnews.add(news9);
         listnews.add(news10);
+        NobleChoice nobleChoice1 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
+        NobleChoice nobleChoice2 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
+        NobleChoice nobleChoice3 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
+        NobleChoice nobleChoice4 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
+        listNobleChoices.add(nobleChoice1);
+        listNobleChoices.add(nobleChoice2);
+        listNobleChoices.add(nobleChoice3);
+        listNobleChoices.add(nobleChoice4);
+        Recommend recommend = new Recommend("数据加载中...","数据加载中...",listNobleChoices);
+        listRecommends.add(recommend);
         initRecyclerView();
-    }
-
-    /**
-     * 加载更多成功回调方法
-     * @param message
-     */
-    @Override
-    public void loadMoreSuccess(String message) {
-        mRecyclerView.onFooterRefreshComplete();
-        News news1 = new News("新增1","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","新增1","新增1","新增1");
-        News news2 = new News("新增2","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","新增2","新增2","新增2");
-        listnews.add(news1);
-        listnews.add(news2);
-        wanLeAdapter.notifyDataSetChanged();
-    }
-
-    /**
-     * 失败
-     * @param message
-     */
-    @Override
-    public void fail(String message) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 }
