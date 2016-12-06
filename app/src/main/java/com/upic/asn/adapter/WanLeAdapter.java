@@ -37,17 +37,6 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
      * @param context
      * @param listDatas1          banner图片数据
      * @param listDatas2          新闻列表数据
-     * @param listRecommends          推荐数据源
-     * @param onViewClickListener 我们要设置item（header）中某控件的点击事件
-     */
-    public WanLeAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Recommend> listRecommends, OnViewClickListener onViewClickListener) {
-        super(context, listDatas1, listDatas2, listRecommends, onViewClickListener);
-    }
-
-    /**
-     * @param context
-     * @param listDatas1          banner图片数据
-     * @param listDatas2          新闻列表数据
      * @param listActivityAreas       区域数据源
      * @param listRecommends          推荐数据源
      * @param onViewClickListener 我们要设置item（header）中某控件的点击事件

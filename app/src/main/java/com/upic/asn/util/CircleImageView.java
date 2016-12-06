@@ -1,5 +1,6 @@
 package com.upic.asn.util;
 
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -21,7 +22,6 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.upic.asn.R;
-
 
 public class CircleImageView extends ImageView {
 

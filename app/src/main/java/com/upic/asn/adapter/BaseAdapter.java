@@ -20,7 +20,6 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
     public Context context;//上下文
     public List<Object> listDatas;//数据源
     public List<Object> listDatas1, listDatas2, listDatas3, listDatas4;//多数据源
-    public List<Recommend> recommends;
     public LayoutInflater mInflater;
     public OnViewClickListener onViewClickListener;//item子view点击事件
     public OnItemClickListener onItemClickListener;//item点击事件
@@ -50,8 +49,16 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
         this.onViewClickListener = onViewClickListener;
     }
 
-    public BaseAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Recommend> recommends, OnViewClickListener onViewClickListener) {
-        init(context, listDatas1, listDatas2, recommends);
+
+    /**
+     * 多数据源
+     *
+     * @param context
+     * @param listDatas1
+     * @param listDatas2
+     */
+    public BaseAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, OnViewClickListener onViewClickListener) {
+        init(context, listDatas1, listDatas2);
         this.onViewClickListener = onViewClickListener;
     }
 
@@ -82,13 +89,22 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
         this.listDatas = listDatas;
         this.mInflater = LayoutInflater.from(context);
     }
-    void init(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Recommend> recommends){
+
+    /**
+     * 初始化
+     * 单数据源
+     *
+     * @param context
+     * @param listDatas1
+     * @param listDatas2
+     */
+    void init(Context context, List<Object> listDatas1, List<Object> listDatas2) {
         this.context = context;
         this.listDatas1 = listDatas1;
         this.listDatas2 = listDatas2;
-        this.recommends = recommends;
         this.mInflater = LayoutInflater.from(context);
     }
+
 
     /**
      * 初始化

@@ -2,19 +2,15 @@ package com.upic.asn.ui.main;
 
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.upic.asn.R;
 import com.upic.asn.adapter.BaseAdapter;
-import com.upic.asn.adapter.WanLeAdapter;
-import com.upic.asn.api.ApiUtil;
-import com.upic.asn.api.RxSubscribe;
+import com.upic.asn.adapter.ChuXingAdapter;
+import com.upic.asn.model.Community;
 import com.upic.asn.model.ImageModel;
-import com.upic.asn.model.News;
-import com.upic.asn.model.NobleChoice;
-import com.upic.asn.model.Recommend;
+import com.upic.asn.model.User;
 import com.upic.asn.model.view.NewsListener;
 import com.upic.asn.ui.base.BaseFragment;
 import com.upic.asn.util.SysUtil;
@@ -23,9 +19,6 @@ import com.upic.asn.view.pullrecyclerview.PullRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by ZYF on 2016/11/16.
@@ -37,12 +30,13 @@ public class FragmentTab1_2 extends BaseFragment implements
         PullBaseView.OnPullDownScrollListener,
         BaseAdapter.OnViewClickListener,//item中view的点击事件，根据类型区分
         NewsListener {
-    PullRecyclerView mRecyclerView;
-    WanLeAdapter wanLeAdapter;
-    List<Object> listbanner, listnews,listTuiJians;
-    List<Recommend> listRecommends;
-    List<NobleChoice> listNobleChoices;
-
+    PullRecyclerView mRecyclerView_f_1_2;
+    ChuXingAdapter chuXingAdapter;
+    List<Object> listbanner, listnews;
+    String url = "http://img3.imgtn.bdimg.com/it/u=3040533120,2016018949&fm=21&gp=0.jpg";
+    String url2 = "http://img.qq745.com/uploads/allimg/151022/1-151022193521.jpg";
+    String url3 = "http://p.3761.com/pic/12461391736719.png";
+    String url4 = "http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg";
     int y, //滑动距离
             bannerH;//banner高度
     boolean isPullDown = false;//是否是下拉状态
@@ -57,40 +51,14 @@ public class FragmentTab1_2 extends BaseFragment implements
 
     @Override
     public void initView() {
-        mRecyclerView = (PullRecyclerView) $(R.id.mRecyclerView);
-        mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        mRecyclerView.setOnHeaderRefreshListener(this);//设置下拉监听
-        mRecyclerView.setOnFooterRefreshListener(this);//设置上拉监听
-        mRecyclerView.setOnPullDownScrollListener(this);//设置下拉滑动监听
-        mRecyclerView.setCanScrollAtRereshing(false);//设置正在刷新时是否可以滑动，默认不可滑动
-        mRecyclerView.setCanPullDown(true);//设置是否可下拉
-        mRecyclerView.setCanPullUp(true);//设置是否可上拉
-//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {//监听滑动距离以改变标题栏透明度
-//                super.onScrolled(recyclerView, dx, dy);
-//                y += dy;
-//                if (y >= bannerH) {
-//                    rl_title.getBackground().setAlpha(255);
-//                    rl_title.setVisibility(View.VISIBLE);
-//                } else if (y >= 0 && y < bannerH) {
-//                    if (isPullDown) {
-//                        rl_title.setVisibility(View.GONE);
-//                    } else {
-//                        rl_title.getBackground().setAlpha((int) (255 * ((double) y / bannerH)));
-//                        rl_title.setVisibility(View.VISIBLE);
-//                    }
-//                } else {
-//                    rl_title.getBackground().setAlpha(0);
-//                    rl_title.setVisibility(View.GONE);
-//                }
-//            }
-//        });
+        mRecyclerView_f_1_2 = (PullRecyclerView) $(R.id.mRecyclerView_f_1_2);
+        mRecyclerView_f_1_2.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        mRecyclerView_f_1_2.setOnHeaderRefreshListener(this);//设置下拉监听
+        mRecyclerView_f_1_2.setOnFooterRefreshListener(this);//设置上拉监听
+        mRecyclerView_f_1_2.setOnPullDownScrollListener(this);//设置下拉滑动监听
+        mRecyclerView_f_1_2.setCanScrollAtRereshing(false);//设置正在刷新时是否可以滑动，默认不可滑动
+        mRecyclerView_f_1_2.setCanPullDown(true);//设置是否可下拉
+        mRecyclerView_f_1_2.setCanPullUp(true);//设置是否可上拉
     }
 
     @Override
@@ -103,29 +71,34 @@ public class FragmentTab1_2 extends BaseFragment implements
         bannerH = SysUtil.dip2px(context, 200);//将banner高度转为px
         listbanner = new ArrayList<>();
         listnews = new ArrayList<>();
-        listTuiJians = new ArrayList<>();
-        listNobleChoices = new ArrayList<>();
-        listRecommends = new ArrayList<>();
-
-        NobleChoice nobleChoice1 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
-        NobleChoice nobleChoice2 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
-        NobleChoice nobleChoice3 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
-        NobleChoice nobleChoice4 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
-        listNobleChoices.add(nobleChoice1);
-        listNobleChoices.add(nobleChoice2);
-        listNobleChoices.add(nobleChoice3);
-        listNobleChoices.add(nobleChoice4);
-        Recommend recommend = new Recommend("数据加载中...","数据加载中...",listNobleChoices);
-        listRecommends.add(recommend);
+        User user1 = new User("张一",url);
+        User user2 = new User("张2",url2);
+        User user3 = new User("张3",url3);
+        User user4 = new User("张4",url);
+        User user5 = new User("张5",url2);
+        User user6 = new User("张6",url3);
+        List<User> users = new ArrayList<User>();
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+        users.add(user4);
+        users.add(user5);
+        users.add(user6);
+        Community community1 = new Community("#爱就讲出来#",100, url4,users);
+        Community community2 = new Community("#爱就说出来#",100, url4,users);
+        Community community3 = new Community("#爱就话出来#",100, url4,users);
+        listnews.add(community1);
+        listnews.add(community2);
+        listnews.add(community3);
         initRecyclerView();
         doHeaderRefresh(this);
     }
 
     void initRecyclerView() {
-        wanLeAdapter = new WanLeAdapter(context, listbanner, listnews, listRecommends, this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        wanLeAdapter.setOnItemClickListener(this);
-        mRecyclerView.setAdapter(wanLeAdapter);
+        chuXingAdapter = new ChuXingAdapter(context, listbanner, listnews, this);
+        mRecyclerView_f_1_2.setLayoutManager(new LinearLayoutManager(context));
+        chuXingAdapter.setOnItemClickListener(this);
+        mRecyclerView_f_1_2.setAdapter(chuXingAdapter);
     }
 
     /**
@@ -160,24 +133,13 @@ public class FragmentTab1_2 extends BaseFragment implements
     }
 
     private void doHeaderRefresh(final NewsListener listener) {
-        ApiUtil.createApiService().getRecommendDatas()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<Recommend>() {
-                    @Override
-                    protected void _onNext(Recommend recommend) {
-                        listRecommends.clear();
-                        listRecommends.add(recommend);
-                        listener.refreshSuccess("success");
-                    }
-                    @Override
-                    protected void _onError(String message) {
-                        Toast.makeText(context,"请检查网络状态",Toast.LENGTH_SHORT).show();
-                        mRecyclerView.onHeaderRefreshComplete();
-                        //测试时，避免连接服务器失败而导致其他数据也不加载
-                        listener.refreshSuccess("success");
-                    }
-                });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                listener.refreshSuccess("suceess");
+            }
+        },1500);
+
     }
     /**
      * item点击监听
@@ -186,9 +148,8 @@ public class FragmentTab1_2 extends BaseFragment implements
      */
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(context, ((News) listnews.get(position)).getTitle(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, ((Community) listnews.get(position)).getTitle(), Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public void onPullDownScrolled() {
         isPullDown = true;
@@ -228,7 +189,7 @@ public class FragmentTab1_2 extends BaseFragment implements
      */
     @Override
     public void refreshSuccess(String message) {
-        mRecyclerView.onHeaderRefreshComplete();
+        mRecyclerView_f_1_2.onHeaderRefreshComplete();
         //banner 模拟数据
         listbanner.clear();
         ImageModel imageModel = new ImageModel();
@@ -242,26 +203,31 @@ public class FragmentTab1_2 extends BaseFragment implements
         listbanner.add(imageModel);
         //news 模拟数据
         listnews.clear();
-        News news1 = new News("1","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","1","1","1");
-        News news2 = new News("2","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","2","2","2");
-        News news3 = new News("3","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","3","3","3");
-        News news4 = new News("4","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","4","4","4");
-        News news5 = new News("5","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","5","5","5");
-        News news6 = new News("6","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","6","6","6");
-        News news7 = new News("7","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","7","7","7");
-        News news8 = new News("8","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","8","8","8");
-        News news9 = new News("9","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","9","9","9");
-        News news10 = new News("10","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","10","10","10");
-        listnews.add(news1);
-        listnews.add(news2);
-        listnews.add(news3);
-        listnews.add(news4);
-        listnews.add(news5);
-        listnews.add(news6);
-        listnews.add(news7);
-        listnews.add(news8);
-        listnews.add(news9);
-        listnews.add(news10);
+//        String url = "http://tx.haiqq.com/uploads/allimg/150326/1P4511163-9.jpg";
+        User user1 = new User("张1",url);
+        User user2 = new User("张2",url2);
+        User user3 = new User("张3",url3);
+        User user4 = new User("张4",url);
+        User user5 = new User("张5",url2);
+        User user6 = new User("张6",url3);
+        List<User> users = new ArrayList<User>();
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+        users.add(user4);
+        users.add(user5);
+        users.add(user6);
+        Community community1 = new Community("#爱就讲出来#",100, url4,users);
+        Community community2 = new Community("#爱就说出来#",200, url4,users);
+        Community community3 = new Community("#爱就话出来#",300, url4,users);
+        Community community4 = new Community("#爱就say出来#",400, url4,users);
+        Community community5 = new Community("#爱就讲出来#",500, url4,users);
+        listnews.add(community1);
+        listnews.add(community2);
+        listnews.add(community3);
+        listnews.add(community4);
+        listnews.add(community5);
+
         initRecyclerView();
     }
 
@@ -271,12 +237,22 @@ public class FragmentTab1_2 extends BaseFragment implements
      */
     @Override
     public void loadMoreSuccess(String message) {
-        mRecyclerView.onFooterRefreshComplete();
-        News news1 = new News("新增1","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","新增1","新增1","新增1");
-        News news2 = new News("新增2","http://ofhgnhf0s.bkt.clouddn.com/reigns.png","新增2","新增2","新增2");
-        listnews.add(news1);
-        listnews.add(news2);
-        wanLeAdapter.notifyDataSetChanged();
+        mRecyclerView_f_1_2.onFooterRefreshComplete();
+        User user1 = new User("张一",url);
+        User user2 = new User("张2",url2);
+        User user3 = new User("张3",url3);
+        User user4 = new User("张4",url);
+        List<User> users = new ArrayList<User>();
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+        users.add(user4);
+        Community community1 = new Community("#爱就讲出来新增1#",888, url4,users);
+        Community community2 = new Community("#爱就说出来新增1#",12345, url4,users);
+
+        listnews.add(community1);
+        listnews.add(community2);
+        chuXingAdapter.notifyDataSetChanged();
     }
 
     /**

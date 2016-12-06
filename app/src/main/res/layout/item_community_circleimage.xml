@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.upic.asn.util.CircleImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    app:border_width="0.5dp"
+    app:border_color="@color/tab_text_press"/>
