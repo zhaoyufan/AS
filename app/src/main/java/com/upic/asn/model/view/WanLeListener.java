@@ -3,6 +3,9 @@ package com.upic.asn.model.view;
 
 import com.upic.asn.model.ActivityArea;
 import com.upic.asn.model.Banner;
+import com.upic.asn.model.Recommend;
+import com.upic.asn.model.Store;
+import com.upic.asn.model.WanLe;
 
 import java.util.List;
 
@@ -24,17 +27,13 @@ public interface WanLeListener {
     void loadBanner(List<Banner> listBanners);
 
     /**
-     * 加载area数据监听
-     * @param listActivityAreas
-     */
-    void loadActivityArea(List<ActivityArea> listActivityAreas);
-
-    /**
      * 下拉刷新成功
      *
      * @param lists
      */
     void refreshSuccess(List lists);
+
+    void dataSuccess(WanLe wanLe);
 
     /**
      * 请求失败

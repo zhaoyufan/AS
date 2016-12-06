@@ -16,8 +16,10 @@ public class ActivityArea {
     public ActivityArea() {
     }
 
-    public ActivityArea(String url, String title) {
-
+    public ActivityArea(Long activityAreaId, Integer version, Date createTime, String url, String title) {
+        this.activityAreaId = activityAreaId;
+        this.version = version;
+        this.createTime = createTime;
         this.url = url;
         this.title = title;
     }

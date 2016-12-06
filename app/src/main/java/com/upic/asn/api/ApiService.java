@@ -4,6 +4,8 @@ import com.upic.asn.model.ActivityArea;
 import com.upic.asn.model.Banner;
 import com.upic.asn.model.LoginBean;
 import com.upic.asn.model.Recommend;
+import com.upic.asn.model.Store;
+import com.upic.asn.model.WanLe;
 
 import java.util.List;
 import java.util.Map;
@@ -43,4 +45,11 @@ public interface ApiService {
 
     @GET("loadAvtivity")
     Observable<List<ActivityArea>> getActivityAreaDatas();
+
+    @POST("loadStore")
+    Observable<List<Store>> getStoreDatas();
+
+    @POST("load")
+    Observable<WanLe> getWanLeDatas();
+
 }

@@ -1,5 +1,6 @@
 package com.upic.asn.presenter;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.upic.asn.api.ApiService;
@@ -8,6 +9,8 @@ import com.upic.asn.api.RxSubscribe;
 import com.upic.asn.model.ActivityArea;
 import com.upic.asn.model.Banner;
 import com.upic.asn.model.Recommend;
+import com.upic.asn.model.Store;
+import com.upic.asn.model.WanLe;
 import com.upic.asn.model.view.WanLeListener;
 import com.upic.asn.view.pullrecyclerview.PullBaseView;
 
@@ -46,45 +49,21 @@ public class WanLePersenter extends BasePresenter{
                 });
     }
 
-    public void getActivityAreaDatas(final WanLeListener listener){
-        service.getActivityAreaDatas()
+    public void getWanLeDatas(final WanLeListener listener){
+        service.getWanLeDatas()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<List<ActivityArea>>() {
+                .subscribe(new RxSubscribe<WanLe>() {
                     @Override
-                    protected void _onNext(List<ActivityArea> activityAreas) {
-                        listener.loadActivityArea(activityAreas);
+                    protected void _onNext(WanLe wanLe) {
+                        listener.dataSuccess(wanLe);
                     }
 
                     @Override
                     protected void _onError(String message) {
-                        listener.fail(message,2);
+                        listener.fail("连接服务器失败",2);
                     }
                 });
     }
-    /**
-     * 推荐数据获取
-     * @param listRecommends
-     * @param mRecyclerView
-     * @param listener
-     */
-    public void getRecommonedDatas(final List<Recommend> listRecommends, final PullBaseView mRecyclerView, final WanLeListener listener){
-        service.getRecommendDatas()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<Recommend>() {
-                    @Override
-                    protected void _onNext(Recommend recommend) {
-                        listRecommends.clear();
-                        listRecommends.add(recommend);
-                        listener.refreshSuccess(listRecommends);
-                    }
-                    @Override
-                    protected void _onError(String message) {
-                        mRecyclerView.onHeaderRefreshComplete();
-                        //测试时，避免连接服务器失败而导致其他数据也不加载
-                        listener.fail("连接服务器失败!",3);
-                    }
-                });
-    }
+
 }

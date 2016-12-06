@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.upic.asn.model.ActivityArea;
 import com.upic.asn.model.Recommend;
+import com.upic.asn.model.Store;
 
 import java.util.List;
 
@@ -18,13 +19,13 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
 
     public Context context;//上下文
     public List<Object> listDatas;//数据源
-    public List<Object> listDatas1, listDatas2;//多数据源
-    public List<Recommend> listRecommends;
-    public List<ActivityArea> listActivityAreas;
+    public List<Object> listDatas1, listDatas2, listDatas3, listDatas4;//多数据源
+    public List<Recommend> recommends;
     public LayoutInflater mInflater;
     public OnViewClickListener onViewClickListener;//item子view点击事件
     public OnItemClickListener onItemClickListener;//item点击事件
     public OnItemLongClickListener onItemLongClickListener;//item长按事件
+
 
     /**
      * 单数据源
@@ -49,52 +50,24 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
         this.onViewClickListener = onViewClickListener;
     }
 
-    /**
-     * 多数据源
-     *
-     * @param context
-     * @param listDatas1
-     * @param listDatas2
-     */
-    public BaseAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2) {
-        init(context, listDatas1, listDatas2);
-    }
-
-
-    /**
-     * 如果item的子View有点击事件，可使用该构造方法
-     * 多数据源
-     *
-     * @param context
-     * @param listDatas1,listDatas2
-     * @param onViewClickListener
-     */
-    public BaseAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, OnViewClickListener onViewClickListener) {
-        init(context, listDatas1, listDatas2);
+    public BaseAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Recommend> recommends, OnViewClickListener onViewClickListener) {
+        init(context, listDatas1, listDatas2, recommends);
         this.onViewClickListener = onViewClickListener;
     }
-    /**
+
+/**
      * 如果item的子View有点击事件，可使用该构造方法
      * 多数据源
      *
      * @param context
-     * @param listDatas1,listDatas2,listdatas3
+     * @param listDatas1 banner图列表
+     * @param listDatas2 区域列表
+     * @param listDatas3 推荐列表
+     * @param listDatas4 商家列表
      * @param onViewClickListener
      */
-    public BaseAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Recommend> listRecommends, OnViewClickListener onViewClickListener) {
-        init(context, listDatas1, listDatas2, listRecommends);
-        this.onViewClickListener = onViewClickListener;
-    }
-    /**
-     * 如果item的子View有点击事件，可使用该构造方法
-     * 多数据源
-     *
-     * @param context
-     * @param listDatas1,listDatas2,listActivityAreas,listRecommends
-     * @param onViewClickListener
-     */
-    public BaseAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<ActivityArea> listActivityAreas, List<Recommend> listRecommends, OnViewClickListener onViewClickListener) {
-        init(context, listDatas1, listDatas2, listActivityAreas, listRecommends);
+    public BaseAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Object> listDatas3, List<Object> listDatas4, OnViewClickListener onViewClickListener) {
+        init(context, listDatas1, listDatas2, listDatas3, listDatas4);
         this.onViewClickListener = onViewClickListener;
     }
     /**
@@ -109,55 +82,30 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
         this.listDatas = listDatas;
         this.mInflater = LayoutInflater.from(context);
     }
-
-    /**
-     * 初始化
-     * 多数据源
-     *
-     * @param context
-     * @param listDatas1
-     * @param listDatas2
-     */
-    void init(Context context, List<Object> listDatas1, List<Object> listDatas2) {
+    void init(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Recommend> recommends){
         this.context = context;
         this.listDatas1 = listDatas1;
         this.listDatas2 = listDatas2;
+        this.recommends = recommends;
         this.mInflater = LayoutInflater.from(context);
     }
 
     /**
      * 初始化
      * 多数据源
-     *
+     * 4块区域
      * @param context
-     * @param listDatas1
-     * @param listDatas2
-     * @param listDalistRecommendstas3
+     * @param listDatas1 banner图列表
+     * @param listDatas2 区域列表
+     * @param listDatas3 推荐列表
+     * @param listDatas4 商家列表
      */
-    void init(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Recommend> listRecommends) {
+    void init(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Object> listDatas3, List<Object> listDatas4){
         this.context = context;
         this.listDatas1 = listDatas1;
         this.listDatas2 = listDatas2;
-        this.listRecommends = listRecommends;
-        this.mInflater = LayoutInflater.from(context);
-    }
-
-    /**
-     * 初始化
-     * 多数据源
-     *
-     * @param context
-     * @param listDatas1
-     * @param listDatas2
-     * @param listActivityAreas
-     * @param listRecommends
-     */
-    void init(Context context, List<Object> listDatas1, List<Object> listDatas2, List<ActivityArea> listActivityAreas,List<Recommend> listRecommends) {
-        this.context = context;
-        this.listDatas1 = listDatas1;
-        this.listDatas2 = listDatas2;
-        this.listActivityAreas = listActivityAreas;
-        this.listRecommends = listRecommends;
+        this.listDatas3 = listDatas3;
+        this.listDatas4 = listDatas4;
         this.mInflater = LayoutInflater.from(context);
     }
 
@@ -189,7 +137,7 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
 
     @Override
     public int getItemCount() {
-        return listDatas.size();
+        return listDatas4.size();
     }
 
     public interface OnViewClickListener {

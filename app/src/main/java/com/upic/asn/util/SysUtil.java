@@ -2,9 +2,6 @@ package com.upic.asn.util;
 
 import android.content.Context;
 
-/**
- * Created by baiyuliang on 2016-7-19.
- */
 public class SysUtil {
 
     /**

@@ -54,13 +54,6 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <View
-            android:layout_width="0.1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="#d0d0d0" />
-
         <LinearLayout
             android:id="@+id/ll_2"
             android:layout_width="match_parent"
@@ -85,13 +78,6 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
-
-        <View
-            android:layout_width="0.1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="#d0d0d0" />
 
         <LinearLayout
             android:id="@+id/ll_3"
@@ -118,13 +104,6 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="0.1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="#d0d0d0" />
-
         <LinearLayout
             android:id="@+id/ll_4"
             android:layout_width="match_parent"
@@ -149,13 +128,6 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
-
-        <View
-            android:layout_width="0.1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="#d0d0d0" />
 
         <LinearLayout
             android:id="@+id/ll_5"
