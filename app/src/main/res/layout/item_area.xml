@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="200dp"
     android:gravity="center_horizontal">
 
     <LinearLayout
@@ -11,25 +12,31 @@
         android:layout_weight="1">
         <LinearLayout
             android:id="@+id/area1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="5dp"
             android:background="?attr/selectableItemBackground"
             android:layout_weight="1">
-            <ImageView
+            <com.upic.asn.util.CircleImageView
                 android:id="@+id/area1_img"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"
                 android:layout_weight="1"
+                app:border_width="0.5dp"
+                app:border_color="@color/tab_text_press"
+                android:layout_marginRight="5dp"
                 android:src="@mipmap/banner"/>
             <TextView
                 android:id="@+id/area1_title"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical" />
 
         </LinearLayout>
@@ -39,25 +46,31 @@
             android:background="#d0d0d0" />
         <LinearLayout
             android:id="@+id/area2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="5dp"
             android:background="?attr/selectableItemBackground"
             android:layout_weight="1">
-            <ImageView
+            <com.upic.asn.util.CircleImageView
                 android:id="@+id/area2_img"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"
                 android:layout_weight="1"
+                app:border_width="0.5dp"
+                app:border_color="@color/tab_text_press"
+                android:layout_marginRight="5dp"
                 android:src="@mipmap/banner"/>
             <TextView
                 android:id="@+id/area2_title"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical" />
 
         </LinearLayout>
@@ -75,25 +88,31 @@
         android:layout_weight="1">
         <LinearLayout
             android:id="@+id/area3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="5dp"
             android:background="?attr/selectableItemBackground"
             android:layout_weight="1">
-            <ImageView
+            <com.upic.asn.util.CircleImageView
                 android:id="@+id/area3_img"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"
                 android:layout_weight="1"
+                app:border_width="0.5dp"
+                app:border_color="@color/tab_text_press"
+                android:layout_marginRight="5dp"
                 android:src="@mipmap/banner"/>
             <TextView
                 android:id="@+id/area3_title"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical" />
 
         </LinearLayout>
@@ -103,25 +122,31 @@
             android:background="#d0d0d0" />
         <LinearLayout
             android:id="@+id/area4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:gravity="center_horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="5dp"
+            android:background="?attr/selectableItemBackground"
             android:layout_weight="1">
-            <ImageView
+            <com.upic.asn.util.CircleImageView
                 android:id="@+id/area4_img"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerInParent="true"
                 android:layout_weight="1"
+                app:border_width="0.5dp"
+                app:border_color="@color/tab_text_press"
+                android:layout_marginRight="5dp"
                 android:src="@mipmap/banner"/>
             <TextView
                 android:id="@+id/area4_title"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical" />
 
         </LinearLayout>
