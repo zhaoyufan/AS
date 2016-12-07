@@ -32,7 +32,7 @@ public class FragmentTab1_2 extends BaseFragment implements
         NewsListener {
     PullRecyclerView mRecyclerView_f_1_2;
     ChuXingAdapter chuXingAdapter;
-    List<Object> listbanner, listnews;
+    List<Object> listbanner, listcommunity;
     String url = "http://img3.imgtn.bdimg.com/it/u=3040533120,2016018949&fm=21&gp=0.jpg";
     String url2 = "http://img.qq745.com/uploads/allimg/151022/1-151022193521.jpg";
     String url3 = "http://p.3761.com/pic/12461391736719.png";
@@ -70,7 +70,7 @@ public class FragmentTab1_2 extends BaseFragment implements
     public void initData() {
         bannerH = SysUtil.dip2px(context, 200);//将banner高度转为px
         listbanner = new ArrayList<>();
-        listnews = new ArrayList<>();
+        listcommunity = new ArrayList<>();
         User user1 = new User("张一",url);
         User user2 = new User("张2",url2);
         User user3 = new User("张3",url3);
@@ -84,18 +84,25 @@ public class FragmentTab1_2 extends BaseFragment implements
         users.add(user4);
         users.add(user5);
         users.add(user6);
-        Community community1 = new Community("#爱就讲出来#",100, url4,users);
-        Community community2 = new Community("#爱就说出来#",100, url4,users);
-        Community community3 = new Community("#爱就话出来#",100, url4,users);
-        listnews.add(community1);
-        listnews.add(community2);
-        listnews.add(community3);
+        List<String> marks = new ArrayList<String>();
+        marks.add("推荐");
+        marks.add("爱情");
+        marks.add("亲情");
+        marks.add("友情");
+        marks.add("旅游");
+        marks.add("美食");
+        Community community1 = new Community("#话题1#",100, url4,users,marks);
+        Community community2 = new Community("#话题2#",100, url4,users,marks);
+        Community community3 = new Community("#话题3#",100, url4,users,marks);
+        listcommunity.add(community1);
+        listcommunity.add(community2);
+        listcommunity.add(community3);
         initRecyclerView();
         doHeaderRefresh(this);
     }
 
     void initRecyclerView() {
-        chuXingAdapter = new ChuXingAdapter(context, listbanner, listnews, this);
+        chuXingAdapter = new ChuXingAdapter(context, listbanner, listcommunity, this);
         mRecyclerView_f_1_2.setLayoutManager(new LinearLayoutManager(context));
         chuXingAdapter.setOnItemClickListener(this);
         mRecyclerView_f_1_2.setAdapter(chuXingAdapter);
@@ -129,7 +136,6 @@ public class FragmentTab1_2 extends BaseFragment implements
     @Override
     public void onHeaderRefresh(PullBaseView view) {
         doHeaderRefresh(this);
-
     }
 
     private void doHeaderRefresh(final NewsListener listener) {
@@ -148,7 +154,7 @@ public class FragmentTab1_2 extends BaseFragment implements
      */
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(context, ((Community) listnews.get(position)).getTitle(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, ((Community) listcommunity.get(position-2)).getTitle(), Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onPullDownScrolled() {
@@ -202,8 +208,8 @@ public class FragmentTab1_2 extends BaseFragment implements
         imageModel.setUrl("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg");
         listbanner.add(imageModel);
         //news 模拟数据
-        listnews.clear();
-//        String url = "http://tx.haiqq.com/uploads/allimg/150326/1P4511163-9.jpg";
+        listcommunity.clear();
+
         User user1 = new User("张1",url);
         User user2 = new User("张2",url2);
         User user3 = new User("张3",url3);
@@ -217,16 +223,23 @@ public class FragmentTab1_2 extends BaseFragment implements
         users.add(user4);
         users.add(user5);
         users.add(user6);
-        Community community1 = new Community("#爱就讲出来#",100, url4,users);
-        Community community2 = new Community("#爱就说出来#",200, url4,users);
-        Community community3 = new Community("#爱就话出来#",300, url4,users);
-        Community community4 = new Community("#爱就say出来#",400, url4,users);
-        Community community5 = new Community("#爱就讲出来#",500, url4,users);
-        listnews.add(community1);
-        listnews.add(community2);
-        listnews.add(community3);
-        listnews.add(community4);
-        listnews.add(community5);
+        List<String> marks = new ArrayList<String>();
+        marks.add("推荐");
+        marks.add("爱情");
+        marks.add("亲情");
+        marks.add("友情");
+        marks.add("旅游");
+        marks.add("美食");
+        Community community1 = new Community("#爱就讲出来#",100, url4,users,marks);
+        Community community2 = new Community("#爱就说出来#",200, url4,users,marks);
+        Community community3 = new Community("#爱就话出来#",300, url4,users,marks);
+        Community community4 = new Community("#爱就say出来#",400, url4,users,marks);
+        Community community5 = new Community("#爱就讲出来#",500, url4,users,marks);
+        listcommunity.add(community1);
+        listcommunity.add(community2);
+        listcommunity.add(community3);
+        listcommunity.add(community4);
+        listcommunity.add(community5);
 
         initRecyclerView();
     }
@@ -247,11 +260,18 @@ public class FragmentTab1_2 extends BaseFragment implements
         users.add(user2);
         users.add(user3);
         users.add(user4);
-        Community community1 = new Community("#爱就讲出来新增1#",888, url4,users);
-        Community community2 = new Community("#爱就说出来新增1#",12345, url4,users);
+        List<String> marks = new ArrayList<String>();
+        marks.add("推荐");
+        marks.add("爱情");
+        marks.add("亲情");
+        marks.add("友情");
+        marks.add("旅游");
+        marks.add("美食");
+        Community community1 = new Community("#爱就讲出来新增1#",888, url4,users,marks);
+        Community community2 = new Community("#爱就说出来新增1#",12345, url4,users,marks);
 
-        listnews.add(community1);
-        listnews.add(community2);
+        listcommunity.add(community1);
+        listcommunity.add(community2);
         chuXingAdapter.notifyDataSetChanged();
     }
 

@@ -11,6 +11,15 @@ public class Community {
     private int num;
     private String imgUrl;
     private List<User> users;
+    private List<String> marks;
+
+    public List<String> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(List<String> marks) {
+        this.marks = marks;
+    }
 
     public String getTitle() {
         return title;
@@ -44,7 +53,7 @@ public class Community {
         this.users = users;
     }
 
-    public Community(String title, int num, String imgUrl, List<User> users) {
+    public Community(String title, int num, String imgUrl, List<User> users ,List<String> marks) {
         this.title = title;
         this.num = num;
         this.imgUrl = imgUrl;

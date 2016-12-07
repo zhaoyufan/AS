@@ -33,6 +33,7 @@ import me.relex.circleindicator.CircleIndicator;
  */
 public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
 
+    boolean isFirst = true;
     boolean isViewPagerLoadScucess = false;//viewpager是否加载成功
 
     /**
@@ -46,7 +47,6 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
     }
 
     /**
-     *
      * @param parent
      * @param viewType 应该是传入的layout，通过getItemViewType方法获得对应layout
      * @return
@@ -55,10 +55,9 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(mInflater.inflate(viewType, parent, false));
     }
+
     //这里的position是recycleView自动会获取的，从0开始，整个recycleView是一个列表，banner为一个整体占用了第一行。
-    @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-//        super.onBindViewHolder(holder, position);//当前环境不继承父类的点击事件
         if (position == 0) {//header
             if (!isViewPagerLoadScucess && listDatas1.size() > 0) {
                 initViewPager(holder);
@@ -68,12 +67,19 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
             holder.ll_3.setOnClickListener(new ViewClickListener(onViewClickListener, position, 3));
             holder.ll_4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 4));
             holder.ll_5.setOnClickListener(new ViewClickListener(onViewClickListener, position, 5));
+
+
+        } else if(position == 1){
             holder.list = new ArrayList<String>();
+            holder.list.clear();
             for (int i = 0; i < 10; i++) {
                 String str = "标签" + i;
                 holder.list.add(str);
             }
             holder.list.add("+");
+            if (holder.linearLayout1 != null){
+                holder.linearLayout1.removeAllViews();
+            }
             for (int i = 0; i < holder.list.size(); i++) {
                 View view = View.inflate(context, R.layout.mark_layout, null);
                 TextView tv = (TextView) view.findViewById(R.id.textView1);
@@ -100,16 +106,10 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
                         }
                     }
                 });
-                if(view == null){
-                    Log.d("bbbbb","view == null");
-                }
                 holder.linearLayout1.addView(view);
             }
-        }
-        else{//列表
-
-            final Community community = (Community) listDatas2.get(position-1);
-
+        }else {//列表
+            Community community = (Community) listDatas2.get(position - 2);
             if (!TextUtils.isEmpty(community.getImgUrl())) {
                 Picasso.with(context).load(community.getImgUrl()).error(R.mipmap.banner).into(holder.item_com_backimg);
             } else {
@@ -122,13 +122,15 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(position - 1);
+                        onItemClickListener.onItemClick(position - 2);
                     }
                 }
             });
-            //
             LayoutInflater inflater = LayoutInflater.from(context);
-            if(community.getUsers().size()>5){
+            if (holder.item_com_pileLayout != null){
+                holder.item_com_pileLayout.removeAllViews();
+            }
+            if (community.getUsers().size() > 5) {
                 for (int i = 0; i < 5; i++) {
                     List<User> userList = new ArrayList<User>();
                     userList = community.getUsers();
@@ -139,7 +141,8 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
                 CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_community_circleimage, holder.item_com_pileLayout, false);
                 imageView.setImageResource(R.drawable.bg);
                 holder.item_com_pileLayout.addView(imageView);
-            } else if(community.getUsers().size()<5){
+
+            } else if (community.getUsers().size() < 5) {
                 for (int i = 0; i < community.getUsers().size(); i++) {
                     List<User> userList = new ArrayList<User>();
                     userList = community.getUsers();
@@ -148,18 +151,18 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
                     holder.item_com_pileLayout.addView(imageView);
                 }
             }
-
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(position );
+                        onItemClickListener.onItemClick(position);
                     }
                 }
             });
 
         }
     }
+
 
     /**
      * 注意事项：
@@ -173,40 +176,32 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return 1 + listDatas2.size();
+        return 2 + listDatas2.size();
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return R.layout.item_home_head;
-//        } else if (position == 1){
-//            return R.layout.item_news;
-        } else {
+        } else if(position == 1){
+            return R.layout.activity_mark;
+        }else {
             return R.layout.item_community;
         }
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         ViewPager vp;
-        LinearLayout ll_1, ll_2, ll_3, ll_4, ll_5,linearLayout1;
-        TextView tv;
-        List<String> list;
+        LinearLayout ll_1, ll_2, ll_3, ll_4, ll_5, linearLayout1;
         CircleIndicator indicator;
-
-        ImageView iv_icon;//
-        TextView tv_title, tv_des, tv_time;//
-
-        //item_chuxing.xml
-//        ImageView item_chuxing_img,item_chuxing_photo;
-//        TextView item_chuxing_name,item_chuxing_type,item_chuxing_time,item_chuxing_title,item_chuxing_content,
-//                item_chuxing_address,item_chuxing_liketv,item_chuxing_pingluntv;
-//        LinearLayout item_chuxing_pinglun,item_chuxing_like;
-
+        ImageView iv_icon;
         //item_community.xml
-        TextView item_com_title,item_com_num;
+        TextView item_com_title, item_com_num;
         PileLayout item_com_pileLayout;
         ImageView item_com_backimg;
+        TextView tv;
+
+        List<String> list;
         public MyViewHolder(View view) {
             super(view);
             vp = (ViewPager) view.findViewById(R.id.vp);//banner
@@ -219,37 +214,17 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
             ll_4 = (LinearLayout) view.findViewById(R.id.ll_4);//发布
             ll_5 = (LinearLayout) view.findViewById(R.id.ll_5);//熟人团
             linearLayout1 = (LinearLayout) view.findViewById(R.id.mark_ll);
-            tv = (TextView)view.findViewById(R.id.textView1);
+            tv = (TextView) view.findViewById(R.id.textView1);
             //
-//            gridView = (GridView) view.findViewById(R.id.hot_gridview);
-
-//            //农场
-//            item_chuxing_img = (ImageView)view.findViewById(R.id.item_chuxing_img);//头像
-//            item_chuxing_photo = (ImageView)view.findViewById(R.id.item_chuxing_photo);//照片
-//            item_chuxing_name = (TextView)view.findViewById(R.id.item_chuxing_name);//昵称
-//            item_chuxing_type = (TextView)view.findViewById(R.id.item_chuxing_type);//个人身份比如：旅行爱好者
-//            item_chuxing_time = (TextView)view.findViewById(R.id.item_chuxing_time);//发布时间
-//            item_chuxing_title = (TextView)view.findViewById(R.id.item_chuxing_title);//说说标题
-//            item_chuxing_content = (TextView)view.findViewById(R.id.item_chuxing_content);//说说内容
-//            item_chuxing_address = (TextView)view.findViewById(R.id.item_chuxing_address);//发布地址
-//            item_chuxing_liketv = (TextView)view.findViewById(R.id.item_chuxing_liketv);//点赞人数
-//            item_chuxing_pingluntv = (TextView)view.findViewById(R.id.item_chuxing_pingluntv);//评论人数
-//            item_chuxing_pinglun = (LinearLayout)view.findViewById(R.id.item_chuxing_pinglun);//评论按钮,给LinearLayout设置按钮点击事件
-//            item_chuxing_like = (LinearLayout)view.findViewById(R.id.item_chuxing_like);//喜欢按钮
-            //圈子
-            item_com_backimg = (ImageView)view.findViewById(R.id.item_com_backimg);
+            item_com_backimg = (ImageView) view.findViewById(R.id.item_com_backimg);
             item_com_title = (TextView) view.findViewById(R.id.item_com_title);
-            item_com_num =(TextView) view.findViewById(R.id.item_com_num);
-            item_com_pileLayout = (PileLayout)view.findViewById(R.id.item_com_pileLayout);
+            item_com_num = (TextView) view.findViewById(R.id.item_com_num);
+            item_com_pileLayout = (PileLayout) view.findViewById(R.id.item_com_pileLayout);
 
-            iv_icon = (ImageView) view.findViewById(R.id.iv_icon);//
-//            tv_title = (TextView) view.findViewById(R.id.tv_title);//标题
-//            tv_des = (TextView) view.findViewById(R.id.tv_des);//内容
-//            tv_time = (TextView) view.findViewById(R.id.tv_time);//时间
-
-
+            iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
         }
     }
+
     //初始化viewpager
     private void initViewPager(MyViewHolder holder) {
         isViewPagerLoadScucess = true;
@@ -261,10 +236,10 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
             Picasso.with(context).load(imageModel.getUrl()).error(R.mipmap.banner).into(imageView);
             //设置广告点击事件
             view.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Toast.makeText(context, "图片>>" + imageModel.getUrl(), Toast.LENGTH_SHORT).show();
-                                        }
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "图片>>" + imageModel.getUrl(), Toast.LENGTH_SHORT).show();
+                }
             });
             imageViews.add(view);
         }

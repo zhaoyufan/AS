@@ -135,6 +135,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="5dp"
                 android:src="@mipmap/banner"/>
+
             <TextView
                 android:id="@+id/area4_title"
                 android:layout_width="match_parent"
