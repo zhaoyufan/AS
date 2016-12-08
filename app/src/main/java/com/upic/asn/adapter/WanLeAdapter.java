@@ -80,31 +80,34 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
             holder.ll4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 4));
             holder.ll5.setOnClickListener(new ViewClickListener(onViewClickListener, position, 5));
         } else if (position == 1) {//area
-//            if (!listDatas2.isEmpty()){
-                ActivityArea activityArea1 = (ActivityArea) listDatas2.get(0);
-                ActivityArea activityArea2 = (ActivityArea) listDatas2.get(1);
-                ActivityArea activityArea3 = (ActivityArea) listDatas2.get(2);
-                ActivityArea activityArea4 = (ActivityArea) listDatas2.get(3);
+            ActivityArea activityArea1 = (ActivityArea) listDatas2.get(0);
+            ActivityArea activityArea2 = (ActivityArea) listDatas2.get(1);
+            ActivityArea activityArea3 = (ActivityArea) listDatas2.get(2);
+            ActivityArea activityArea4 = (ActivityArea) listDatas2.get(3);
 
-                holder.area1Title.setText(activityArea1.getTitle());
-                holder.area2Title.setText(activityArea2.getTitle());
-                holder.area3Title.setText(activityArea3.getTitle());
-                holder.area4Title.setText(activityArea4.getTitle());
-
+            holder.area1Title.setText(activityArea1.getTitle());
+            holder.area2Title.setText(activityArea2.getTitle());
+            holder.area3Title.setText(activityArea3.getTitle());
+            holder.area4Title.setText(activityArea4.getTitle());
+            if (activityArea1.getUrl().isEmpty()){
+                holder.area1Img.setImageResource(R.mipmap.banner);
+            }else{
                 Picasso.with(context).load(activityArea1.getUrl()).error(R.mipmap.banner).into(holder.area1Img);
-                Picasso.with(context).load(activityArea1.getUrl()).error(R.mipmap.banner).into(holder.area2Img);
-                Picasso.with(context).load(activityArea1.getUrl()).error(R.mipmap.banner).into(holder.area3Img);
-                Picasso.with(context).load(activityArea1.getUrl()).error(R.mipmap.banner).into(holder.area4Img);
-//            }else {
-//                holder.area1Title.setText("加载失败...");
-//                holder.area2Title.setText("加载失败...");
-//                holder.area3Title.setText("加载失败...");
-//                holder.area4Title.setText("加载失败...");
-//                holder.area1Img.setImageResource(R.mipmap.banner);
-//                holder.area2Img.setImageResource(R.mipmap.banner);
-//                holder.area3Img.setImageResource(R.mipmap.banner);
-//                holder.area4Img.setImageResource(R.mipmap.banner);
-//            }
+            }
+            if (activityArea2.getUrl().isEmpty()){
+                holder.area2Img.setImageResource(R.mipmap.banner);
+            }else{
+                Picasso.with(context).load(activityArea2.getUrl()).error(R.mipmap.banner).into(holder.area2Img);
+            }
+            if (activityArea3.getUrl().isEmpty()){
+                holder.area3Img.setImageResource(R.mipmap.banner);
+            }else{
+                Picasso.with(context).load(activityArea3.getUrl()).error(R.mipmap.banner).into(holder.area3Img);
+            }if (activityArea4.getUrl().isEmpty()){
+                holder.area4Img.setImageResource(R.mipmap.banner);
+            }else{
+                Picasso.with(context).load(activityArea4.getUrl()).error(R.mipmap.banner).into(holder.area4Img);
+            }
 
             holder.area1.setOnClickListener(new ViewClickListener(onViewClickListener, position, 6));
             holder.area2.setOnClickListener(new ViewClickListener(onViewClickListener, position, 7));
@@ -113,32 +116,38 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
         } else if (position == 2){
             initListView(holder);
         } else{//列表
-            try {
-                final Store store = (Store) listDatas4.get(position - 3);
+
+            final Store store = (Store) listDatas4.get(position - 3);
+            if (store.getLogo().isEmpty()){
+                holder.storeLogo.setImageResource(R.mipmap.banner);
+            }else {
                 Picasso.with(context).load(store.getLogo()).error(R.mipmap.banner).into(holder.storeLogo);
-                Picasso.with(context).load(store.getPicture()).error(R.mipmap.banner).into(holder.storePic);
-                holder.storeBrief.setText(store.getStoreBrief());
-                holder.storePic.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context,"点击商店图片"+store.getPicture(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-                holder.storeBrief.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context,"点击商店brief"+store.getStoreBrief(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-                holder.goStore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context,"进店逛逛",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }catch (Exception e){
-                e.printStackTrace();
             }
+            if (store.getLogo().isEmpty()){
+                holder.storePic.setImageResource(R.mipmap.banner);
+            }else {
+                Picasso.with(context).load(store.getPicture()).error(R.mipmap.banner).into(holder.storePic);
+            }
+            holder.storeName.setText(store.getStoreName());
+            holder.storeBrief.setText(store.getStoreBrief());
+            holder.storePic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context,"点击商店图片"+store.getPicture(),Toast.LENGTH_SHORT).show();
+                }
+            });
+            holder.storeBrief.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context,"点击商店brief"+store.getStoreBrief(),Toast.LENGTH_SHORT).show();
+                }
+            });
+            holder.goStore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context,"进店逛逛",Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
     /**
@@ -153,13 +162,7 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
      */
     @Override
     public int getItemCount() {
-        try {
-            Log.d("aaa","ssss"+listDatas4.size());
-            return 1 + 1 + listDatas4.size() + 1;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return 0;
+        return 1 + 1 + listDatas4.size() + 1;
     }
 
     @Override

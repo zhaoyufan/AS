@@ -56,6 +56,7 @@ public class FragmentTab1 extends BaseFragment implements View.OnClickListener
         //initRecyclerView();
     }
 
+
     @Override
     public void initData() {
         mTabTitles = new String[]{"出行圈", "玩乐"};
@@ -63,7 +64,7 @@ public class FragmentTab1 extends BaseFragment implements View.OnClickListener
         fragmentVedioAdapter = new FragmentVedioAdapter(context, ((FragmentActivity) context).getSupportFragmentManager(), mFragments, mTabTitles);
         viewPager.setAdapter(fragmentVedioAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(1).select();
+        tabLayout.getTabAt(0).select();
     }
     @Override
     public void onClick(View v) {

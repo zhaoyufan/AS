@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public TextView tv_left, tv_title, tv_right;
     public ImageView iv_right;
     public ProgressBar pb;
+
+
 
     @Nullable
     @Override
@@ -106,6 +109,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
      * 设置点击事件
      */
     public abstract void initClick();
+
+    /**
+     * 初始化数据，如果当前不在这个界面，那么添加假数据
+     */
 
     /**
      * 初始化数据

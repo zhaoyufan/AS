@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * Created by ZYF on 2016/11/16.
+ * 玩乐
  */
 public class FragmentTab1_1 extends BaseFragment implements
         BaseAdapter.OnItemClickListener,//每个item的点击事件
@@ -44,9 +45,15 @@ public class FragmentTab1_1 extends BaseFragment implements
     int y, //滑动距离
             bannerH;//banner高度
     boolean isPullDown = false;//是否是下拉状态
-
     int page;
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (!getUserVisibleHint()){//可见是刷新
+            doRefresh();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 
     @Override
     public int getContentView() {
@@ -63,6 +70,7 @@ public class FragmentTab1_1 extends BaseFragment implements
         mRecyclerView.setCanScrollAtRereshing(false);//设置正在刷新时是否可以滑动，默认不可滑动
         mRecyclerView.setCanPullDown(true);//设置是否可下拉
         mRecyclerView.setCanPullUp(true);//设置是否可上拉
+        wanLePersenter = new WanLePersenter();
     }
 
     @Override
@@ -78,9 +86,7 @@ public class FragmentTab1_1 extends BaseFragment implements
         listRecommends = new ArrayList<>();
         listActivityAreas = new ArrayList<>();
         listStores = new ArrayList<>();
-        wanLePersenter = new WanLePersenter();
         loading();
-        doHeaderRefresh();
         initRecyclerView();
     }
 
@@ -121,8 +127,7 @@ public class FragmentTab1_1 extends BaseFragment implements
         wanLePersenter.getWanLeDatas(this);
     }
 
-    private void doHeaderRefresh() {
-        //wanLePersenter.getBannerDatas(this);
+    private void doRefresh() {
         wanLePersenter.getWanLeDatas(this);
 }
     /**
@@ -213,13 +218,6 @@ public class FragmentTab1_1 extends BaseFragment implements
         this.listBanners = listBanners;
     }
 
-    /**
-     * wanle界面数据监听
-     * @param lists
-     */
-    @Override
-    public void refreshSuccess(List lists) {
-    }
 
     @Override
     public void dataSuccess(WanLe wanLe) {
@@ -251,6 +249,7 @@ public class FragmentTab1_1 extends BaseFragment implements
                 Toast.makeText(context,message,Toast.LENGTH_SHORT).show();break;
             default:break;
         }
+        //请求失败，提供失败数据，并且初始化recycleView
         loadingFaile();
         initRecyclerView();
     }
@@ -275,7 +274,7 @@ public class FragmentTab1_1 extends BaseFragment implements
 
         //area
         listActivityAreas.clear();
-        ActivityArea area1 = new ActivityArea(null,null,null,"http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...");
+        ActivityArea area1 = new ActivityArea(null,null,null,"","数据加载中...");
         ActivityArea area2 = new ActivityArea(null,null,null,"http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...");
         ActivityArea area3 = new ActivityArea(null,null,null,"http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...");
         ActivityArea area4 = new ActivityArea(null,null,null,"http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...");
@@ -343,10 +342,10 @@ public class FragmentTab1_1 extends BaseFragment implements
 
         //area
         listActivityAreas.clear();
-        ActivityArea area1 = new ActivityArea(null,null,null,"http://ofhgnhf0s.bkt.clouddn.com/reigns.png","加载失败...");
-        ActivityArea area2 = new ActivityArea(null,null,null,"http://ofhgnhf0s.bkt.clouddn.com/reigns.png","加载失败...");
-        ActivityArea area3 = new ActivityArea(null,null,null,"http://ofhgnhf0s.bkt.clouddn.com/reigns.png","加载失败...");
-        ActivityArea area4 = new ActivityArea(null,null,null,"http://ofhgnhf0s.bkt.clouddn.com/reigns.png","加载失败...");
+        ActivityArea area1 = new ActivityArea(null,null,null,"","加载失败...");
+        ActivityArea area2 = new ActivityArea(null,null,null,"","加载失败...");
+        ActivityArea area3 = new ActivityArea(null,null,null,"","加载失败...");
+        ActivityArea area4 = new ActivityArea(null,null,null,"","加载失败...");
         listActivityAreas.add(area1);
         listActivityAreas.add(area2);
         listActivityAreas.add(area3);
@@ -356,10 +355,10 @@ public class FragmentTab1_1 extends BaseFragment implements
         //recommend
         listNobleChoices.clear();
         listRecommends.clear();
-        NobleChoice nobleChoice1 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","加载失败...",0);
-        NobleChoice nobleChoice2 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","加载失败...",0);
-        NobleChoice nobleChoice3 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","加载失败...",0);
-        NobleChoice nobleChoice4 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","加载失败...",0);
+        NobleChoice nobleChoice1 = new NobleChoice("","加载失败...",0);
+        NobleChoice nobleChoice2 = new NobleChoice("","加载失败...",0);
+        NobleChoice nobleChoice3 = new NobleChoice("","加载失败...",0);
+        NobleChoice nobleChoice4 = new NobleChoice("","加载失败...",0);
         listNobleChoices.add(nobleChoice1);
         listNobleChoices.add(nobleChoice2);
         listNobleChoices.add(nobleChoice3);
@@ -372,23 +371,23 @@ public class FragmentTab1_1 extends BaseFragment implements
         Store s1 = new Store();
         s1.setStoreName("加载失败...");
         s1.setStoreBrief("加载失败...");
-        s1.setLogo("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        s1.setPicture("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
+        s1.setLogo("");
+        s1.setPicture("");
         Store s2 = new Store();
         s2.setStoreName("加载失败...");
         s2.setStoreBrief("加载失败...");
-        s2.setLogo("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        s2.setPicture("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
+        s2.setLogo("");
+        s2.setPicture("");
         Store s3 = new Store();
         s3.setStoreName("加载失败...");
         s3.setStoreBrief("加载失败...");
-        s3.setLogo("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        s3.setPicture("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
+        s3.setLogo("");
+        s3.setPicture("");
         Store s4 = new Store();
         s4.setStoreName("加载失败...");
         s4.setStoreBrief("加载失败...");
-        s4.setLogo("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        s4.setPicture("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
+        s4.setLogo("");
+        s4.setPicture("");
         listStores.add(s1);
         listStores.add(s2);
         listStores.add(s3);

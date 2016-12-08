@@ -2,6 +2,7 @@ package com.upic.asn.ui.main;
 
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import com.upic.asn.model.ImageModel;
 import com.upic.asn.model.User;
 import com.upic.asn.model.view.NewsListener;
 import com.upic.asn.ui.base.BaseFragment;
+import com.upic.asn.util.LogUtil;
 import com.upic.asn.util.SysUtil;
 import com.upic.asn.view.pullrecyclerview.PullBaseView;
 import com.upic.asn.view.pullrecyclerview.PullRecyclerView;
@@ -22,6 +24,7 @@ import java.util.List;
 
 /**
  * Created by ZYF on 2016/11/16.
+ * 出行圈
  */
 public class FragmentTab1_2 extends BaseFragment implements
         BaseAdapter.OnItemClickListener,//每个item的点击事件
@@ -41,9 +44,9 @@ public class FragmentTab1_2 extends BaseFragment implements
             bannerH;//banner高度
     boolean isPullDown = false;//是否是下拉状态
 
+
+
     int page;
-
-
     @Override
     public int getContentView() {
         return R.layout.fragment_1_2;
@@ -51,6 +54,7 @@ public class FragmentTab1_2 extends BaseFragment implements
 
     @Override
     public void initView() {
+        LogUtil.d("调用initView");
         mRecyclerView_f_1_2 = (PullRecyclerView) $(R.id.mRecyclerView_f_1_2);
         mRecyclerView_f_1_2.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView_f_1_2.setOnHeaderRefreshListener(this);//设置下拉监听

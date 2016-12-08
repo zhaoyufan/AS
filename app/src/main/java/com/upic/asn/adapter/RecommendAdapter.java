@@ -81,10 +81,26 @@ public class RecommendAdapter extends BaseAdapter {
         holder.recommendTitle.setText(recommend.getTitle());
         holder.recommendName.setText(recommend.getTitle());
 
-        Picasso.with(context).load(recommend.getNobleChoices().get(0).getUrl()).error(R.mipmap.banner).into(holder.nobleChoice1Pic);
-        Picasso.with(context).load(recommend.getNobleChoices().get(1).getUrl()).error(R.mipmap.banner).into(holder.nobleChoice2Pic);
-        Picasso.with(context).load(recommend.getNobleChoices().get(2).getUrl()).error(R.mipmap.banner).into(holder.nobleChoice3Pic);
-        Picasso.with(context).load(recommend.getNobleChoices().get(3).getUrl()).error(R.mipmap.banner).into(holder.nobleChoice4Pic);
+        if (recommend.getNobleChoices().get(0).getUrl().isEmpty()){
+            holder.nobleChoice1Pic.setImageResource(R.mipmap.banner);
+        }else{
+            Picasso.with(context).load(recommend.getNobleChoices().get(0).getUrl()).error(R.mipmap.banner).into(holder.nobleChoice1Pic);
+        }
+        if (recommend.getNobleChoices().get(1).getUrl().isEmpty()){
+            holder.nobleChoice2Pic.setImageResource(R.mipmap.banner);
+        }else{
+            Picasso.with(context).load(recommend.getNobleChoices().get(1).getUrl()).error(R.mipmap.banner).into(holder.nobleChoice2Pic);
+        }
+        if (recommend.getNobleChoices().get(2).getUrl().isEmpty()){
+            holder.nobleChoice3Pic.setImageResource(R.mipmap.banner);
+        }else{
+            Picasso.with(context).load(recommend.getNobleChoices().get(2).getUrl()).error(R.mipmap.banner).into(holder.nobleChoice3Pic);
+        }
+        if (recommend.getNobleChoices().get(3).getUrl().isEmpty()){
+            holder.nobleChoice4Pic.setImageResource(R.mipmap.banner);
+        }else{
+            Picasso.with(context).load(recommend.getNobleChoices().get(3).getUrl()).error(R.mipmap.banner).into(holder.nobleChoice4Pic);
+        }
 
         holder.nobleChoice1Title.setText(recommend.getNobleChoices().get(0).getTitlt());
         holder.nobleChoice2Title.setText(recommend.getNobleChoices().get(1).getTitlt());

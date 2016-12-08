@@ -68,7 +68,6 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
             holder.ll_4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 4));
             holder.ll_5.setOnClickListener(new ViewClickListener(onViewClickListener, position, 5));
 
-
         } else if(position == 1){
             holder.list = new ArrayList<String>();
             holder.list.clear();
@@ -162,7 +161,6 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
 
         }
     }
-
 
     /**
      * 注意事项：
