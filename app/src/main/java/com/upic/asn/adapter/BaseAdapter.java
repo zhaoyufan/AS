@@ -11,6 +11,7 @@ import com.upic.asn.model.Recommend;
 import com.upic.asn.model.Store;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by ZYF on 2016/11/17.
@@ -61,6 +62,18 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
         init(context, listDatas1, listDatas2);
         this.onViewClickListener = onViewClickListener;
     }
+    /**
+     * 多数据源
+     *
+     * @param context
+     * @param listDatas1
+     * @param listDatas2
+     * @param listDatas3
+     */
+    public BaseAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Object> listDatas3, OnViewClickListener onViewClickListener) {
+        init(context, listDatas1, listDatas2,listDatas3);
+        this.onViewClickListener = onViewClickListener;
+    }
 
 /**
      * 如果item的子View有点击事件，可使用该构造方法
@@ -104,7 +117,22 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
         this.listDatas2 = listDatas2;
         this.mInflater = LayoutInflater.from(context);
     }
-
+    /**
+     * 初始化
+     * 单数据源
+     *
+     * @param context
+     * @param listDatas1
+     * @param listDatas2
+     * @param  listDatas3
+     */
+    void init(Context context, List<Object> listDatas1, List<Object> listDatas2, List<Object> listDatas3) {
+        this.context = context;
+        this.listDatas1 = listDatas1;
+        this.listDatas2 = listDatas2;
+        this.listDatas3 = listDatas3;
+        this.mInflater = LayoutInflater.from(context);
+    }
 
     /**
      * 初始化

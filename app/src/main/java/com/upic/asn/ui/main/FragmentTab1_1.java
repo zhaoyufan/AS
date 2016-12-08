@@ -50,6 +50,7 @@ public class FragmentTab1_1 extends BaseFragment implements
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (!getUserVisibleHint()){//可见是刷新
+            wanLePersenter = new WanLePersenter();
             doRefresh();
         }
         super.setUserVisibleHint(isVisibleToUser);
@@ -70,7 +71,6 @@ public class FragmentTab1_1 extends BaseFragment implements
         mRecyclerView.setCanScrollAtRereshing(false);//设置正在刷新时是否可以滑动，默认不可滑动
         mRecyclerView.setCanPullDown(true);//设置是否可下拉
         mRecyclerView.setCanPullUp(true);//设置是否可上拉
-        wanLePersenter = new WanLePersenter();
     }
 
     @Override

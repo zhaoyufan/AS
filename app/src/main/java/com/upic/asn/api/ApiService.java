@@ -2,6 +2,7 @@ package com.upic.asn.api;
 
 import com.upic.asn.model.ActivityArea;
 import com.upic.asn.model.Banner;
+import com.upic.asn.model.ChuXing;
 import com.upic.asn.model.LoginBean;
 import com.upic.asn.model.Recommend;
 import com.upic.asn.model.Store;
@@ -52,4 +53,6 @@ public interface ApiService {
     @POST("load")
     Observable<WanLe> getWanLeDatas();
 
+    @POST("loadChuXing")
+    Observable<ChuXing> getChuXingDatas();
 }

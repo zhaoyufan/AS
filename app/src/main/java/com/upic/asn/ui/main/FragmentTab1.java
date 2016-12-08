@@ -64,7 +64,7 @@ public class FragmentTab1 extends BaseFragment implements View.OnClickListener
         fragmentVedioAdapter = new FragmentVedioAdapter(context, ((FragmentActivity) context).getSupportFragmentManager(), mFragments, mTabTitles);
         viewPager.setAdapter(fragmentVedioAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).select();
+        tabLayout.getTabAt(1).select();
     }
     @Override
     public void onClick(View v) {

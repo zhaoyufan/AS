@@ -45,7 +45,16 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
     public ChuXingAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, OnViewClickListener onViewClickListener) {
         super(context, listDatas1, listDatas2, onViewClickListener);
     }
-
+    /**
+     * @param context
+     * @param listDatas1          banner图片数据
+     * @param listDatas2          新闻列表数据
+     * @param listDatas3
+     * @param onViewClickListener 我们要设置item（header）中某控件的点击事件
+     */
+    public ChuXingAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2,List<Object> listDatas3, OnViewClickListener onViewClickListener) {
+        super(context, listDatas1, listDatas2, listDatas3,onViewClickListener);
+    }
     /**
      * @param parent
      * @param viewType 应该是传入的layout，通过getItemViewType方法获得对应layout
@@ -69,20 +78,15 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
             holder.ll_5.setOnClickListener(new ViewClickListener(onViewClickListener, position, 5));
 
         } else if(position == 1){
-            holder.list = new ArrayList<String>();
-            holder.list.clear();
-            for (int i = 0; i < 10; i++) {
-                String str = "标签" + i;
-                holder.list.add(str);
-            }
-            holder.list.add("+");
+//            listDatas3.add("+");
             if (holder.linearLayout1 != null){
                 holder.linearLayout1.removeAllViews();
             }
-            for (int i = 0; i < holder.list.size(); i++) {
+
+            for (int i = 0; i < listDatas3.size(); i++) {
                 View view = View.inflate(context, R.layout.mark_layout, null);
                 TextView tv = (TextView) view.findViewById(R.id.textView1);
-                tv.setText(holder.list.get(i));
+                tv.setText((String)listDatas3.get(i));
                 tv.setTag(i);
                 view.setTag(false);
                 // 设置view的点击事件，与onClick中的View一致
@@ -134,7 +138,12 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
                     List<User> userList = new ArrayList<User>();
                     userList = community.getUsers();
                     CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_community_circleimage, holder.item_com_pileLayout, false);
+                    if (!TextUtils.isEmpty(community.getImgUrl())) {
                     Picasso.with(context).load(userList.get(i).getImgUrl()).into(imageView);
+                    }else{
+                        imageView.setImageResource(R.mipmap.banner);
+                    }
+
                     holder.item_com_pileLayout.addView(imageView);
                 }
                 CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_community_circleimage, holder.item_com_pileLayout, false);
@@ -146,7 +155,11 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
                     List<User> userList = new ArrayList<User>();
                     userList = community.getUsers();
                     CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_community_circleimage, holder.item_com_pileLayout, false);
+                    if (!TextUtils.isEmpty(community.getImgUrl())) {
                     Picasso.with(context).load(userList.get(i).getImgUrl()).into(imageView);
+                    } else {
+                        imageView.setImageResource(R.mipmap.banner);
+                    }
                     holder.item_com_pileLayout.addView(imageView);
                 }
             }

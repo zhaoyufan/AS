@@ -9,10 +9,14 @@ import android.widget.Toast;
 import com.upic.asn.R;
 import com.upic.asn.adapter.BaseAdapter;
 import com.upic.asn.adapter.ChuXingAdapter;
+import com.upic.asn.model.Banner;
+import com.upic.asn.model.ChuXing;
 import com.upic.asn.model.Community;
 import com.upic.asn.model.ImageModel;
 import com.upic.asn.model.User;
+import com.upic.asn.model.view.ChuXingListener;
 import com.upic.asn.model.view.NewsListener;
+import com.upic.asn.presenter.ChuXingPersenter;
 import com.upic.asn.ui.base.BaseFragment;
 import com.upic.asn.util.LogUtil;
 import com.upic.asn.util.SysUtil;
@@ -32,19 +36,30 @@ public class FragmentTab1_2 extends BaseFragment implements
         PullBaseView.OnFooterRefreshListener,
         PullBaseView.OnPullDownScrollListener,
         BaseAdapter.OnViewClickListener,//item中view的点击事件，根据类型区分
-        NewsListener {
+        ChuXingListener {
     PullRecyclerView mRecyclerView_f_1_2;
     ChuXingAdapter chuXingAdapter;
-    List<Object> listbanner, listcommunity;
+    List<Object> listbanner, listcommunity,listmarks;
+    ChuXingPersenter chuXingPersenter;
+
     String url = "http://img3.imgtn.bdimg.com/it/u=3040533120,2016018949&fm=21&gp=0.jpg";
     String url2 = "http://img.qq745.com/uploads/allimg/151022/1-151022193521.jpg";
     String url3 = "http://p.3761.com/pic/12461391736719.png";
     String url4 = "http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg";
+
     int y, //滑动距离
             bannerH;//banner高度
     boolean isPullDown = false;//是否是下拉状态
 
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(!getUserVisibleHint()){
+            chuXingPersenter = new ChuXingPersenter();
+            doHeaderRefresh();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 
     int page;
     @Override
@@ -54,7 +69,6 @@ public class FragmentTab1_2 extends BaseFragment implements
 
     @Override
     public void initView() {
-        LogUtil.d("调用initView");
         mRecyclerView_f_1_2 = (PullRecyclerView) $(R.id.mRecyclerView_f_1_2);
         mRecyclerView_f_1_2.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView_f_1_2.setOnHeaderRefreshListener(this);//设置下拉监听
@@ -75,12 +89,25 @@ public class FragmentTab1_2 extends BaseFragment implements
         bannerH = SysUtil.dip2px(context, 200);//将banner高度转为px
         listbanner = new ArrayList<>();
         listcommunity = new ArrayList<>();
-        User user1 = new User("张一",url);
-        User user2 = new User("张2",url2);
-        User user3 = new User("张3",url3);
-        User user4 = new User("张4",url);
-        User user5 = new User("张5",url2);
-        User user6 = new User("张6",url3);
+        listmarks = new ArrayList<>();
+        load();
+        initRecyclerView();
+    }
+    void load(){
+        mRecyclerView_f_1_2.onHeaderRefreshComplete();
+        listmarks.add("推荐");
+        listmarks.add("爱情");
+        listmarks.add("亲情");
+        listmarks.add("友情");
+        listmarks.add("旅游");
+        listmarks.add("美食");
+
+        User user1 = new User("张一",null);
+        User user2 = new User("张2",null);
+        User user3 = new User("张3",null);
+        User user4 = new User("张4",null);
+        User user5 = new User("张5",null);
+        User user6 = new User("张6",null);
         List<User> users = new ArrayList<User>();
         users.add(user1);
         users.add(user2);
@@ -88,25 +115,16 @@ public class FragmentTab1_2 extends BaseFragment implements
         users.add(user4);
         users.add(user5);
         users.add(user6);
-        List<String> marks = new ArrayList<String>();
-        marks.add("推荐");
-        marks.add("爱情");
-        marks.add("亲情");
-        marks.add("友情");
-        marks.add("旅游");
-        marks.add("美食");
-        Community community1 = new Community("#话题1#",100, url4,users,marks);
-        Community community2 = new Community("#话题2#",100, url4,users,marks);
-        Community community3 = new Community("#话题3#",100, url4,users,marks);
+
+        Community community1 = new Community("#话题1#",100, null,users);
+        Community community2 = new Community("#话题2#",100, null,users);
+        Community community3 = new Community("#话题3#",100, null,users);
         listcommunity.add(community1);
         listcommunity.add(community2);
         listcommunity.add(community3);
-        initRecyclerView();
-        doHeaderRefresh(this);
     }
-
     void initRecyclerView() {
-        chuXingAdapter = new ChuXingAdapter(context, listbanner, listcommunity, this);
+        chuXingAdapter = new ChuXingAdapter(context, listbanner, listcommunity,listmarks, this);
         mRecyclerView_f_1_2.setLayoutManager(new LinearLayoutManager(context));
         chuXingAdapter.setOnItemClickListener(this);
         mRecyclerView_f_1_2.setAdapter(chuXingAdapter);
@@ -122,7 +140,7 @@ public class FragmentTab1_2 extends BaseFragment implements
         doFootRefresh(this);
     }
 
-    private void doFootRefresh(final NewsListener listener) {
+    private void doFootRefresh(final ChuXingListener listener) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -139,16 +157,17 @@ public class FragmentTab1_2 extends BaseFragment implements
      */
     @Override
     public void onHeaderRefresh(PullBaseView view) {
-        doHeaderRefresh(this);
+        chuXingPersenter.getChuXingDatas(this);
     }
 
-    private void doHeaderRefresh(final NewsListener listener) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listener.refreshSuccess("suceess");
-            }
-        },1500);
+    private void doHeaderRefresh() {
+        chuXingPersenter.getChuXingDatas(this);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                listener.refreshSuccess("suceess");
+//            }
+//        },1500);
 
     }
     /**
@@ -194,102 +213,71 @@ public class FragmentTab1_2 extends BaseFragment implements
         }
     }
     /**
-     * 刷新成功回调方法
-     * @param message
-     */
-    @Override
-    public void refreshSuccess(String message) {
-        mRecyclerView_f_1_2.onHeaderRefreshComplete();
-        //banner 模拟数据
-        listbanner.clear();
-        ImageModel imageModel = new ImageModel();
-        imageModel.setUrl("https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=650d5402a318972bbc3a07cad6cd7b9d/9f2f070828381f305c3fe5bfa1014c086e06f086.jpg");
-        listbanner.add(imageModel);
-        imageModel = new ImageModel();
-        imageModel.setUrl("https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=a219dde79125bc31345d06986ede8de7/a5c27d1ed21b0ef494399077d5c451da80cb3ec1.jpg");
-        listbanner.add(imageModel);
-        imageModel = new ImageModel();
-        imageModel.setUrl("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg");
-        listbanner.add(imageModel);
-        //news 模拟数据
-        listcommunity.clear();
-
-        User user1 = new User("张1",url);
-        User user2 = new User("张2",url2);
-        User user3 = new User("张3",url3);
-        User user4 = new User("张4",url);
-        User user5 = new User("张5",url2);
-        User user6 = new User("张6",url3);
-        List<User> users = new ArrayList<User>();
-        users.add(user1);
-        users.add(user2);
-        users.add(user3);
-        users.add(user4);
-        users.add(user5);
-        users.add(user6);
-        List<String> marks = new ArrayList<String>();
-        marks.add("推荐");
-        marks.add("爱情");
-        marks.add("亲情");
-        marks.add("友情");
-        marks.add("旅游");
-        marks.add("美食");
-        Community community1 = new Community("#爱就讲出来#",100, url4,users,marks);
-        Community community2 = new Community("#爱就说出来#",200, url4,users,marks);
-        Community community3 = new Community("#爱就话出来#",300, url4,users,marks);
-        Community community4 = new Community("#爱就say出来#",400, url4,users,marks);
-        Community community5 = new Community("#爱就讲出来#",500, url4,users,marks);
-        listcommunity.add(community1);
-        listcommunity.add(community2);
-        listcommunity.add(community3);
-        listcommunity.add(community4);
-        listcommunity.add(community5);
-
-        initRecyclerView();
-    }
-
-    /**
      * 加载更多成功回调方法
      * @param message
      */
     @Override
     public void loadMoreSuccess(String message) {
         mRecyclerView_f_1_2.onFooterRefreshComplete();
-        User user1 = new User("张一",url);
-        User user2 = new User("张2",url2);
-        User user3 = new User("张3",url3);
-        User user4 = new User("张4",url);
+        User user1 = new User("张一",null);
+        User user2 = new User("张2",null);
+        User user3 = new User("张3",null);
+        User user4 = new User("张4",null);
         List<User> users = new ArrayList<User>();
         users.add(user1);
         users.add(user2);
         users.add(user3);
         users.add(user4);
-        List<String> marks = new ArrayList<String>();
-        marks.add("推荐");
-        marks.add("爱情");
-        marks.add("亲情");
-        marks.add("友情");
-        marks.add("旅游");
-        marks.add("美食");
-        Community community1 = new Community("#爱就讲出来新增1#",888, url4,users,marks);
-        Community community2 = new Community("#爱就说出来新增1#",12345, url4,users,marks);
+
+        Community community1 = new Community("#爱就讲出来新增1#",888, null,users);
+        Community community2 = new Community("#爱就说出来新增1#",12345, null,users);
 
         listcommunity.add(community1);
         listcommunity.add(community2);
         chuXingAdapter.notifyDataSetChanged();
     }
 
-    /**
-     * 失败
-     * @param message
-     */
     @Override
-    public void fail(String message) {
+    public void loadBanner(List listBanners) {
+        this.listbanner.clear();
+        this.listbanner = listBanners;
+    }
+
+    @Override
+    public void refreshSuccess() {
 
     }
 
+    @Override
+    public void dataSuccess(ChuXing chuXing) {
+        listmarks.clear();
+        listcommunity.clear();
+
+        listmarks =chuXing.getMarksList();
+        for (Community community : chuXing.getCommunityList()){
+            listcommunity.add(community);
+        }
+        mRecyclerView_f_1_2.onHeaderRefreshComplete();
+        initRecyclerView();
+    }
+
+    @Override
+    public void fail(String message, int type) {
+        mRecyclerView_f_1_2.onHeaderRefreshComplete();
+        loadingFaile();
+        initRecyclerView();
+    }
     @Override
     public void onClick(View v) {
 
     }
+    public void loadingFaile(){
+        listmarks.add("加载中...");
+        User user1 = new User("张一",null);
+        List<User> users = new ArrayList<User>();
+        users.add(user1);
+        Community community1 = new Community("#加载中...#",100, null,users);
+        listcommunity.add(community1);
+    }
+
 }
