@@ -1,9 +1,11 @@
 package com.upic.asn.ui.main;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.upic.asn.R;
 import com.upic.asn.ui.base.BaseFragment;
+import com.upic.asn.ui.citypickter.CityPickerActivity;
 import com.upic.asn.ui.main.adapter.FragmentVedioAdapter;
 
 
@@ -22,6 +25,7 @@ public class FragmentTab1 extends BaseFragment implements View.OnClickListener
 {
     LinearLayout rl_title,left;//标题栏
     TextView tv_search;//搜索框
+    TextView tv_city;//城市
 
     ImageView iv_message,iv_qr;//二维码
     TabLayout tabLayout;
@@ -43,6 +47,7 @@ public class FragmentTab1 extends BaseFragment implements View.OnClickListener
         rl_title.getBackground().setAlpha(0);
         tv_search = (TextView) $(R.id.tv_search);//搜索
         iv_qr = (ImageView) $(R.id.iv_qr);//二维码
+        tv_city = (TextView) $(R.id.tv_city);//城市
         tabLayout = (TabLayout) $(R.id.fragmnet_1_tabLayout);
         viewPager = (ViewPager) $(R.id.fragmnet_1_viewpager);
     }
@@ -76,7 +81,9 @@ public class FragmentTab1 extends BaseFragment implements View.OnClickListener
                 Toast.makeText(context, "二维码", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.left:
-                Toast.makeText(context, "城市选择", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, CityPickerActivity.class);
+                intent.putExtra("c",tv_city.getText().toString());
+                startActivityForResult(intent,1);
                 break;
             case R.id.iv_message:
                 Toast.makeText(context, "消息", Toast.LENGTH_SHORT).show();
@@ -84,4 +91,14 @@ public class FragmentTab1 extends BaseFragment implements View.OnClickListener
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case 1:
+                if(!TextUtils.isEmpty(data.getStringExtra("city"))) {
+                    tv_city.setText(data.getStringExtra("city"));
+                }
+                break;
+        }
+    }
 }

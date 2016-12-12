@@ -1,18 +1,13 @@
 package com.upic.asn.presenter;
 
-import android.util.Log;
-import android.widget.Toast;
 
-import com.upic.asn.api.ApiService;
+
 import com.upic.asn.api.ApiUtil;
 import com.upic.asn.api.RxSubscribe;
-import com.upic.asn.model.ActivityArea;
-import com.upic.asn.model.Banner;
-import com.upic.asn.model.Recommend;
 import com.upic.asn.model.Store;
 import com.upic.asn.model.WanLe;
 import com.upic.asn.model.view.WanLeListener;
-import com.upic.asn.view.pullrecyclerview.PullBaseView;
+import com.upic.asn.utils.LogUtil;
 
 import java.util.List;
 
@@ -28,27 +23,6 @@ public class WanLePersenter extends BasePresenter{
         service = ApiUtil.createApiService();
     }
 
-    /**
-     * 加载banner图
-     * @param listener
-     */
-    public void getBannerDatas(final WanLeListener listener){
-        service.getBannerDatas()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<List<Banner>>() {
-                    @Override
-                    protected void _onNext(List<Banner> banners) {
-                        listener.loadBanner(banners);
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        listener.fail(message,1);
-                    }
-                });
-    }
-
     public void getWanLeDatas(final WanLeListener listener){
         service.getWanLeDatas()
                 .subscribeOn(Schedulers.io())
@@ -61,7 +35,24 @@ public class WanLePersenter extends BasePresenter{
 
                     @Override
                     protected void _onError(String message) {
-                        listener.fail("连接服务器失败",2);
+                        listener.fail("连接服务失败",1);
+                    }
+                });
+    }
+
+    public void loadMoreStores(final WanLeListener listener){
+        service.loadMoreStores()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscribe<List<Store>>() {
+                    @Override
+                    protected void _onNext(List<Store> stores) {
+                        listener.loadMoreStoresSuccess(stores);
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        listener.fail("加载失败",2);
                     }
                 });
     }

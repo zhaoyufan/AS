@@ -81,7 +81,6 @@ public class LoginActivity extends BaseActivity implements LoginListener {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         switch (v.getId()) {
             case R.id.tv_right:
                 Toast.makeText(LoginActivity.this, "注册", Toast.LENGTH_SHORT).show();

@@ -1,15 +1,13 @@
 package com.upic.asn.presenter;
 
 
+
 import com.upic.asn.api.ApiUtil;
 import com.upic.asn.api.RxSubscribe;
-import com.upic.asn.model.Banner;
 import com.upic.asn.model.ChuXing;
-import com.upic.asn.model.WanLe;
+import com.upic.asn.model.Community;
 import com.upic.asn.model.view.ChuXingListener;
-import com.upic.asn.model.view.WanLeListener;
 
-import java.security.PublicKey;
 import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -23,26 +21,6 @@ public class ChuXingPersenter extends BasePresenter {
     public ChuXingPersenter(){
         service = ApiUtil.createApiService();
     }
-    /**
-     * 加载banner图
-     * @param listener
-     */
-    public void getBannerDatas(final ChuXingListener listener){
-        service.getBannerDatas()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscribe<List<Banner>>() {
-                    @Override
-                    protected void _onNext(List<Banner> banners) {
-                        listener.loadBanner(banners);
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        listener.fail(message,1);
-                    }
-                });
-    }
     public void getChuXingDatas(final ChuXingListener listener){
         service.getChuXingDatas()
                 .subscribeOn(Schedulers.io())
@@ -55,7 +33,24 @@ public class ChuXingPersenter extends BasePresenter {
 
                     @Override
                     protected void _onError(String message) {
-                        listener.fail("连接服务器失败",2);
+                        listener.fail("连接服务器失败",1);
+                    }
+                });
+    }
+
+    public void loadMoreCommunity(final ChuXingListener listener){
+        service.loadMoreCommunity()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscribe<List<Community>>() {
+                    @Override
+                    protected void _onNext(List<Community> communities) {
+                        listener.loadMoreCommunitySuccess(communities);
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        listener.fail("加载失败,",2);
                     }
                 });
     }

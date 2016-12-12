@@ -1,10 +1,8 @@
 package com.upic.asn.api;
 
-import com.upic.asn.model.ActivityArea;
-import com.upic.asn.model.Banner;
 import com.upic.asn.model.ChuXing;
+import com.upic.asn.model.Community;
 import com.upic.asn.model.LoginBean;
-import com.upic.asn.model.Recommend;
 import com.upic.asn.model.Store;
 import com.upic.asn.model.WanLe;
 
@@ -30,29 +28,17 @@ public interface ApiService {
     @POST("/login/")
     Observable<LoginBean> login(@QueryMap Map<String,String> maps);
 
-    /**
-     * 推荐
-     * @return
-     */
-    @GET("load")
-    Observable<Recommend> getRecommendDatas();
-
-    /**
-     * banner图
-     * @return
-     */
-    @GET("loadbanner")
-    Observable<List<Banner>> getBannerDatas();
-
-    @GET("loadAvtivity")
-    Observable<List<ActivityArea>> getActivityAreaDatas();
-
-    @POST("loadStore")
-    Observable<List<Store>> getStoreDatas();
 
     @POST("load")
     Observable<WanLe> getWanLeDatas();
 
+    @GET("listStore")
+    Observable<List<Store>> loadMoreStores();
+
+
     @POST("loadChuXing")
     Observable<ChuXing> getChuXingDatas();
+
+    @GET("listComunity")
+    Observable<List<Community>> loadMoreCommunity();
 }

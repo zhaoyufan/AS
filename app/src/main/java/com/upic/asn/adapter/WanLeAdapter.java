@@ -5,7 +5,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,8 +16,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.upic.asn.R;
 import com.upic.asn.model.ActivityArea;
-import com.upic.asn.model.ImageModel;
-import com.upic.asn.model.Recommend;
+import com.upic.asn.model.Banner;
 import com.upic.asn.model.Store;
 
 import java.util.ArrayList;
@@ -33,17 +31,6 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
 
     boolean isViewPagerLoadScucess = false;//viewpager是否加载成功
 
-    /**
-     * @param context
-     * @param listDatas1          banner图片数据
-     * @param listDatas2          新闻列表数据
-     * @param listActivityAreas       区域数据源
-     * @param listRecommends          推荐数据源
-     * @param onViewClickListener 我们要设置item（header）中某控件的点击事件
-     */
-//    public WanLeAdapter(Context context, List<Object> listDatas1, List<Object> listDatas2, List<ActivityArea> listActivityAreas, List<Recommend> listRecommends, OnViewClickListener onViewClickListener) {
-//        super(context, listDatas1, listDatas2, listActivityAreas, listRecommends, onViewClickListener);
-//    }
     /**
      * @param context
      * @param listDatas1          banner图片数据
@@ -239,16 +226,21 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
     private void initViewPager(MyViewHolder holder) {
         isViewPagerLoadScucess = true;
         final List<View> imageViews = new ArrayList<>();
+
         for (int i = 0; i < listDatas1.size(); i++) {
-            final ImageModel imageModel = (ImageModel) listDatas1.get(i);
+            final Banner banner = (Banner) listDatas1.get(i);
             View view = mInflater.inflate(R.layout.item_img, null);
             ImageView imageView = (ImageView) view.findViewById(R.id.img);
-            Picasso.with(context).load(imageModel.getUrl()).error(R.mipmap.banner).into(imageView);
+            if (!TextUtils.isEmpty(banner.getUrl())){
+                Picasso.with(context).load(banner.getUrl()).error(R.mipmap.banner).into(imageView);
+            }else {
+                imageView.setImageResource(R.mipmap.banner);
+            }
             //设置广告点击事件
             view.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Toast.makeText(context, "图片>>" + imageModel.getUrl(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, "图片>>" + banner.getUrl(), Toast.LENGTH_SHORT).show();
                                         }
             });
             imageViews.add(view);

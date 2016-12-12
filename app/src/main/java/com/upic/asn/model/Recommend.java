@@ -7,7 +7,7 @@ import java.util.List;
  * Created by nengneng on 2016/12/2.
  * 推荐
  */
-public class Recommend extends BaseBean{
+public class Recommend{
 
     private  String title;
 

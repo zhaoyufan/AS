@@ -7,8 +7,26 @@ import java.util.List;
  */
 
 public class ChuXing {
+    private List<Banner> listBanners;
     private List<Community> communityList;
     private List<Object> marksList;
+
+    public ChuXing() {
+    }
+
+    public ChuXing(List<Banner> listBanners, List<Community> communityList, List<Object> marksList) {
+        this.listBanners = listBanners;
+        this.communityList = communityList;
+        this.marksList = marksList;
+    }
+
+    public List<Banner> getListBanners() {
+        return listBanners;
+    }
+
+    public void setListBanners(List<Banner> listBanners) {
+        this.listBanners = listBanners;
+    }
 
     public List<Community> getCommunityList() {
         return communityList;

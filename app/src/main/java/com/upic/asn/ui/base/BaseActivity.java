@@ -47,7 +47,6 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
         pb = (ProgressBar) $(R.id.pb);// 标题栏数据加载ProgressBar
 
         if (!TextUtils.isEmpty(left)) {
-            tv_left.setText(left);
             tv_left.setVisibility(View.VISIBLE);
             tv_left.setOnClickListener(onClickListener);
         } else {
@@ -104,11 +103,9 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_left:
-                finish();
-        }
+
     }
+
     public void startActivity(Class cla) {
         startActivity(new Intent(this, cla));
     }

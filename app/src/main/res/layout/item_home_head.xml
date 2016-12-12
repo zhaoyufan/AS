@@ -10,7 +10,7 @@
         android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="@mipmap/banner" />
+        />
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"

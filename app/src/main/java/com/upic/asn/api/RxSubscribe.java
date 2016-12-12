@@ -33,7 +33,6 @@ public abstract class RxSubscribe<T> extends Subscriber<T> {
     @Override
     public void onCompleted() {
         //正常终止
-        Log.i("aaa","正常终止");
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.upic.asn.util;
+package com.upic.asn.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

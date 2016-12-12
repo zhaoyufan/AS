@@ -23,6 +23,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     public Activity context;
     public View view;
+    public boolean isFirst = true;
 
     public RelativeLayout title_bar;//顶部标题栏
     public TextView tv_left, tv_title, tv_right;
@@ -43,6 +44,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         }
         return view;
     }
+
     /**
      * 初始化titlebar，该方法只有在标题栏布局符合此规则时才能调用
      *

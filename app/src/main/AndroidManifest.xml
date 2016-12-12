@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.upic.asn.ui.main.MainActivity"/>
+        <activity android:name=".ui.citypickter.CityPickerActivity"/>
     </application>
 
 </manifest>

@@ -1,32 +1,32 @@
 package com.upic.asn.model.view;
 
 
-import com.upic.asn.model.Banner;
+import com.upic.asn.model.Store;
 import com.upic.asn.model.WanLe;
 
 import java.util.List;
 
+
 /**
  * Created by ZYF on 2016/12/4.
+ * 玩乐首页回调接口
  */
 public interface WanLeListener {
-    /**
-     * 上拉加载成功
-     *
-     * @param message
-     */
-    void loadMoreSuccess(String message);
 
     /**
-     * 加载banner图监听
-     * @param listBanners
+     * 首页数据加载回调方法
+     * @param wanLe
      */
-    void loadBanner(List<Banner> listBanners);
-
     void dataSuccess(WanLe wanLe);
 
     /**
-     * 请求失败
+     * 上拉回调方法
+     * @param storeList
+     */
+    void loadMoreStoresSuccess(List<Store> storeList);
+
+    /**
+     * 请求失败回调方法
      * @param message
      */
     void fail(String message, int type);

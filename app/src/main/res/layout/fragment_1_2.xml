@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.upic.asn.view.pullrecyclerview.PullRecyclerView
-        android:id="@+id/mRecyclerView_f_1_2"
+        android:id="@+id/mRecyclerView1_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

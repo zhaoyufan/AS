@@ -1,23 +1,164 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.main.MainActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_content"
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/common_title_bg"
-        android:layout_weight="1" />
+        android:layout_above="@+id/frameMenu"
+        android:layout_alignParentTop="true" >
+    </FrameLayout>
 
-    <View
+    <FrameLayout
+        android:id="@+id/frameMenu"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#D0D0D0" />
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabl_navigation"
-        style="@style/DesignTabLayout" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:orientation="horizontal" >
+
+
+                <LinearLayout
+                    android:id="@+id/tablayout_1"
+                    android:orientation="vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="top|center"
+                        android:src="@drawable/tab1_selector" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="我的"
+                        android:singleLine="true"
+                        android:layout_gravity="bottom|center"
+                        android:textColor="@color/main_tab_text_selector"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tablayout_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="top|center"
+                        android:src="@drawable/tab2_selector" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="我的"
+                        android:singleLine="true"
+                        android:layout_gravity="bottom|center"
+                        android:textColor="@color/main_tab_text_selector"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+            </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tablayout_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="top|center"
+                        android:src="@drawable/tab3_selector" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="我的"
+                        android:layout_gravity="bottom|center"
+                        android:singleLine="true"
+                        android:textColor="@color/main_tab_text_selector"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tablayout_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="top|center"
+                        android:src="@drawable/tab3_selector" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="我的"
+                        android:singleLine="true"
+                        android:layout_gravity="bottom|center"
+                        android:textColor="@color/main_tab_text_selector"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/black" >
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- 中间按钮背景 -->
+
+    <ImageView
+        android:id="@+id/toggle_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/frameMenu"
+        android:layout_centerInParent="true"
+        android:src="@drawable/skin_tabbar_btn" />
+
+    <!-- 中间按钮 -->
+
+    <ImageView
+        android:id="@+id/plus_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/frameMenu"
+        android:layout_centerInParent="true"
+        android:src="@drawable/skin_tabbar_icon_select" />
+
+</RelativeLayout>

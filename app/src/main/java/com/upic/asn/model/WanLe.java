@@ -6,16 +6,27 @@ import java.util.List;
  * Created by ZYF on 2016/12/5.
  */
 public class WanLe {
+    private List<Banner> listBanners;
     private List<ActivityArea> listActivityAreas;
     private List<Recommend> listRecommends;
     private List<Store> listStores;
 
     public WanLe() {
     }
-    public WanLe(List<ActivityArea> listActivityAreas, List<Recommend> listRecommends, List<Store> listStores) {
+
+    public WanLe(List<Banner> listBanners, List<ActivityArea> listActivityAreas, List<Recommend> listRecommends, List<Store> listStores) {
+        this.listBanners = listBanners;
         this.listActivityAreas = listActivityAreas;
         this.listRecommends = listRecommends;
         this.listStores = listStores;
+    }
+
+    public List<Banner> getListBanners() {
+        return listBanners;
+    }
+
+    public void setListBanners(List<Banner> listBanners) {
+        this.listBanners = listBanners;
     }
 
     public List<ActivityArea> getListActivityAreas() {

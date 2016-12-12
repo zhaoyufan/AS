@@ -10,7 +10,7 @@ import com.upic.asn.R;
 import com.upic.asn.adapter.BaseAdapter;
 import com.upic.asn.adapter.WanLeAdapter;
 import com.upic.asn.model.ActivityArea;
-import com.upic.asn.model.ImageModel;
+import com.upic.asn.model.Banner;
 import com.upic.asn.model.NobleChoice;
 import com.upic.asn.model.Recommend;
 import com.upic.asn.model.Store;
@@ -18,7 +18,8 @@ import com.upic.asn.model.WanLe;
 import com.upic.asn.model.view.WanLeListener;
 import com.upic.asn.presenter.WanLePersenter;
 import com.upic.asn.ui.base.BaseFragment;
-import com.upic.asn.util.SysUtil;
+import com.upic.asn.utils.LogUtil;
+import com.upic.asn.utils.SysUtil;
 import com.upic.asn.view.pullrecyclerview.PullBaseView;
 import com.upic.asn.view.pullrecyclerview.PullRecyclerView;
 
@@ -36,6 +37,9 @@ public class FragmentTab1_1 extends BaseFragment implements
         PullBaseView.OnPullDownScrollListener,
         BaseAdapter.OnViewClickListener,//item中view的点击事件，根据类型区分
         WanLeListener {
+
+    private static final String TAG = "FragmentTab1_1";
+
     PullRecyclerView mRecyclerView;
     WanLeAdapter wanLeAdapter;
     List<Object> listBanners, listRecommends, listActivityAreas, listStores;
@@ -49,9 +53,10 @@ public class FragmentTab1_1 extends BaseFragment implements
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (!getUserVisibleHint()){//可见是刷新
+        if (!getUserVisibleHint() && isFirst){//
             wanLePersenter = new WanLePersenter();
             doRefresh();
+            isFirst = false;
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -63,7 +68,7 @@ public class FragmentTab1_1 extends BaseFragment implements
 
     @Override
     public void initView() {
-        mRecyclerView = (PullRecyclerView) $(R.id.mRecyclerView);
+        mRecyclerView = (PullRecyclerView) $(R.id.mRecyclerView1_1);
         mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView.setOnHeaderRefreshListener(this);//设置下拉监听
         mRecyclerView.setOnFooterRefreshListener(this);//设置上拉监听
@@ -104,17 +109,7 @@ public class FragmentTab1_1 extends BaseFragment implements
      */
     @Override
     public void onFooterRefresh(PullBaseView view) {
-        doFootRefresh(this);
-    }
-
-    private void doFootRefresh(final WanLeListener listener) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listener.loadMoreSuccess("suceess");
-            }
-        },1500);
-
+        wanLePersenter.loadMoreStores(this);
     }
 
     /**
@@ -124,7 +119,7 @@ public class FragmentTab1_1 extends BaseFragment implements
      */
     @Override
     public void onHeaderRefresh(PullBaseView view) {
-        wanLePersenter.getWanLeDatas(this);
+        doRefresh();
     }
 
     private void doRefresh() {
@@ -186,38 +181,6 @@ public class FragmentTab1_1 extends BaseFragment implements
         }
     }
 
-    /**
-     * 加载更多成功回调方法
-     * @param message
-     */
-    @Override
-    public void loadMoreSuccess(String message) {
-        mRecyclerView.onFooterRefreshComplete();
-        Store s1 = new Store();
-        s1.setStoreName("天胜四不用");
-        s1.setStoreBrief("高颜值，高品质的户外拓展");
-        s1.setLogo("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        s1.setPicture("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        Store s2 = new Store();
-        s2.setStoreName("天胜四不用");
-        s2.setStoreBrief("高颜值，高品质的户外拓展");
-        s2.setLogo("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        s2.setPicture("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        listStores.add(s1);
-        listStores.add(s2);
-        wanLeAdapter.notifyDataSetChanged();
-    }
-
-    /**
-     * banner回调方法
-     * @param listBanners
-     */
-    @Override
-    public void loadBanner(List listBanners) {
-        this.listBanners.clear();
-        this.listBanners = listBanners;
-    }
-
 
     @Override
     public void dataSuccess(WanLe wanLe) {
@@ -226,32 +189,51 @@ public class FragmentTab1_1 extends BaseFragment implements
         listStores.clear();
         listRecommends.clear();
         listNobleChoices.clear();
+        listBanners.clear();
+        for (Banner banner : wanLe.getListBanners()){
+            LogUtil.d(TAG,banner.getUrl());
+            listBanners.add(banner);
+        }
         for(Recommend recommend : wanLe.getListRecommends()){
+
             listRecommends.add(recommend);
         }
         for(ActivityArea activityArea : wanLe.getListActivityAreas()){
+            LogUtil.d(TAG,activityArea.getUrl());
             listActivityAreas.add(activityArea);
         }
         for(Store store : wanLe.getListStores()){
-            Log.d("bbb",store.getPicture());
             listStores.add(store);
         }
-        Log.d("bbb","listActivityAreas长度="+listActivityAreas.size()+"listRecommends长度="+listRecommends.size()+"listStores长度="+listStores.size());
         initRecyclerView();
+    }
+
+    /**
+     * 上拉加载成功回调方法
+     * @param storeList
+     */
+    @Override
+    public void loadMoreStoresSuccess(List<Store> storeList) {
+        mRecyclerView.onFooterRefreshComplete();
+        for (Store store : storeList){
+            listStores.add(store);
+        }
+        wanLeAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void fail(String message, int type) {
-        mRecyclerView.onHeaderRefreshComplete();
         switch (type){
-            case 1:break;
-            case 2:Log.d("bbb",message);
-                Toast.makeText(context,message,Toast.LENGTH_SHORT).show();break;
+            case 1:Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                loadingFaile();
+                initRecyclerView();
+                mRecyclerView.onHeaderRefreshComplete();
+                break;
+            case 2:Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                mRecyclerView.onFooterRefreshComplete();
+                break;
             default:break;
         }
-        //请求失败，提供失败数据，并且初始化recycleView
-        loadingFaile();
-        initRecyclerView();
     }
 
     @Override
@@ -262,22 +244,22 @@ public class FragmentTab1_1 extends BaseFragment implements
         mRecyclerView.onHeaderRefreshComplete();
         //banner 模拟数据
         listBanners.clear();
-        ImageModel imageModel = new ImageModel();
-        imageModel.setUrl("https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=650d5402a318972bbc3a07cad6cd7b9d/9f2f070828381f305c3fe5bfa1014c086e06f086.jpg");
-        listBanners.add(imageModel);
-        imageModel = new ImageModel();
-        imageModel.setUrl("https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=a219dde79125bc31345d06986ede8de7/a5c27d1ed21b0ef494399077d5c451da80cb3ec1.jpg");
-        listBanners.add(imageModel);
-        imageModel = new ImageModel();
-        imageModel.setUrl("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg");
-        listBanners.add(imageModel);
+        Banner banner = new Banner();
+        banner.setUrl("");
+        listBanners.add(banner);
+        banner = new Banner();
+        banner.setUrl("");
+        listBanners.add(banner);
+        banner = new Banner();
+        banner.setUrl("");
+        listBanners.add(banner);
 
         //area
         listActivityAreas.clear();
         ActivityArea area1 = new ActivityArea(null,null,null,"","数据加载中...");
-        ActivityArea area2 = new ActivityArea(null,null,null,"http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...");
-        ActivityArea area3 = new ActivityArea(null,null,null,"http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...");
-        ActivityArea area4 = new ActivityArea(null,null,null,"http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...");
+        ActivityArea area2 = new ActivityArea(null,null,null,"","数据加载中...");
+        ActivityArea area3 = new ActivityArea(null,null,null,"","数据加载中...");
+        ActivityArea area4 = new ActivityArea(null,null,null,"","数据加载中...");
         listActivityAreas.add(area1);
         listActivityAreas.add(area2);
         listActivityAreas.add(area3);
@@ -287,10 +269,10 @@ public class FragmentTab1_1 extends BaseFragment implements
         //recommend
         listNobleChoices.clear();
         listRecommends.clear();
-        NobleChoice nobleChoice1 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
-        NobleChoice nobleChoice2 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
-        NobleChoice nobleChoice3 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
-        NobleChoice nobleChoice4 = new NobleChoice("http://ofhgnhf0s.bkt.clouddn.com/reigns.png","数据加载中...",0);
+        NobleChoice nobleChoice1 = new NobleChoice("","数据加载中...",0);
+        NobleChoice nobleChoice2 = new NobleChoice("","数据加载中...",0);
+        NobleChoice nobleChoice3 = new NobleChoice("","数据加载中...",0);
+        NobleChoice nobleChoice4 = new NobleChoice("","数据加载中...",0);
         listNobleChoices.add(nobleChoice1);
         listNobleChoices.add(nobleChoice2);
         listNobleChoices.add(nobleChoice3);
@@ -303,23 +285,23 @@ public class FragmentTab1_1 extends BaseFragment implements
         Store s1 = new Store();
         s1.setStoreName("数据加载中...");
         s1.setStoreBrief("数据加载中...");
-        s1.setLogo("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        s1.setPicture("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
+        s1.setLogo("");
+        s1.setPicture("");
         Store s2 = new Store();
         s2.setStoreName("数据加载中...");
         s2.setStoreBrief("数据加载中...");
-        s2.setLogo("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        s2.setPicture("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
+        s2.setLogo("");
+        s2.setPicture("");
         Store s3 = new Store();
         s3.setStoreName("数据加载中...");
         s3.setStoreBrief("数据加载中...");
-        s3.setLogo("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        s3.setPicture("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
+        s3.setLogo("");
+        s3.setPicture("");
         Store s4 = new Store();
         s4.setStoreName("数据加载中...");
         s4.setStoreBrief("数据加载中...");
-        s4.setLogo("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
-        s4.setPicture("http://ofhgnhf0s.bkt.clouddn.com/5-160PQ51923.jpg");
+        s4.setLogo("");
+        s4.setPicture("");
         listStores.add(s1);
         listStores.add(s2);
         listStores.add(s3);
@@ -330,15 +312,15 @@ public class FragmentTab1_1 extends BaseFragment implements
         mRecyclerView.onHeaderRefreshComplete();
         //banner 模拟数据
         listBanners.clear();
-        ImageModel imageModel = new ImageModel();
-        imageModel.setUrl("https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=650d5402a318972bbc3a07cad6cd7b9d/9f2f070828381f305c3fe5bfa1014c086e06f086.jpg");
-        listBanners.add(imageModel);
-        imageModel = new ImageModel();
-        imageModel.setUrl("https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=a219dde79125bc31345d06986ede8de7/a5c27d1ed21b0ef494399077d5c451da80cb3ec1.jpg");
-        listBanners.add(imageModel);
-        imageModel = new ImageModel();
-        imageModel.setUrl("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg");
-        listBanners.add(imageModel);
+        Banner banner = new Banner();
+        banner.setUrl("");
+        listBanners.add(banner);
+        banner = new Banner();
+        banner.setUrl("");
+        listBanners.add(banner);
+        banner = new Banner();
+        banner.setUrl("");
+        listBanners.add(banner);
 
         //area
         listActivityAreas.clear();
