@@ -16,7 +16,7 @@
         android:layout_height="50dp"
         android:layout_weight="0.1"
         android:layout_marginLeft="10dp"
-        android:src="@mipmap/icon_tabbar_settings"/>
+        android:src="@mipmap/me"/>
     <TextView
         android:id="@+id/store_name"
         android:layout_width="match_parent"

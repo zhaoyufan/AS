@@ -20,7 +20,7 @@
 
 
     <color name="tab_text">#A2A2A2</color>
-    <color name="tab_text_press">#2D6EFA</color>
+    <color name="tab_text_press">#000</color>
     <color name="white">#FFFFFF</color>
     <color name="gray_e">#EEEEEE</color>
     <color name="gray_c">#cccccc</color>
