@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.upic.asn.R;
 import com.upic.asn.ui.base.BaseFragment;
+import com.upic.asn.ui.main.homehead.adapter.WanLeClassifyAdapter1;
+import com.upic.asn.ui.main.homehead.adapter.WanLeClassifyAdapter2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +25,11 @@ import java.util.List;
 public class StoreFragment extends BaseFragment {
     private DisplayMetrics dm;
     private PopupWindow popWindow;
-    private MoreAdapter moreAdapter;
-    private ListView morelist;
+    private ListView wanle_classify_1,wanle_classify_2;
     private TextView tv1,tv2,tv3;
     private List<Object> cityList;
-    private ListView mainlist;
-    private MainAdapter mainAdapter;
-
+    private WanLeClassifyAdapter1 wanLeClassifyAdapter1;
+    private WanLeClassifyAdapter2 wanLeClassifyAdapter2;
 
     @Override
     public int getContentView() {
@@ -77,36 +77,36 @@ public class StoreFragment extends BaseFragment {
         popWindow.setBackgroundDrawable(new BitmapDrawable());
         popWindow.setOutsideTouchable(true);
 
-        mainlist = (ListView) contentView.findViewById(R.id.classify_mainlist);
-        morelist = (ListView) contentView.findViewById(R.id.classify_morelist);
+        wanle_classify_1 = (ListView) contentView.findViewById(R.id.wanle_classify_1);
+        wanle_classify_2 = (ListView) contentView.findViewById(R.id.wanle_classify_2);
 
-        mainAdapter = new MainAdapter(context, cityList);
-        mainAdapter.setSelectItem(0);
-        mainlist.setAdapter(mainAdapter);
+        wanLeClassifyAdapter1 = new WanLeClassifyAdapter1(context, cityList);
+        wanLeClassifyAdapter1.setSelectItem(0);
+        wanle_classify_1.setAdapter(wanLeClassifyAdapter1);
 
-        mainlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        wanle_classify_1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 List<Object> lists = ((City)cityList.get(position)).getLists();
                 initAdapter(lists);
-                mainAdapter.setSelectItem(position);
-                mainAdapter.notifyDataSetChanged();
+                wanLeClassifyAdapter1.setSelectItem(position);
+                wanLeClassifyAdapter1.notifyDataSetChanged();
             }
         });
-        mainlist.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        wanle_classify_1.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         // 一定要设置这个属性，否则ListView不会刷新
 
-        morelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        wanle_classify_2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                City_2 city2 = (City_2) moreAdapter.getItem(position);
+                City_2 city2 = (City_2) wanLeClassifyAdapter2.getItem(position);
                 Toast.makeText(context, city2.getName(), Toast.LENGTH_SHORT).show();
-                moreAdapter.setSelectItem(position);
-                moreAdapter.notifyDataSetChanged();
+                wanLeClassifyAdapter2.setSelectItem(position);
+                wanLeClassifyAdapter2.notifyDataSetChanged();
                 tv1.setText(city2.getName());
                 popWindow.dismiss();
             }
@@ -115,9 +115,9 @@ public class StoreFragment extends BaseFragment {
     }
 
     private void initAdapter(List<Object> objectList){
-        moreAdapter = new MoreAdapter(context, objectList);
-        morelist.setAdapter(moreAdapter);
-        moreAdapter.notifyDataSetChanged();
+        wanLeClassifyAdapter2 = new WanLeClassifyAdapter2(context, objectList);
+        wanle_classify_2.setAdapter(wanLeClassifyAdapter2);
+        wanLeClassifyAdapter2.notifyDataSetChanged();
     }
 
     private void initCity(){

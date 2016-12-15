@@ -1,4 +1,4 @@
-package com.upic.asn.ui.main.homehead;
+package com.upic.asn.ui.main.homehead.adapter;
 
 import android.content.Context;
 import android.view.View;

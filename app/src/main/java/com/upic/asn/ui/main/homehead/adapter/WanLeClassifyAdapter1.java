@@ -1,4 +1,4 @@
-package com.upic.asn.ui.main.homehead;
+package com.upic.asn.ui.main.homehead.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -8,15 +8,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.upic.asn.R;
+import com.upic.asn.ui.main.homehead.City;
+import com.upic.asn.ui.main.homehead.adapter.MyBaseAdapter;
 
 import java.util.List;
 
 /**
  * Created by ZYF on 2016/12/14.
  */
-public class MainAdapter extends MyBaseAdapter {
+public class WanLeClassifyAdapter1 extends MyBaseAdapter {
 
-    public MainAdapter(Context context, List<Object> cityList) {
+    public WanLeClassifyAdapter1(Context context, List<Object> cityList) {
         super(context,cityList);
     }
 
