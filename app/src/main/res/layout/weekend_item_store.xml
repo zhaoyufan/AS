@@ -38,7 +38,6 @@
     </LinearLayout>
 
     <com.upic.asn.view.pullrecyclerview.PullRecyclerView
-        android:id="@+id/weekend_item_store_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
