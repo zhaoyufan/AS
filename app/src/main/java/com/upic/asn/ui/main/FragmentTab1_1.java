@@ -1,8 +1,7 @@
 package com.upic.asn.ui.main;
 
-import android.os.Handler;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,6 +17,8 @@ import com.upic.asn.model.WanLe;
 import com.upic.asn.model.view.WanLeListener;
 import com.upic.asn.presenter.WanLePersenter;
 import com.upic.asn.ui.base.BaseFragment;
+import com.upic.asn.ui.main.homehead.WeekendActivity;
+import com.upic.asn.utils.HttpUtils;
 import com.upic.asn.utils.LogUtil;
 import com.upic.asn.utils.SysUtil;
 import com.upic.asn.view.pullrecyclerview.PullBaseView;
@@ -158,7 +159,8 @@ public class FragmentTab1_1 extends BaseFragment implements
                 Toast.makeText(context, "最热", Toast.LENGTH_SHORT).show();
                 break;
             case 3:
-                Toast.makeText(context, "周末", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, WeekendActivity.class);
+                startActivity(intent);
                 break;
             case 4:
                 Toast.makeText(context, "位置="+position+"发布", Toast.LENGTH_SHORT).show();
@@ -224,12 +226,22 @@ public class FragmentTab1_1 extends BaseFragment implements
     @Override
     public void fail(String message, int type) {
         switch (type){
-            case 1:Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+            case 1:
+                if(HttpUtils.isNetworkAvailable(context)){
+                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
+                }
                 loadingFaile();
                 initRecyclerView();
                 mRecyclerView.onHeaderRefreshComplete();
                 break;
-            case 2:Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+            case 2:
+                if(HttpUtils.isNetworkAvailable(context)){
+                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
+                }
                 mRecyclerView.onFooterRefreshComplete();
                 break;
             default:break;
@@ -374,5 +386,13 @@ public class FragmentTab1_1 extends BaseFragment implements
         listStores.add(s2);
         listStores.add(s3);
         listStores.add(s4);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (subscription != null){
+            subscription.unsubscribe();
+        }
     }
 }

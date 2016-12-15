@@ -36,7 +36,7 @@
         android:layout_weight="2"
         android:scaleType="fitXY"
         android:background="?attr/selectableItemBackground"
-        android:src="@mipmap/takeout_img_list_loading_pic1"/>
+        android:src="@mipmap/banner"/>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

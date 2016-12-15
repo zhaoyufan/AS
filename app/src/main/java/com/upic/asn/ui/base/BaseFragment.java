@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.upic.asn.R;
 
+import rx.Subscription;
+
 /**
  * Created by ZYF on 2016/11/15.
  */
@@ -24,7 +26,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public Activity context;
     public View view;
     public boolean isFirst = true;
-
+    public Subscription subscription;
     public RelativeLayout title_bar;//顶部标题栏
     public TextView tv_left, tv_title, tv_right;
     public ImageView iv_right;
@@ -123,5 +125,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     public View $(int id) {
         return view.findViewById(id);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

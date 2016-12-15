@@ -4,6 +4,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
     <!-- Loding_dialog样式End -->
@@ -13,6 +14,14 @@
         <item name="android:layout_height">55dp</item>
         <item name="tabIndicatorColor">@android:color/transparent</item>
         <item name="android:layout_alignParentBottom">true</item>
+    </style>
+
+    <!-- Loding_dialog样式Start -->
+    <style name="Dialog_bocop">
+        <item name="android:windowBackground">@color/bocop_dialog_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
     </style>
 
 
@@ -25,6 +34,24 @@
         <item name="android:paddingBottom">8dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="top_group">
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@drawable/constact_font</item>
+        <item name="android:background">@drawable/constact_group</item>
+    </style>
+
+    <style name="top_all">
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@drawable/constact_font</item>
+        <item name="android:background">@drawable/constact_all</item>
     </style>
 
 </resources>

@@ -1,7 +1,7 @@
 package com.upic.asn.ui.main;
 
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,7 +15,7 @@ import com.upic.asn.model.User;
 import com.upic.asn.model.view.ChuXingListener;
 import com.upic.asn.presenter.ChuXingPersenter;
 import com.upic.asn.ui.base.BaseFragment;
-import com.upic.asn.utils.LogUtil;
+import com.upic.asn.utils.HttpUtils;
 import com.upic.asn.utils.SysUtil;
 import com.upic.asn.view.pullrecyclerview.PullBaseView;
 import com.upic.asn.view.pullrecyclerview.PullRecyclerView;
@@ -34,9 +34,7 @@ public class FragmentTab1_2 extends BaseFragment implements
         PullBaseView.OnPullDownScrollListener,
         BaseAdapter.OnViewClickListener,//item中view的点击事件，根据类型区分
         ChuXingListener {
-
     private static final String TAG = "FragmentTab1_2";
-
     PullRecyclerView mRecyclerView2;
     ChuXingAdapter chuXingAdapter;
     List<Object> listBanners, listcommunity,listmarks;
@@ -103,7 +101,7 @@ public class FragmentTab1_2 extends BaseFragment implements
      */
     @Override
     public void onFooterRefresh(PullBaseView view) {
-        chuXingPersenter.loadMoreCommunity(this);
+        subscription = chuXingPersenter.loadMoreCommunity(this);
     }
 
     /**
@@ -113,11 +111,11 @@ public class FragmentTab1_2 extends BaseFragment implements
      */
     @Override
     public void onHeaderRefresh(PullBaseView view) {
-        chuXingPersenter.getChuXingDatas(this);
+        subscription = chuXingPersenter.getChuXingDatas(this);
     }
 
     private void doRefresh() {
-        chuXingPersenter.getChuXingDatas(this);
+        subscription = chuXingPersenter.getChuXingDatas(this);
 
     }
     /**
@@ -193,12 +191,22 @@ public class FragmentTab1_2 extends BaseFragment implements
     @Override
     public void fail(String message, int type) {
         switch (type){
-            case 1:Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+            case 1:
+                if(HttpUtils.isNetworkAvailable(context)){
+                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
+                }
                 loadingFaile();
                 initRecyclerView();
                 mRecyclerView2.onHeaderRefreshComplete();
                 break;
-            case 2:Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+            case 2:
+                if(HttpUtils.isNetworkAvailable(context)){
+                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
+                }
                 mRecyclerView2.onFooterRefreshComplete();
                 break;
         }
@@ -268,5 +276,11 @@ public class FragmentTab1_2 extends BaseFragment implements
         Community community1 = new Community("#加载中...#",100, "",users);
         listcommunity.add(community1);
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (subscription != null){
+            subscription.unsubscribe();
+        }
+    }
 }

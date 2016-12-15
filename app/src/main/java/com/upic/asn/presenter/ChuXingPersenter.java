@@ -2,6 +2,7 @@ package com.upic.asn.presenter;
 
 
 
+
 import com.upic.asn.api.ApiUtil;
 import com.upic.asn.api.RxSubscribe;
 import com.upic.asn.model.ChuXing;
@@ -10,6 +11,7 @@ import com.upic.asn.model.view.ChuXingListener;
 
 import java.util.List;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -21,8 +23,8 @@ public class ChuXingPersenter extends BasePresenter {
     public ChuXingPersenter(){
         service = ApiUtil.createApiService();
     }
-    public void getChuXingDatas(final ChuXingListener listener){
-        service.getChuXingDatas()
+    public Subscription getChuXingDatas(final ChuXingListener listener){
+         subscription = service.getChuXingDatas()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscribe<ChuXing>() {
@@ -33,13 +35,14 @@ public class ChuXingPersenter extends BasePresenter {
 
                     @Override
                     protected void _onError(String message) {
-                        listener.fail("连接服务器失败",1);
+                        listener.fail("连接服务器失败,",1);
                     }
                 });
+        return subscription;
     }
 
-    public void loadMoreCommunity(final ChuXingListener listener){
-        service.loadMoreCommunity()
+    public Subscription loadMoreCommunity(final ChuXingListener listener){
+        subscription = service.loadMoreCommunity()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscribe<List<Community>>() {
@@ -50,8 +53,10 @@ public class ChuXingPersenter extends BasePresenter {
 
                     @Override
                     protected void _onError(String message) {
-                        listener.fail("加载失败,",2);
+                        listener.fail("连接服务器失败,",2);
+
                     }
                 });
+        return subscription;
     }
 }

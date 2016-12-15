@@ -148,7 +148,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignTop="@+id/frameMenu"
         android:layout_centerInParent="true"
-        android:src="@drawable/skin_tabbar_btn" />
+        android:src="@mipmap/skin_tabbar_btn" />
 
     <!-- 中间按钮 -->
 

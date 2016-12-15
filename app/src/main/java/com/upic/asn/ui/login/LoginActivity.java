@@ -1,5 +1,7 @@
 package com.upic.asn.ui.login;
 
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +17,7 @@ import com.upic.asn.model.LoginBean;
 import com.upic.asn.model.view.LoginListener;
 import com.upic.asn.ui.main.MainActivity;
 import com.upic.asn.ui.base.BaseActivity;
+import com.upic.asn.view.MyProgressDialog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +35,7 @@ public class LoginActivity extends BaseActivity implements LoginListener {
     Button btnLogin;
     ProgressBar progressBar;
     Subscription mSubscription;
+    private MyProgressDialog myProgressDialog;
 
     @Override
     public int getContentView() {
@@ -46,8 +50,8 @@ public class LoginActivity extends BaseActivity implements LoginListener {
         etPwd = (EditText) $(R.id.password);
         btnLogin = (Button) $(R.id.login);
         progressBar = (ProgressBar) $(R.id.progressbar);
+        myProgressDialog = new MyProgressDialog(context);
     }
-
 
     @Override
     public void initClick() {
@@ -86,9 +90,16 @@ public class LoginActivity extends BaseActivity implements LoginListener {
                 Toast.makeText(LoginActivity.this, "注册", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.login:
+                myProgressDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(MainActivity.class);
+                        myProgressDialog.dismiss();
+                        finish();
+                    }
+                },3000);
 //                doLogin();
-                startActivity(MainActivity.class);
-                finish();
                 break;
         }
     }
@@ -140,9 +151,11 @@ public class LoginActivity extends BaseActivity implements LoginListener {
     }
     public void showProgressDialog() {
         progressBar.setVisibility(View.VISIBLE);
+        myProgressDialog.show();
     }
     public void dissmissProgressDialog(){
         progressBar.setVisibility(View.GONE);
+        myProgressDialog.dismiss();
     }
 }
 

@@ -2,12 +2,12 @@ package com.upic.asn.presenter;
 
 
 
+
 import com.upic.asn.api.ApiUtil;
 import com.upic.asn.api.RxSubscribe;
 import com.upic.asn.model.Store;
 import com.upic.asn.model.WanLe;
 import com.upic.asn.model.view.WanLeListener;
-import com.upic.asn.utils.LogUtil;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class WanLePersenter extends BasePresenter{
 
                     @Override
                     protected void _onError(String message) {
-                        listener.fail("连接服务失败",1);
+                        listener.fail("连接服务器失败", 1);
                     }
                 });
     }
@@ -49,10 +49,9 @@ public class WanLePersenter extends BasePresenter{
                     protected void _onNext(List<Store> stores) {
                         listener.loadMoreStoresSuccess(stores);
                     }
-
                     @Override
                     protected void _onError(String message) {
-                        listener.fail("加载失败",2);
+                        listener.fail("连接服务失败器",2);
                     }
                 });
     }

@@ -36,8 +36,8 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
 
     /**
      * @param context
-     * @param listDatas1          banner图片数据
-     * @param listDatas2          新闻列表数据
+     * @param listDatas1
+     * @param listDatas2
      * @param listDatas3
      * @param onViewClickListener 我们要设置item（header）中某控件的点击事件
      */
@@ -135,7 +135,7 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
                     holder.item_com_pileLayout.addView(imageView);
                 }
                 CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_community_circleimage, holder.item_com_pileLayout, false);
-                imageView.setImageResource(R.drawable.bg);
+                imageView.setImageResource(R.mipmap.bg);
                 holder.item_com_pileLayout.addView(imageView);
 
             } else if (community.getUsers().size() < 5) {

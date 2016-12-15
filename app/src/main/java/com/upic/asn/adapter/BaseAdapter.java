@@ -181,7 +181,7 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
 
     @Override
     public int getItemCount() {
-        return listDatas4.size();
+        return listDatas.size();
     }
 
     public interface OnViewClickListener {
