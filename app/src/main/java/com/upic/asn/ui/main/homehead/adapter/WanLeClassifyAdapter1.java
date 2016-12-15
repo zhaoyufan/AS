@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.upic.asn.R;
 import com.upic.asn.ui.main.homehead.City;
-import com.upic.asn.ui.main.homehead.adapter.MyBaseAdapter;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class WanLeClassifyAdapter1 extends MyBaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder holder;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_main, null);
+            convertView = View.inflate(context, R.layout.item_wanle_classify_1, null);
             holder = new Holder(convertView);
             convertView.setTag(holder);
         } else {
@@ -47,8 +46,8 @@ public class WanLeClassifyAdapter1 extends MyBaseAdapter {
         TextView txt;
 
         public Holder(View view) {
-            txt = (TextView) view.findViewById(R.id.mainitem_txt);
-            img = (ImageView) view.findViewById(R.id.mainitem_img);
+            txt = (TextView) view.findViewById(R.id.wanle_classify_1_txt);
+            img = (ImageView) view.findViewById(R.id.wanle_classify_1_img);
             layout = (LinearLayout) view.findViewById(R.id.mainitem_layout);
         }
     }

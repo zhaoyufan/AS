@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.upic.asn.R;
 import com.upic.asn.ui.main.homehead.City_2;
-import com.upic.asn.ui.main.homehead.adapter.MyBaseAdapter;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class WanLeClassifyAdapter2 extends MyBaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
         Holder hold;
         if (view == null) {
-            view = View.inflate(context, R.layout.item_more, null);
+            view = View.inflate(context, R.layout.item_wanle_classify_2, null);
             hold = new Holder(view);
             view.setTag(hold);
         } else {
@@ -41,7 +40,7 @@ public class WanLeClassifyAdapter2 extends MyBaseAdapter {
         TextView txt;
 
         public Holder(View view) {
-            txt = (TextView) view.findViewById(R.id.moreitem_txt);
+            txt = (TextView) view.findViewById(R.id.wanle_classify_2_txt);
         }
     }
 }

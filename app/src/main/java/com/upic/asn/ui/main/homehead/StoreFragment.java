@@ -26,10 +26,10 @@ public class StoreFragment extends BaseFragment {
     private DisplayMetrics dm;
     private PopupWindow popWindow;
     private ListView wanle_classify_1,wanle_classify_2;
-    private TextView tv1,tv2,tv3;
-    private List<Object> cityList;
-    private WanLeClassifyAdapter1 wanLeClassifyAdapter1;
-    private WanLeClassifyAdapter2 wanLeClassifyAdapter2;
+    private TextView wanle, sorting, intelligent;//玩乐，分类筛选，只能排序
+    private List<Object> cityList;//一级菜单数据，每个一级item中包含二级菜单数据
+    private WanLeClassifyAdapter1 wanLeClassifyAdapter1;//玩乐一级菜单适配器
+    private WanLeClassifyAdapter2 wanLeClassifyAdapter2;//二级菜单适配器
 
     @Override
     public int getContentView() {
@@ -42,12 +42,12 @@ public class StoreFragment extends BaseFragment {
         // 取得窗口属性
         context.getWindowManager().getDefaultDisplay().getMetrics(dm);
         initCity();
-        tv1 = (TextView) view.findViewById(R.id.tv_1);
+        wanle = (TextView) view.findViewById(R.id.weekend_item_wanle);
     }
 
     @Override
     public void initClick() {
-        tv1.setOnClickListener(this);
+        wanle.setOnClickListener(this);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class StoreFragment extends BaseFragment {
         // showAsDropDown(View anchor);相对某个控件的位置（正左下方），无偏移
         // showAsDropDown(View anchor, int x, int
         // y);相对某个控件的位置，有偏移;x表示相对x轴的偏移，正表示向左，负表示向右；y表示相对y轴的偏移，正是向下，负是向上；
-        View contentView = LayoutInflater.from(context).inflate(R.layout.pop_1,
+        View contentView = LayoutInflater.from(context).inflate(R.layout.pop_wanle,
                 null);
         int screenHeight = dm.heightPixels * 2 / 4;
         // 这里就给具体大小的数字，要不然位置不好计算
@@ -107,11 +107,11 @@ public class StoreFragment extends BaseFragment {
                 Toast.makeText(context, city2.getName(), Toast.LENGTH_SHORT).show();
                 wanLeClassifyAdapter2.setSelectItem(position);
                 wanLeClassifyAdapter2.notifyDataSetChanged();
-                tv1.setText(city2.getName());
+                wanle.setText(city2.getName());
                 popWindow.dismiss();
             }
         });
-        popWindow.showAsDropDown(tv1);//设置弹出方向为tv1下面
+        popWindow.showAsDropDown(wanle);//设置弹出方向为tv1下面
     }
 
     private void initAdapter(List<Object> objectList){
