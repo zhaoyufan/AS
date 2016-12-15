@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void initTitleBar(String left, String title, String right, int res, View.OnClickListener onClickListener) {
         title_bar = (RelativeLayout) $(R.id.title_bar);
         title_bar.setBackgroundColor(getResources().getColor(R.color.common_title_bg));
-        tv_left = (TextView) $(R.id.tv_left);//返回按钮
+        tv_left = (TextView) $(R.id.common_title_bar_left);//返回按钮
         tv_title = (TextView) $(R.id.tv_title);//标题
         tv_right = (TextView) $(R.id.tv_right);//(右侧)按钮
         iv_right = (ImageView) $(R.id.iv_right);//右侧图片按钮

@@ -109,11 +109,15 @@ public class CityPickerActivity extends BaseActivity {
 
         mResultAdapter = new ResultListAdapter(this, null);
 
+        clearBtn = (ImageView) findViewById(R.id.iv_search_clear);
+        backBtn = (TextView) findViewById(R.id.common_title_bar_left);
+
     }
 
     @Override
     public void initClick() {
-
+        clearBtn.setOnClickListener(this);
+        backBtn.setOnClickListener(this);
     }
     private void back(String city){
         Intent data = new Intent(CityPickerActivity.this, FragmentTab1.class);
@@ -131,7 +135,7 @@ public class CityPickerActivity extends BaseActivity {
                 emptyView.setVisibility(View.GONE);
                 mResultListView.setVisibility(View.GONE);
                 break;
-            case R.id.tv_left:
+            case R.id.common_title_bar_left:
                 String cityname = getIntent().getStringExtra("c");
                 Intent data = new Intent(CityPickerActivity.this, FragmentTab1.class);
                 data.putExtra("city", cityname);
@@ -195,12 +199,6 @@ public class CityPickerActivity extends BaseActivity {
                 back(mResultAdapter.getItem(position).getName());
             }
         });
-
-        clearBtn = (ImageView) findViewById(R.id.iv_search_clear);
-        backBtn = (TextView) findViewById(R.id.tv_left);
-
-        clearBtn.setOnClickListener(this);
-        backBtn.setOnClickListener(this);
 
     }
 

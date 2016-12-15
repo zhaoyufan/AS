@@ -328,6 +328,7 @@ public abstract class PullBaseView<T extends RecyclerView> extends LinearLayout 
         // 说明footer view 完全显示出来了，修改footer view 的提示状态
         if (Math.abs(newTopMargin) >= (mHeaderViewHeight + mFooterViewHeight) && mFooterState != RELEASE_TO_REFRESH) {
             mFooterTextView.setText(R.string.pull_to_refresh_footer_release_label);
+            mFooterTextView.setVisibility(View.VISIBLE);
             mFooterState = RELEASE_TO_REFRESH;
         } else if (Math.abs(newTopMargin) < (mHeaderViewHeight + mFooterViewHeight)) {
             mFooterTextView.setText(R.string.pull_to_refresh_footer_pull_label);

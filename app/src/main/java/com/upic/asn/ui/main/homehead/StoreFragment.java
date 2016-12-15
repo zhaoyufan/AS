@@ -26,11 +26,10 @@ public class StoreFragment extends BaseFragment {
     private DisplayMetrics dm;
     private PopupWindow popWindow;
     private ListView wanle_classify_1,wanle_classify_2;
-    private TextView wanle, sorting , intelligent;
-    private TextView wanleTheme,wanleItem;
-    private List<Object> cityList;
-    private WanLeClassifyAdapter1 wanLeClassifyAdapter1;
-    private WanLeClassifyAdapter2 wanLeClassifyAdapter2;
+    private TextView wanle, sorting, intelligent;//玩乐，分类筛选，只能排序
+    private List<Object> cityList;//一级菜单数据，每个一级item中包含二级菜单数据
+    private WanLeClassifyAdapter1 wanLeClassifyAdapter1;//玩乐一级菜单适配器
+    private WanLeClassifyAdapter2 wanLeClassifyAdapter2;//二级菜单适配器
 
     @Override
     public int getContentView() {
@@ -58,17 +57,10 @@ public class StoreFragment extends BaseFragment {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.weekend_item_wanle:
-                downWanLePopwindow();break;
-            //点击主题，重新初始化数据，
-            case R.id.pop_wanle_theme:break;
-            //点击项目
-            case R.id.pop_wanle_item:break;
-        }
+        downPopwindow();
     }
 
-    private void downWanLePopwindow() {
+    private void downPopwindow() {
         // showAsDropDown(View anchor);相对某个控件的位置（正左下方），无偏移
         // showAsDropDown(View anchor, int x, int
         // y);相对某个控件的位置，有偏移;x表示相对x轴的偏移，正表示向左，负表示向右；y表示相对y轴的偏移，正是向下，负是向上；
@@ -87,16 +79,9 @@ public class StoreFragment extends BaseFragment {
 
         wanle_classify_1 = (ListView) contentView.findViewById(R.id.wanle_classify_1);
         wanle_classify_2 = (ListView) contentView.findViewById(R.id.wanle_classify_2);
-        wanleTheme = (TextView) contentView.findViewById(R.id.pop_wanle_theme);
-        wanleItem = (TextView) contentView.findViewById(R.id.pop_wanle_item);
-        wanleTheme.setOnClickListener(this);
-        wanleItem.setOnClickListener(this);
 
         wanLeClassifyAdapter1 = new WanLeClassifyAdapter1(context, cityList);
         wanLeClassifyAdapter1.setSelectItem(0);
-        List<Object> lists = ((City)cityList.get(0)).getLists();
-        initAdapter(lists);
-        wanLeClassifyAdapter2.setSelectItem(0);
         wanle_classify_1.setAdapter(wanLeClassifyAdapter1);
 
         wanle_classify_1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -126,7 +111,7 @@ public class StoreFragment extends BaseFragment {
                 popWindow.dismiss();
             }
         });
-        popWindow.showAsDropDown(wanle);//设置弹出方向为wanle下面
+        popWindow.showAsDropDown(wanle);//设置弹出方向为tv1下面
     }
 
     private void initAdapter(List<Object> objectList){
