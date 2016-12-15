@@ -331,6 +331,7 @@ public abstract class PullBaseView<T extends RecyclerView> extends LinearLayout 
             mFooterState = RELEASE_TO_REFRESH;
         } else if (Math.abs(newTopMargin) < (mHeaderViewHeight + mFooterViewHeight)) {
             mFooterTextView.setText(R.string.pull_to_refresh_footer_pull_label);
+            mFooterTextView.setVisibility(View.VISIBLE);
             mFooterState = PULL_TO_REFRESH;
         }
     }
@@ -421,7 +422,7 @@ public abstract class PullBaseView<T extends RecyclerView> extends LinearLayout 
     public void onFooterRefreshComplete() {
         setHeaderTopMargin(-mHeaderViewHeight);
         mFooterTextView.setText(R.string.pull_to_refresh_footer_pull_label);
-        mFooterTextView.setVisibility(View.VISIBLE);
+        mFooterTextView.setVisibility(View.GONE);
         mFooterProgressBar.setVisibility(View.GONE);
         mFooterState = PULL_TO_REFRESH;
         if (mRecyclerView != null) {

@@ -6,16 +6,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/weekend_item_wanle"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"
             android:maxLines="1"
-            android:drawableRight="@mipmap/holo_light"
             android:gravity="center"
+            android:drawableRight="@mipmap/holo_light"
             android:text="玩乐"
             android:textSize="12sp" />
         <TextView
@@ -23,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:drawableRight="@mipmap/holo_light"
             android:gravity="center"
+            android:drawableRight="@mipmap/holo_light"
             android:text="分类筛选"
             android:textSize="12sp" />
         <TextView
@@ -32,8 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:drawableRight="@mipmap/holo_light"
             android:gravity="center"
+            android:drawableRight="@mipmap/holo_light"
             android:text="智能排序"
             android:textSize="12sp" />
     </LinearLayout>

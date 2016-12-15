@@ -98,7 +98,7 @@ public class LoginActivity extends BaseActivity implements LoginListener {
                         myProgressDialog.dismiss();
                         finish();
                     }
-                },3000);
+                },1000);
 //                doLogin();
                 break;
         }

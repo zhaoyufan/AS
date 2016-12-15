@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="上拉加载更多"
+        android:visibility="gone"
         android:textColor="#BBBCBD"
         android:textSize="12sp" />
 
