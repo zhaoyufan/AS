@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.upic.asn.R;
-import com.upic.asn.ui.main.homehead.City_2;
+import com.upic.asn.ui.main.homehead.bean.City_2;
 
 import java.util.List;
 

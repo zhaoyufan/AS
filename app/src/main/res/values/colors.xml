@@ -4,6 +4,8 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorAccent">#777777</color>
 
+    <color name="bg">#777777</color>
+
     <color name="common_title_bg">#00000000</color>
     <color name="common_title_bg_press">#FFFFFF</color>
     <color name="common_ui_bg">#FFFFFF</color>

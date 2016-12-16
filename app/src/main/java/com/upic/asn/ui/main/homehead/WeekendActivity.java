@@ -34,61 +34,84 @@ public class WeekendActivity extends BaseActivity implements View.OnClickListene
         title_left_btn = (Button)findViewById(R.id.constact_group);
         title_right_btn = (Button)findViewById(R.id.constact_all);
 
-        title_left_btn.setOnClickListener(this);
-        title_left_btn.performClick();//模拟点击事件，使左边按钮被点击
+
 
         mFragmentManager = getSupportFragmentManager();
         mTransaction = mFragmentManager.beginTransaction();
+//
+//        danPinFragment = new DanPinFragment();
+//        mTransaction.add(R.id.weekend_content, danPinFragment);
+//        mTransaction.commit();
 
-        storeFragment = new StoreFragment();
-        mTransaction.replace(R.id.weekend_content, storeFragment);
-        mTransaction.commit();
 
-        title_right_btn.setOnClickListener(this);
     }
 
 
     @Override
     public void initClick() {
-
+        title_left_btn.setOnClickListener(this);
+        title_right_btn.setOnClickListener(this);
     }
 
     @Override
     public void initData() {
-
+        title_left_btn.performClick();//模拟点击事件，使左边按钮被点击
+        setTabSelection(0);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        switch (v.getId()){
             case R.id.constact_group:
-                if(title_left_btn.isEnabled()){
-                    title_left_btn.setEnabled(false);
-                    title_right_btn.setEnabled(true);
-                }
-                mFragmentManager = getSupportFragmentManager();
-                mTransaction = mFragmentManager.beginTransaction();
-                if(storeFragment == null){
-                    storeFragment = new StoreFragment();
-
-                }
-                mTransaction.replace(R.id.weekend_content, storeFragment);
-                mTransaction.commit();
+                setTabSelection(0);
                 break;
-
             case R.id.constact_all:
-                if(title_right_btn.isEnabled()){
-                    title_left_btn.setEnabled(true);
-                    title_right_btn.setEnabled(false);
-                }
-                mFragmentManager = getSupportFragmentManager();
-                mTransaction = mFragmentManager.beginTransaction();
-                if(danPinFragment == null){
-                    danPinFragment = new DanPinFragment();
-                }
-                mTransaction.replace(R.id.weekend_content, danPinFragment);
-                mTransaction.commit();
+                setTabSelection(1);
                 break;
         }
     }
+
+    public void setTabSelection(int id) {
+        // 开启一个Fragment事务
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
+        hideFragments(transaction);
+        switch (id) {//0表示第一张以此类推
+            case 0:
+                title_left_btn.setEnabled(false);
+                title_right_btn.setEnabled(true);
+                if (storeFragment == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    storeFragment = new StoreFragment();
+                    transaction.add(R.id.weekend_content, storeFragment);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(storeFragment);
+                }
+                break;
+            case 1:
+                title_left_btn.setEnabled(true);
+                title_right_btn.setEnabled(false);
+                if (danPinFragment == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    danPinFragment = new DanPinFragment();
+                    transaction.add(R.id.weekend_content, danPinFragment);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(danPinFragment);
+                }
+                break;
+        }
+        transaction.commit();//事务的提交
+    }
+
+    private void hideFragments(FragmentTransaction mTransaction) {
+        if(danPinFragment != null){
+            mTransaction.hide(danPinFragment);
+        }
+        if(storeFragment != null){
+            mTransaction.hide(storeFragment);
+        }
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.upic.asn.ui.main.homehead;
+package com.upic.asn.ui.main.homehead.bean;
 
 /**
  * Created by ZYF on 2016/12/14.

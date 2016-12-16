@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.upic.asn.R;
-import com.upic.asn.ui.main.homehead.City;
+import com.upic.asn.ui.main.homehead.bean.City;
 
 import java.util.List;
 

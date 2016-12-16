@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="@android:drawable/star_big_on" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:text="时段"
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/pop_sorting_1"
+        layout="@layout/pop_sorting_gridview"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="@android:drawable/star_big_on" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:text="生态圈"
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/pop_sorting_2"
+        layout="@layout/pop_sorting_gridview"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="@android:drawable/star_big_on" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:text="人数"
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/pop_sorting_et1"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/textview_broder"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.14" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:textSize="30dp"
+            android:text="----"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/pop_sorting_et2"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/textview_broder"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.14" />
+    </LinearLayout>
+    <include
+        android:id="@+id/pop_sorting_3"
+        layout="@layout/pop_sorting_gridview"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="确定"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:id="@+id/pop_sorting_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:text="重置"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:id="@+id/pop_sorting_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>
