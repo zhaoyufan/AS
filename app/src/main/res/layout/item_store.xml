@@ -24,51 +24,60 @@
         android:layout_marginLeft="-50dp"
         android:gravity="center_horizontal"
         android:layout_weight="1"
-        android:textSize="18sp"
+        android:textSize="@dimen/store_title"
+        android:textStyle="bold"
         android:text="天胜“四不用”农庄"
         />
 
 </LinearLayout>
-    <ImageView
-        android:id="@+id/store_pic"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_weight="2"
-        android:scaleType="fitXY"
-        android:background="?attr/selectableItemBackground"
-        android:src="@mipmap/banner"/>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/store_pic"
+            android:layout_width="match_parent"
+            android:layout_height="235dp"
+            android:layout_weight="2"
+            android:scaleType="fitCenter"
+            android:background="?attr/selectableItemBackground"
+            android:src="@mipmap/banner"/>
+        <TextView
+            android:id="@+id/store_price"
+            android:layout_width="95dp"
+            android:layout_height="30dp"
+            android:background="@color/alpha_gray"
+            android:layout_marginBottom="35dp"
+            android:textColor="@color/store_price"
+            android:gravity="center_vertical"
+            android:text="人均:388元"
+            android:textSize="@dimen/store_price"
+            android:layout_alignBottom="@id/store_pic"/>
+    </RelativeLayout>
         <TextView
             android:id="@+id/store_brief"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="20dp"
+            android:textSize="@dimen/store_brief"
+            android:layout_marginLeft="10dp"
             android:background="?attr/selectableItemBackground"
             android:text="高颜值，高品质的户外拓展体验"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
         <TextView
             android:id="@+id/go_store"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/tab_text_press"
+            android:textColor="@color/store_go"
             android:text="进店逛逛>"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="2"
-            android:gravity="right"
+            android:layout_alignParentRight="true"
             android:background="?attr/selectableItemBackground"
-            android:layout_marginRight="20dp"/>
-    </LinearLayout>
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:background="#d0d0d0" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginTop="2dp"
-        android:background="#d0d0d0" />
+        android:layout_height="2dp"
+        android:background="@color/cut_off" />
 </LinearLayout>

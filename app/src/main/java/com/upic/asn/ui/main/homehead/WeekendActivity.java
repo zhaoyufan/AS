@@ -1,16 +1,20 @@
 package com.upic.asn.ui.main.homehead;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.upic.asn.R;
 import com.upic.asn.ui.base.BaseActivity;
+import com.upic.asn.ui.main.MainActivity;
 
 public class WeekendActivity extends BaseActivity implements View.OnClickListener {
 
     private Button title_left_btn , title_right_btn;
+    private TextView back;
 
     /**
      * Fragment管理器
@@ -33,16 +37,9 @@ public class WeekendActivity extends BaseActivity implements View.OnClickListene
     public void initView() {
         title_left_btn = (Button)findViewById(R.id.constact_group);
         title_right_btn = (Button)findViewById(R.id.constact_all);
-
-
-
+        back = (TextView) findViewById(R.id.weekend_left);
         mFragmentManager = getSupportFragmentManager();
         mTransaction = mFragmentManager.beginTransaction();
-//
-//        danPinFragment = new DanPinFragment();
-//        mTransaction.add(R.id.weekend_content, danPinFragment);
-//        mTransaction.commit();
-
 
     }
 
@@ -51,6 +48,7 @@ public class WeekendActivity extends BaseActivity implements View.OnClickListene
     public void initClick() {
         title_left_btn.setOnClickListener(this);
         title_right_btn.setOnClickListener(this);
+        back.setOnClickListener(this);
     }
 
     @Override
@@ -68,6 +66,12 @@ public class WeekendActivity extends BaseActivity implements View.OnClickListene
             case R.id.constact_all:
                 setTabSelection(1);
                 break;
+            case R.id.weekend_left:
+                Intent intent = new Intent(WeekendActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
         }
     }
 

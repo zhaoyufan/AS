@@ -30,8 +30,15 @@ import me.relex.circleindicator.CircleIndicator;
 /**
  * Created by ZYF on 2016/11/17.
  */
-public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
+public class ChuXingAdapter extends BaseAdapter {
+    private static final int TYPE_ITEM_HOME_HEAD = 0;//homehead
 
+    private static final int TYPE_ITEM_MARK = 1;//mark
+
+    private static final int TYPE_ITEM_COMMUNITY= 2;//Community
+
+    private static final int TYPE_FOOTER = 3;//脚布局
+    private boolean showFooter = true;
     boolean isViewPagerLoadScucess = false;//viewpager是否加载成功
 
     /**
@@ -50,26 +57,40 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
      * @return
      */
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(mInflater.inflate(viewType, parent, false));
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == TYPE_ITEM_HOME_HEAD){
+            return new HomeHeadViewHolder(mInflater.inflate(R.layout.item_home_head,parent,false));
+        }
+        else if(viewType == TYPE_ITEM_MARK){
+            return new MarkViewHolder(mInflater.inflate(R.layout.activity_mark,parent,false));
+        }
+        else if(viewType == TYPE_FOOTER){
+            return new FooterViewHolder(mInflater.inflate(R.layout.load_footer,parent,false));
+        }
+        else {
+            return new CommunityViewHolder(mInflater.inflate(R.layout.item_community,parent,false));
+        }
     }
 
     //这里的position是recycleView自动会获取的，从0开始，整个recycleView是一个列表，banner为一个整体占用了第一行。
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (position == 0) {//header
+            HomeHeadViewHolder homeHeadViewHolder = (HomeHeadViewHolder) holder;
             if (!isViewPagerLoadScucess && listDatas1.size() > 0) {
-                initViewPager(holder);
+                initViewPager(homeHeadViewHolder);
             }
-            holder.ll_1.setOnClickListener(new ViewClickListener(onViewClickListener, position, 1));
-            holder.ll_2.setOnClickListener(new ViewClickListener(onViewClickListener, position, 2));
-            holder.ll_3.setOnClickListener(new ViewClickListener(onViewClickListener, position, 3));
-            holder.ll_4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 4));
-            holder.ll_5.setOnClickListener(new ViewClickListener(onViewClickListener, position, 5));
+            homeHeadViewHolder.ll1.setOnClickListener(new ViewClickListener(onViewClickListener, position, 1));
+            homeHeadViewHolder.ll2.setOnClickListener(new ViewClickListener(onViewClickListener, position, 2));
+            homeHeadViewHolder.ll3.setOnClickListener(new ViewClickListener(onViewClickListener, position, 3));
+            homeHeadViewHolder.ll4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 4));
+            homeHeadViewHolder.ll5.setOnClickListener(new ViewClickListener(onViewClickListener, position, 5));
 
         } else if(position == 1){
+            MarkViewHolder markViewHolder = (MarkViewHolder) holder;
 //            listDatas3.add("+");
-            if (holder.linearLayout1 != null){
-                holder.linearLayout1.removeAllViews();
+            if (markViewHolder.linearLayout1 != null){
+                markViewHolder.linearLayout1.removeAllViews();
             }
 
             for (int i = 0; i < listDatas3.size(); i++) {
@@ -97,19 +118,20 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
                         }
                     }
                 });
-                holder.linearLayout1.addView(view);
+                markViewHolder.linearLayout1.addView(view);
             }
-        }else {//列表
+        }else if(holder instanceof CommunityViewHolder){//列表
+            CommunityViewHolder communityViewHolder = (CommunityViewHolder) holder;
             Community community = (Community) listDatas2.get(position - 2);
             if (!TextUtils.isEmpty(community.getImgUrl())) {
-                Picasso.with(context).load(community.getImgUrl()).error(R.mipmap.banner).into(holder.item_com_backimg);
+                Picasso.with(context).load(community.getImgUrl()).error(R.mipmap.banner).into(communityViewHolder.item_com_backimg);
             } else {
-                holder.item_com_backimg.setBackgroundResource(R.mipmap.banner);
+                communityViewHolder.item_com_backimg.setBackgroundResource(R.mipmap.banner);
             }
             //item_community
-            holder.item_com_title.setText(community.getTitle());
-            holder.item_com_num.setText(String.valueOf(community.getNum()));
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            communityViewHolder.item_com_title.setText(community.getTitle());
+            communityViewHolder.item_com_num.setText(String.valueOf(community.getNum()));
+            communityViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
@@ -118,37 +140,37 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
                 }
             });
             LayoutInflater inflater = LayoutInflater.from(context);
-            if (holder.item_com_pileLayout != null){
-                holder.item_com_pileLayout.removeAllViews();
+            if (communityViewHolder.item_com_pileLayout != null){
+                communityViewHolder.item_com_pileLayout.removeAllViews();
             }
             if (community.getUsers().size() > 5) {
                 for (int i = 0; i < 5; i++) {
                     List<User> userList = new ArrayList<User>();
                     userList = community.getUsers();
-                    CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_community_circleimage, holder.item_com_pileLayout, false);
+                    CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_community_circleimage, communityViewHolder.item_com_pileLayout, false);
                     if (!TextUtils.isEmpty(community.getImgUrl())) {
                     Picasso.with(context).load(userList.get(i).getImgUrl()).into(imageView);
                     }else{
                         imageView.setImageResource(R.mipmap.banner);
                     }
 
-                    holder.item_com_pileLayout.addView(imageView);
+                    communityViewHolder.item_com_pileLayout.addView(imageView);
                 }
-                CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_community_circleimage, holder.item_com_pileLayout, false);
+                CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_community_circleimage, communityViewHolder.item_com_pileLayout, false);
                 imageView.setImageResource(R.mipmap.bg);
-                holder.item_com_pileLayout.addView(imageView);
+                communityViewHolder.item_com_pileLayout.addView(imageView);
 
             } else if (community.getUsers().size() < 5) {
                 for (int i = 0; i < community.getUsers().size(); i++) {
                     List<User> userList = new ArrayList<User>();
                     userList = community.getUsers();
-                    CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_community_circleimage, holder.item_com_pileLayout, false);
+                    CircleImageView imageView = (CircleImageView) inflater.inflate(R.layout.item_community_circleimage, communityViewHolder.item_com_pileLayout, false);
                     if (!TextUtils.isEmpty(community.getImgUrl())) {
                     Picasso.with(context).load(userList.get(i).getImgUrl()).into(imageView);
                     } else {
                         imageView.setImageResource(R.mipmap.banner);
                     }
-                    holder.item_com_pileLayout.addView(imageView);
+                    communityViewHolder.item_com_pileLayout.addView(imageView);
                 }
             }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -175,57 +197,88 @@ public class ChuXingAdapter extends BaseAdapter<ChuXingAdapter.MyViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return 2 + listDatas2.size();
+        int ishow = showFooter ? 1 : 0;
+        if (listDatas2 == null) {
+            return ishow + 2;
+        }
+        return 2 + listDatas2.size() + ishow;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return R.layout.item_home_head;
-        } else if(position == 1){
-            return R.layout.activity_mark;
-        }else {
-            return R.layout.item_community;
+        if (!showFooter) {
+            return TYPE_ITEM_COMMUNITY;
+        }
+        else if (position == 0) {
+            return TYPE_ITEM_HOME_HEAD;
+        }
+        else if (position == 1){
+            return TYPE_ITEM_MARK;
+        }
+        else if(position + 1 == getItemCount()){
+            return TYPE_FOOTER;
+        } else{
+            return TYPE_ITEM_COMMUNITY;
         }
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-        ViewPager vp;
-        LinearLayout ll_1, ll_2, ll_3, ll_4, ll_5, linearLayout1;
-        CircleIndicator indicator;
+    class CommunityViewHolder extends RecyclerView.ViewHolder {
         ImageView iv_icon;
         //item_community.xml
         TextView item_com_title, item_com_num;
         PileLayout item_com_pileLayout;
         ImageView item_com_backimg;
-        TextView tv;
+
 
         List<String> list;
-        public MyViewHolder(View view) {
-            super(view);
-            vp = (ViewPager) view.findViewById(R.id.vp);//banner
-            indicator = (CircleIndicator) view.findViewById(R.id.indicator);
+        public CommunityViewHolder(View itemView) {
+            super(itemView);
+            item_com_backimg = (ImageView) itemView.findViewById(R.id.item_com_backimg);
+            item_com_title = (TextView) itemView.findViewById(R.id.item_com_title);
+            item_com_num = (TextView) itemView.findViewById(R.id.item_com_num);
+            item_com_pileLayout = (PileLayout) itemView.findViewById(R.id.item_com_pileLayout);
+
+            iv_icon = (ImageView) itemView.findViewById(R.id.iv_icon);
+        }
+    }
+    class HomeHeadViewHolder extends RecyclerView.ViewHolder{
+        ViewPager vp;
+        //head
+        LinearLayout ll1, ll2, ll3, ll4, ll5;
+        CircleIndicator indicator;
+
+        public HomeHeadViewHolder(View itemView) {
+            super(itemView);
+            vp = (ViewPager) itemView.findViewById(R.id.vp);//banner
+            indicator = (CircleIndicator) itemView.findViewById(R.id.indicator);
 
             //head
-            ll_1 = (LinearLayout) view.findViewById(R.id.ll_1);//附近
-            ll_2 = (LinearLayout) view.findViewById(R.id.ll_2);//最热
-            ll_3 = (LinearLayout) view.findViewById(R.id.ll_3);//周末
-            ll_4 = (LinearLayout) view.findViewById(R.id.ll_4);//发布
-            ll_5 = (LinearLayout) view.findViewById(R.id.ll_5);//熟人团
-            linearLayout1 = (LinearLayout) view.findViewById(R.id.mark_ll);
-            tv = (TextView) view.findViewById(R.id.textView1);
-            //
-            item_com_backimg = (ImageView) view.findViewById(R.id.item_com_backimg);
-            item_com_title = (TextView) view.findViewById(R.id.item_com_title);
-            item_com_num = (TextView) view.findViewById(R.id.item_com_num);
-            item_com_pileLayout = (PileLayout) view.findViewById(R.id.item_com_pileLayout);
-
-            iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
+            ll1 = (LinearLayout) itemView.findViewById(R.id.ll_1);//附近
+            ll2 = (LinearLayout) itemView.findViewById(R.id.ll_2);//最热
+            ll3 = (LinearLayout) itemView.findViewById(R.id.ll_3);//周末
+            ll4 = (LinearLayout) itemView.findViewById(R.id.ll_4);//发布
+            ll5 = (LinearLayout) itemView.findViewById(R.id.ll_5);//熟人团
         }
     }
 
+    class MarkViewHolder extends RecyclerView.ViewHolder{
+        LinearLayout linearLayout1;
+        TextView tv;
+        public MarkViewHolder(View itemView) {
+            super(itemView);
+            linearLayout1 = (LinearLayout) itemView.findViewById(R.id.mark_ll);
+            tv = (TextView) itemView.findViewById(R.id.textView1);
+        }
+    }
+
+    class FooterViewHolder extends RecyclerView.ViewHolder{
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
     //初始化viewpager
-    private void initViewPager(MyViewHolder holder) {
+    private void initViewPager(HomeHeadViewHolder holder) {
         isViewPagerLoadScucess = true;
         final List<View> imageViews = new ArrayList<>();
         for (int i = 0; i < listDatas1.size(); i++) {

@@ -6,17 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.upic.asn.model.ActivityArea;
-import com.upic.asn.model.Recommend;
-import com.upic.asn.model.Store;
-
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by ZYF on 2016/11/17.
  */
-public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
+public class BaseAdapter extends RecyclerView.Adapter {
 
     public Context context;//上下文
     public List<Object> listDatas;//数据源
@@ -153,13 +148,14 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView
         this.mInflater = LayoutInflater.from(context);
     }
 
+
     @Override
-    public T onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return null;
     }
 
     @Override
-    public void onBindViewHolder(T holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {//item点击事件
             @Override
             public void onClick(View v) {

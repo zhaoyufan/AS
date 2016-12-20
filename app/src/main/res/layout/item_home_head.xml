@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/common_ui_bg"
+    android:background="#f4f4f4"
     android:orientation="vertical">
 
     <android.support.v4.view.ViewPager
@@ -159,5 +159,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:background="#d0d0d0" />
+        android:background="@color/cut_off_blod" />
 </LinearLayout>

@@ -47,4 +47,14 @@
 
     <color name="blue">#499BF7</color>
 
+    <!-- recommend -->
+    <color name="recommend_price">#cba162</color>
+
+    <!-- store -->
+    <color name="store_go">#cba162</color>
+    <color name="store_price">#FFFFFF</color>
+
+    <color name="cut_off">#f4f4f4</color>
+    <color name="cut_off_blod">#d0d0d0</color>
+
 </resources>

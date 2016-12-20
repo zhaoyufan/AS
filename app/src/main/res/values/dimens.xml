@@ -6,4 +6,16 @@
     <dimen name="side_letter_bar_letter_size">12sp</dimen>
     <dimen name="side_letter_bar_width">36dp</dimen>
     <dimen name="city_text_size">16sp</dimen>
+    <!-- item_recommend -->
+    <dimen name="recommend_title">12sp</dimen>
+    <dimen name="recommend_describe">7sp</dimen>
+    <dimen name="recommend_price">15sp</dimen>
+    <!-- item_store -->
+    <dimen name="store_title">15sp</dimen>
+    <dimen name="store_brief">16sp</dimen>
+    <dimen name="store_price">15sp</dimen>
+
+    <!-- item_area -->
+    <dimen name="area_textsize">14sp</dimen>
+
 </resources>

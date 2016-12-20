@@ -39,8 +39,7 @@ import java.util.List;
  */
 public class StoreFragment extends BaseFragment implements
         BaseAdapter.OnItemClickListener,
-        PullBaseView.OnHeaderRefreshListener,
-        PullBaseView.OnFooterRefreshListener{
+        PullBaseView.OnHeaderRefreshListener{
     private DisplayMetrics dm;
     private PopupWindow popWindow;
     private ListView wanle_classify_1,wanle_classify_2;
@@ -89,10 +88,9 @@ public class StoreFragment extends BaseFragment implements
         recyclerView = (PullRecyclerView) view.findViewById(R.id.weekend_item_store_recyclerview);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         recyclerView.setOnHeaderRefreshListener(this);//设置下拉监听
-        recyclerView.setOnFooterRefreshListener(this);//设置上拉监听
         recyclerView.setCanScrollAtRereshing(false);//设置正在刷新时是否可以滑动，默认不可滑动
         recyclerView.setCanPullDown(true);//设置是否可下拉
-        recyclerView.setCanPullUp(true);//设置是否可上拉
+        recyclerView.setCanPullUp(false);//设置是否可上拉
     }
 
     private void initRecyclerView(){
@@ -365,11 +363,6 @@ public class StoreFragment extends BaseFragment implements
     @Override
     public void onItemClick(int position) {
         Toast.makeText(context,"点击"+((WanLeList)listWanLeList.get(position)).getTitle(),Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onFooterRefresh(PullBaseView view) {
-
     }
 
     @Override

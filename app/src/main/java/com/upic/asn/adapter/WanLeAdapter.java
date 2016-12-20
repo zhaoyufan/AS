@@ -27,8 +27,18 @@ import me.relex.circleindicator.CircleIndicator;
 /**
  * Created by ZYF on 2016/11/17.
  */
-public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
+public class WanLeAdapter extends BaseAdapter {
+    private static final int TYPE_ITEM_HOME_HEAD = 0;//homehead
 
+    private static final int TYPE_ITEM_AREA = 1;//area
+
+    private static final int TYPE_ITEM_RECOMMEND = 2;//recommend
+
+    private static final int TYPE_ITEM_STORE = 3;//列表元素
+
+    private static final int TYPE_FOOTER = 4;//脚布局
+
+    private boolean showFooter = true;
     boolean isViewPagerLoadScucess = false;//viewpager是否加载成功
 
     /**
@@ -50,86 +60,103 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
      * @return
      */
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(mInflater.inflate(viewType, parent, false));
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == TYPE_ITEM_HOME_HEAD){
+            return new HomeHeadViewHolder(mInflater.inflate(R.layout.item_home_head,parent,false));
+        }
+        else if(viewType == TYPE_ITEM_AREA){
+            return new AreaViewHolder(mInflater.inflate(R.layout.item_area,parent,false));
+        }
+        else if(viewType == TYPE_ITEM_RECOMMEND){
+            return new RecommendViewHolder(mInflater.inflate(R.layout.recommend,parent,false));
+        }
+        else if(viewType == TYPE_FOOTER){
+            return new FooterViewHolder(mInflater.inflate(R.layout.load_footer,parent,false));
+        }
+        else {
+            return new StoreViewHolder(mInflater.inflate(R.layout.item_store,parent,false));
+        }
     }
     //这里的position是recycleView自动会获取的，从0开始，整个recycleView是一个列表，banner为一个整体占用了第一行。
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 //        super.onBindViewHolder(holder, position);//当前环境不继承父类的点击事件
         if (position == 0) {//header
+            HomeHeadViewHolder homeHeadViewHolder = (HomeHeadViewHolder) holder;
             if (!isViewPagerLoadScucess) {
-                initViewPager(holder);
+                initViewPager(homeHeadViewHolder);
             }
-            holder.ll1.setOnClickListener(new ViewClickListener(onViewClickListener, position, 1));
-            holder.ll2.setOnClickListener(new ViewClickListener(onViewClickListener, position, 2));
-            holder.ll3.setOnClickListener(new ViewClickListener(onViewClickListener, position, 3));
-            holder.ll4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 4));
-            holder.ll5.setOnClickListener(new ViewClickListener(onViewClickListener, position, 5));
+            homeHeadViewHolder.ll1.setOnClickListener(new ViewClickListener(onViewClickListener, position, 1));
+            homeHeadViewHolder.ll2.setOnClickListener(new ViewClickListener(onViewClickListener, position, 2));
+            homeHeadViewHolder.ll3.setOnClickListener(new ViewClickListener(onViewClickListener, position, 3));
+            homeHeadViewHolder.ll4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 4));
+            homeHeadViewHolder.ll5.setOnClickListener(new ViewClickListener(onViewClickListener, position, 5));
         } else if (position == 1) {//area
+            AreaViewHolder areaViewHolder = (AreaViewHolder) holder;
             ActivityArea activityArea1 = (ActivityArea) listDatas2.get(0);
             ActivityArea activityArea2 = (ActivityArea) listDatas2.get(1);
             ActivityArea activityArea3 = (ActivityArea) listDatas2.get(2);
             ActivityArea activityArea4 = (ActivityArea) listDatas2.get(3);
 
-            holder.area1Title.setText(activityArea1.getTitle());
-            holder.area2Title.setText(activityArea2.getTitle());
-            holder.area3Title.setText(activityArea3.getTitle());
-            holder.area4Title.setText(activityArea4.getTitle());
+            areaViewHolder.area1Title.setText(activityArea1.getTitle());
+            areaViewHolder.area2Title.setText(activityArea2.getTitle());
+            areaViewHolder.area3Title.setText(activityArea3.getTitle());
+            areaViewHolder.area4Title.setText(activityArea4.getTitle());
             if (activityArea1.getUrl().isEmpty()){
-                holder.area1Img.setImageResource(R.mipmap.banner);
+                areaViewHolder.area1Img.setImageResource(R.mipmap.banner);
             }else{
-                Picasso.with(context).load(activityArea1.getUrl()).error(R.mipmap.banner).into(holder.area1Img);
+                Picasso.with(context).load(activityArea1.getUrl()).error(R.mipmap.banner).into(areaViewHolder.area1Img);
             }
             if (activityArea2.getUrl().isEmpty()){
-                holder.area2Img.setImageResource(R.mipmap.banner);
+                areaViewHolder.area2Img.setImageResource(R.mipmap.banner);
             }else{
-                Picasso.with(context).load(activityArea2.getUrl()).error(R.mipmap.banner).into(holder.area2Img);
+                Picasso.with(context).load(activityArea2.getUrl()).error(R.mipmap.banner).into(areaViewHolder.area2Img);
             }
             if (activityArea3.getUrl().isEmpty()){
-                holder.area3Img.setImageResource(R.mipmap.banner);
+                areaViewHolder.area3Img.setImageResource(R.mipmap.banner);
             }else{
-                Picasso.with(context).load(activityArea3.getUrl()).error(R.mipmap.banner).into(holder.area3Img);
+                Picasso.with(context).load(activityArea3.getUrl()).error(R.mipmap.banner).into(areaViewHolder.area3Img);
             }if (activityArea4.getUrl().isEmpty()){
-                holder.area4Img.setImageResource(R.mipmap.banner);
+                areaViewHolder.area4Img.setImageResource(R.mipmap.banner);
             }else{
-                Picasso.with(context).load(activityArea4.getUrl()).error(R.mipmap.banner).into(holder.area4Img);
+                Picasso.with(context).load(activityArea4.getUrl()).error(R.mipmap.banner).into(areaViewHolder.area4Img);
             }
 
-            holder.area1.setOnClickListener(new ViewClickListener(onViewClickListener, position, 6));
-            holder.area2.setOnClickListener(new ViewClickListener(onViewClickListener, position, 7));
-            holder.area3.setOnClickListener(new ViewClickListener(onViewClickListener, position, 8));
-            holder.area4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 9));
+            areaViewHolder.area1.setOnClickListener(new ViewClickListener(onViewClickListener, position, 6));
+            areaViewHolder.area2.setOnClickListener(new ViewClickListener(onViewClickListener, position, 7));
+            areaViewHolder.area3.setOnClickListener(new ViewClickListener(onViewClickListener, position, 8));
+            areaViewHolder.area4.setOnClickListener(new ViewClickListener(onViewClickListener, position, 9));
         } else if (position == 2){
-            initListView(holder);
-        } else{//列表
-
+            initListView((RecommendViewHolder) holder);
+        }
+        if(holder instanceof StoreViewHolder){//列表
+            StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
             final Store store = (Store) listDatas4.get(position - 3);
             if (store.getLogo().isEmpty()){
-                holder.storeLogo.setImageResource(R.mipmap.banner);
+                storeViewHolder.storeLogo.setImageResource(R.mipmap.banner);
             }else {
-                Picasso.with(context).load(store.getLogo()).error(R.mipmap.banner).into(holder.storeLogo);
+                Picasso.with(context).load(store.getLogo()).error(R.mipmap.banner).into(storeViewHolder.storeLogo);
             }
             if (store.getLogo().isEmpty()){
-                holder.storePic.setImageResource(R.mipmap.banner);
+                storeViewHolder.storePic.setImageResource(R.mipmap.banner);
             }else {
-                Picasso.with(context).load(store.getPicture()).error(R.mipmap.banner).into(holder.storePic);
+                Picasso.with(context).load(store.getPicture()).error(R.mipmap.banner).into(storeViewHolder.storePic);
             }
-            holder.storeName.setText(store.getStoreName());
-            holder.storeBrief.setText(store.getStoreBrief());
-            holder.storePic.setOnClickListener(new View.OnClickListener() {
+            storeViewHolder.storeName.setText(store.getStoreName());
+            storeViewHolder.storeBrief.setText(store.getStoreBrief());
+            storeViewHolder.storePic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context,"点击商店图片"+store.getPicture(),Toast.LENGTH_SHORT).show();
                 }
             });
-            holder.storeBrief.setOnClickListener(new View.OnClickListener() {
+            storeViewHolder.storeBrief.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context,"点击商店brief"+store.getStoreBrief(),Toast.LENGTH_SHORT).show();
                 }
             });
-            holder.goStore.setOnClickListener(new View.OnClickListener() {
+            storeViewHolder.goStore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context,"进店逛逛",Toast.LENGTH_SHORT).show();
@@ -149,68 +176,48 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return 1 + 1 + listDatas4.size() + 1;
+        int ishow = showFooter ? 1 : 0;
+        if (listDatas4 == null) {
+            return ishow + 3;
+        }
+        return 1 + 1 + listDatas4.size() + 1 + ishow;
+    }
+    public void isShowFooter(boolean showFooter) {
+        this.showFooter = showFooter;
+    }
+
+    public boolean isShowFooter() {
+        return this.showFooter;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return R.layout.item_home_head;
-        } else if (position == 1){
-            return R.layout.item_area;
-        } else if (position == 2){
-            return R.layout.recommend;
-        } else {
-            return R.layout.item_store;
+        if (!showFooter) {
+            return TYPE_ITEM_STORE;
+        }
+        else if (position == 0) {
+            return TYPE_ITEM_HOME_HEAD;
+        }
+        else if (position == 1){
+            return TYPE_ITEM_AREA;
+        }
+        else if (position == 2){
+            return TYPE_ITEM_RECOMMEND;
+        }
+        else if(position + 1 == getItemCount()){
+            return TYPE_FOOTER;
+        } else{
+            return TYPE_ITEM_STORE;
         }
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-        ViewPager vp;
-        //head
-        LinearLayout ll1, ll2, ll3, ll4, ll5;
-        CircleIndicator indicator;
-        //area
-        LinearLayout area1,area2,area3,area4;
-        ImageView area1Img, area2Img, area3Img, area4Img;
-        TextView area1Title, area2Title, area3Title, area4Title;
-        //recommend
-        ListView listView;
+    class StoreViewHolder extends RecyclerView.ViewHolder {
         //store
         ImageView storeLogo,storePic;
         TextView storeName,storeBrief,goStore;
 
-        public MyViewHolder(View view) {
+        public StoreViewHolder(View view) {
             super(view);
-            vp = (ViewPager) view.findViewById(R.id.vp);//banner
-            indicator = (CircleIndicator) view.findViewById(R.id.indicator);
-
-            //head
-            ll1 = (LinearLayout) view.findViewById(R.id.ll_1);//附近
-            ll2 = (LinearLayout) view.findViewById(R.id.ll_2);//最热
-            ll3 = (LinearLayout) view.findViewById(R.id.ll_3);//周末
-            ll4 = (LinearLayout) view.findViewById(R.id.ll_4);//发布
-            ll5 = (LinearLayout) view.findViewById(R.id.ll_5);//熟人团
-
-            //area
-            area1 = (LinearLayout) view.findViewById(R.id.area1);
-            area2 = (LinearLayout) view.findViewById(R.id.area2);
-            area3 = (LinearLayout) view.findViewById(R.id.area3);
-            area4 = (LinearLayout) view.findViewById(R.id.area4);
-
-            area1Img = (ImageView) view.findViewById(R.id.area1_img);
-            area2Img = (ImageView) view.findViewById(R.id.area2_img);
-            area3Img = (ImageView) view.findViewById(R.id.area3_img);
-            area4Img = (ImageView) view.findViewById(R.id.area4_img);
-
-            area1Title = (TextView) view.findViewById(R.id.area1_title);
-            area2Title = (TextView) view.findViewById(R.id.area2_title);
-            area3Title = (TextView) view.findViewById(R.id.area3_title);
-            area4Title = (TextView) view.findViewById(R.id.area4_title);
-
-
-            //recommend
-            listView = (ListView) view.findViewById(R.id.recommendlistview);
 
             //store
             storeLogo = (ImageView) view.findViewById(R.id.store_logo);
@@ -219,11 +226,71 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
             storeBrief = (TextView) view.findViewById(R.id.store_brief);
             goStore = (TextView) view.findViewById(R.id.go_store);
 
+        }
+    }
+    class HomeHeadViewHolder extends RecyclerView.ViewHolder{
+        ViewPager vp;
+        //head
+        LinearLayout ll1, ll2, ll3, ll4, ll5;
+        CircleIndicator indicator;
 
+        public HomeHeadViewHolder(View itemView) {
+            super(itemView);
+            vp = (ViewPager) itemView.findViewById(R.id.vp);//banner
+            indicator = (CircleIndicator) itemView.findViewById(R.id.indicator);
+
+            //head
+            ll1 = (LinearLayout) itemView.findViewById(R.id.ll_1);//附近
+            ll2 = (LinearLayout) itemView.findViewById(R.id.ll_2);//最热
+            ll3 = (LinearLayout) itemView.findViewById(R.id.ll_3);//周末
+            ll4 = (LinearLayout) itemView.findViewById(R.id.ll_4);//发布
+            ll5 = (LinearLayout) itemView.findViewById(R.id.ll_5);//熟人团
+        }
+    }
+    class AreaViewHolder extends RecyclerView.ViewHolder{
+        //area
+        LinearLayout area1,area2,area3,area4;
+        ImageView area1Img, area2Img, area3Img, area4Img;
+        TextView area1Title, area2Title, area3Title, area4Title;
+
+
+        public AreaViewHolder(View itemView) {
+            super(itemView);
+            //area
+            area1 = (LinearLayout) itemView.findViewById(R.id.area1);
+            area2 = (LinearLayout) itemView.findViewById(R.id.area2);
+            area3 = (LinearLayout) itemView.findViewById(R.id.area3);
+            area4 = (LinearLayout) itemView.findViewById(R.id.area4);
+
+            area1Img = (ImageView) itemView.findViewById(R.id.area1_img);
+            area2Img = (ImageView) itemView.findViewById(R.id.area2_img);
+            area3Img = (ImageView) itemView.findViewById(R.id.area3_img);
+            area4Img = (ImageView) itemView.findViewById(R.id.area4_img);
+
+            area1Title = (TextView) itemView.findViewById(R.id.area1_title);
+            area2Title = (TextView) itemView.findViewById(R.id.area2_title);
+            area3Title = (TextView) itemView.findViewById(R.id.area3_title);
+            area4Title = (TextView) itemView.findViewById(R.id.area4_title);
+        }
+    }
+    class RecommendViewHolder extends RecyclerView.ViewHolder{
+        //recommend
+        ListView listView;
+
+        public RecommendViewHolder(View itemView) {
+            super(itemView);
+            //recommend
+            listView = (ListView) itemView.findViewById(R.id.recommendlistview);
+        }
+    }
+    class FooterViewHolder extends RecyclerView.ViewHolder{
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
         }
     }
     //初始化viewpager
-    private void initViewPager(MyViewHolder holder) {
+    private void initViewPager(HomeHeadViewHolder holder) {
         isViewPagerLoadScucess = true;
         final List<View> imageViews = new ArrayList<>();
 
@@ -271,7 +338,7 @@ public class WanLeAdapter extends BaseAdapter<WanLeAdapter.MyViewHolder> {
     }
 
     //recommonedlist初始化
-    private void initListView(MyViewHolder holder){
+    private void initListView(RecommendViewHolder holder){
         RecommendAdapter adapter = new RecommendAdapter(listDatas3,context);
         holder.listView.setAdapter(adapter);
     }

@@ -1,7 +1,7 @@
 package com.upic.asn.ui.main;
 
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,7 +30,6 @@ import java.util.List;
 public class FragmentTab1_2 extends BaseFragment implements
         BaseAdapter.OnItemClickListener,//每个item的点击事件
         PullBaseView.OnHeaderRefreshListener,
-        PullBaseView.OnFooterRefreshListener,
         PullBaseView.OnPullDownScrollListener,
         BaseAdapter.OnViewClickListener,//item中view的点击事件，根据类型区分
         ChuXingListener {
@@ -39,11 +38,34 @@ public class FragmentTab1_2 extends BaseFragment implements
     ChuXingAdapter chuXingAdapter;
     List<Object> listBanners, listcommunity,listmarks;
     ChuXingPersenter chuXingPersenter;
+    public boolean isloading = false;
 
     int y, //滑动距离
             bannerH;//banner高度
     boolean isPullDown = false;//是否是下拉状态
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        private int lastVisibleItem;
 
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+        }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            //SCROLL_STATE_IDLE
+            //The RecyclerView is not currently scrolling.
+            if (newState == RecyclerView.SCROLL_STATE_IDLE
+                    && lastVisibleItem + 1 == chuXingAdapter.getItemCount()
+                    && !isloading) {
+                isloading = true;
+                chuXingPersenter.loadMoreCommunity(FragmentTab1_2.this);
+            }
+
+        }
+    };
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -66,11 +88,10 @@ public class FragmentTab1_2 extends BaseFragment implements
         mRecyclerView2 = (PullRecyclerView) $(R.id.mRecyclerView1_2);
         mRecyclerView2.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView2.setOnHeaderRefreshListener(this);//设置下拉监听
-        mRecyclerView2.setOnFooterRefreshListener(this);//设置上拉监听
         mRecyclerView2.setOnPullDownScrollListener(this);//设置下拉滑动监听
         mRecyclerView2.setCanScrollAtRereshing(false);//设置正在刷新时是否可以滑动，默认不可滑动
         mRecyclerView2.setCanPullDown(true);//设置是否可下拉
-        mRecyclerView2.setCanPullUp(true);//设置是否可上拉
+        mRecyclerView2.setCanPullUp(false);//设置是否可上拉
     }
 
     @Override
@@ -92,16 +113,6 @@ public class FragmentTab1_2 extends BaseFragment implements
         mRecyclerView2.setLayoutManager(new LinearLayoutManager(context));
         chuXingAdapter.setOnItemClickListener(this);
         mRecyclerView2.setAdapter(chuXingAdapter);
-    }
-
-    /**
-     * 上拉加载
-     *
-     * @param view
-     */
-    @Override
-    public void onFooterRefresh(PullBaseView view) {
-        subscription = chuXingPersenter.loadMoreCommunity(this);
     }
 
     /**
@@ -181,33 +192,29 @@ public class FragmentTab1_2 extends BaseFragment implements
 
     @Override
     public void loadMoreCommunitySuccess(List<Community> communityList) {
-        mRecyclerView2.onFooterRefreshComplete();
         for (Community community : communityList){
             listcommunity.add(community);
         }
+        isloading = false;
         chuXingAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void fail(String message, int type) {
+        if(HttpUtils.isNetworkAvailable(context)){
+            Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
+        }
         switch (type){
             case 1:
-                if(HttpUtils.isNetworkAvailable(context)){
-                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
-                }
-                loadingFaile();
+                loading();
                 initRecyclerView();
                 mRecyclerView2.onHeaderRefreshComplete();
                 break;
             case 2:
-                if(HttpUtils.isNetworkAvailable(context)){
-                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
-                }
-                mRecyclerView2.onFooterRefreshComplete();
+                isloading = false;
+                chuXingAdapter.notifyDataSetChanged();
                 break;
         }
     }
@@ -257,25 +264,6 @@ public class FragmentTab1_2 extends BaseFragment implements
         listcommunity.add(community3);
     }
 
-    public void loadingFaile(){
-        listBanners.clear();
-        Banner banner = new Banner();
-        banner.setUrl("https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=650d5402a318972bbc3a07cad6cd7b9d/9f2f070828381f305c3fe5bfa1014c086e06f086.jpg");
-        listBanners.add(banner);
-        banner = new Banner();
-        banner.setUrl("https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=a219dde79125bc31345d06986ede8de7/a5c27d1ed21b0ef494399077d5c451da80cb3ec1.jpg");
-        listBanners.add(banner);
-        banner = new Banner();
-        banner.setUrl("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg");
-        listBanners.add(banner);
-
-        listmarks.add("加载中...");
-        User user1 = new User("张一","");
-        List<User> users = new ArrayList<User>();
-        users.add(user1);
-        Community community1 = new Community("#加载中...#",100, "",users);
-        listcommunity.add(community1);
-    }
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -1,6 +1,7 @@
 package com.upic.asn.view.pullrecyclerview;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
@@ -18,7 +19,14 @@ public class PullRecyclerView extends PullBaseView<RecyclerView> {
         super(context, attrs);
     }
 
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        try {
+            super.onRestoreInstanceState(state);
+        }catch (Exception e) {
 
+        }
+    }
     @Override
     protected RecyclerView createRecyclerView(Context context, AttributeSet attrs) {
         return new RecyclerView(context, attrs);

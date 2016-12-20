@@ -1,7 +1,8 @@
 package com.upic.asn.ui.main;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,7 +35,6 @@ import java.util.List;
 public class FragmentTab1_1 extends BaseFragment implements
         BaseAdapter.OnItemClickListener,//每个item的点击事件
         PullBaseView.OnHeaderRefreshListener,
-        PullBaseView.OnFooterRefreshListener,
         PullBaseView.OnPullDownScrollListener,
         BaseAdapter.OnViewClickListener,//item中view的点击事件，根据类型区分
         WanLeListener {
@@ -46,11 +46,36 @@ public class FragmentTab1_1 extends BaseFragment implements
     List<Object> listBanners, listRecommends, listActivityAreas, listStores;
     List<NobleChoice> listNobleChoices;
     WanLePersenter wanLePersenter;
+    public boolean isloading = false;
 
     int y, //滑动距离
             bannerH;//banner高度
     boolean isPullDown = false;//是否是下拉状态
     int page;
+
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        private int lastVisibleItem;
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+        }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            //SCROLL_STATE_IDLE
+            //The RecyclerView is not currently scrolling.
+            if (newState == RecyclerView.SCROLL_STATE_IDLE
+                    && lastVisibleItem + 1 == wanLeAdapter.getItemCount()
+                    && !isloading) {
+                isloading = true;
+                wanLePersenter.loadMoreStores(FragmentTab1_1.this);
+            }
+
+        }
+    };
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -72,11 +97,11 @@ public class FragmentTab1_1 extends BaseFragment implements
         mRecyclerView = (PullRecyclerView) $(R.id.mRecyclerView1_1);
         mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mRecyclerView.setOnHeaderRefreshListener(this);//设置下拉监听
-        mRecyclerView.setOnFooterRefreshListener(this);//设置上拉监听
         mRecyclerView.setOnPullDownScrollListener(this);//设置下拉滑动监听
         mRecyclerView.setCanScrollAtRereshing(false);//设置正在刷新时是否可以滑动，默认不可滑动
         mRecyclerView.setCanPullDown(true);//设置是否可下拉
-        mRecyclerView.setCanPullUp(true);//设置是否可上拉
+        mRecyclerView.setCanPullUp(false);//设置是否可上拉
+        mRecyclerView.addOnScrollListener(onScrollListener);
     }
 
     @Override
@@ -98,20 +123,11 @@ public class FragmentTab1_1 extends BaseFragment implements
 
     void initRecyclerView() {
         wanLeAdapter = new WanLeAdapter(context, listBanners, listActivityAreas, listRecommends, listStores, this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView.setLayoutManager(layoutManager);
         wanLeAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(wanLeAdapter);
     }
 
-    /**
-     * 上拉加载
-     *
-     * @param view
-     */
-    @Override
-    public void onFooterRefresh(PullBaseView view) {
-        wanLePersenter.loadMoreStores(this);
-    }
 
     /**
      * 下拉刷新
@@ -216,10 +232,10 @@ public class FragmentTab1_1 extends BaseFragment implements
      */
     @Override
     public void loadMoreStoresSuccess(List<Store> storeList) {
-        mRecyclerView.onFooterRefreshComplete();
         for (Store store : storeList){
             listStores.add(store);
         }
+        isloading = false;
         wanLeAdapter.notifyDataSetChanged();
     }
 
@@ -232,17 +248,19 @@ public class FragmentTab1_1 extends BaseFragment implements
                 }else {
                     Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
                 }
-                loadingFaile();
+                loading();
                 initRecyclerView();
                 mRecyclerView.onHeaderRefreshComplete();
                 break;
             case 2:
+                Log.d("aaa","加载失败！");
                 if(HttpUtils.isNetworkAvailable(context)){
                     Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
                 }
-                mRecyclerView.onFooterRefreshComplete();
+                isloading = false;
+                wanLeAdapter.notifyDataSetChanged();
                 break;
             default:break;
         }
@@ -320,73 +338,6 @@ public class FragmentTab1_1 extends BaseFragment implements
         listStores.add(s4);
     }
 
-    public void loadingFaile(){
-        mRecyclerView.onHeaderRefreshComplete();
-        //banner 模拟数据
-        listBanners.clear();
-        Banner banner = new Banner();
-        banner.setUrl("");
-        listBanners.add(banner);
-        banner = new Banner();
-        banner.setUrl("");
-        listBanners.add(banner);
-        banner = new Banner();
-        banner.setUrl("");
-        listBanners.add(banner);
-
-        //area
-        listActivityAreas.clear();
-        ActivityArea area1 = new ActivityArea(null,null,null,"","加载失败...");
-        ActivityArea area2 = new ActivityArea(null,null,null,"","加载失败...");
-        ActivityArea area3 = new ActivityArea(null,null,null,"","加载失败...");
-        ActivityArea area4 = new ActivityArea(null,null,null,"","加载失败...");
-        listActivityAreas.add(area1);
-        listActivityAreas.add(area2);
-        listActivityAreas.add(area3);
-        listActivityAreas.add(area4);
-        listStores.clear();
-
-        //recommend
-        listNobleChoices.clear();
-        listRecommends.clear();
-        NobleChoice nobleChoice1 = new NobleChoice("","加载失败...",0);
-        NobleChoice nobleChoice2 = new NobleChoice("","加载失败...",0);
-        NobleChoice nobleChoice3 = new NobleChoice("","加载失败...",0);
-        NobleChoice nobleChoice4 = new NobleChoice("","加载失败...",0);
-        listNobleChoices.add(nobleChoice1);
-        listNobleChoices.add(nobleChoice2);
-        listNobleChoices.add(nobleChoice3);
-        listNobleChoices.add(nobleChoice4);
-        Recommend recommend = new Recommend("加载失败...","加载失败...",listNobleChoices);
-        listRecommends.add(recommend);
-
-        //store
-        listStores.clear();
-        Store s1 = new Store();
-        s1.setStoreName("加载失败...");
-        s1.setStoreBrief("加载失败...");
-        s1.setLogo("");
-        s1.setPicture("");
-        Store s2 = new Store();
-        s2.setStoreName("加载失败...");
-        s2.setStoreBrief("加载失败...");
-        s2.setLogo("");
-        s2.setPicture("");
-        Store s3 = new Store();
-        s3.setStoreName("加载失败...");
-        s3.setStoreBrief("加载失败...");
-        s3.setLogo("");
-        s3.setPicture("");
-        Store s4 = new Store();
-        s4.setStoreName("加载失败...");
-        s4.setStoreBrief("加载失败...");
-        s4.setLogo("");
-        s4.setPicture("");
-        listStores.add(s1);
-        listStores.add(s2);
-        listStores.add(s3);
-        listStores.add(s4);
-    }
 
     @Override
     public void onDestroy() {
