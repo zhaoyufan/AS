@@ -70,8 +70,9 @@ public class FragmentTab1_1 extends BaseFragment implements
             if (newState == RecyclerView.SCROLL_STATE_IDLE
                     && lastVisibleItem + 1 == wanLeAdapter.getItemCount()
                     && !isloading) {
+
                 isloading = true;
-                wanLePersenter.loadMoreStores(FragmentTab1_1.this);
+                subscription = wanLePersenter.loadMoreStores(FragmentTab1_1.this);
             }
 
         }
@@ -140,7 +141,7 @@ public class FragmentTab1_1 extends BaseFragment implements
     }
 
     private void doRefresh() {
-        wanLePersenter.getWanLeDatas(this);
+        subscription = wanLePersenter.getWanLeDatas(this);
 }
     /**
      * item点击监听
@@ -241,24 +242,21 @@ public class FragmentTab1_1 extends BaseFragment implements
 
     @Override
     public void fail(String message, int type) {
+        if(HttpUtils.isNetworkAvailable(context)){
+            Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
+        }
+        if(subscription != null){
+            subscription.unsubscribe();
+        }
         switch (type){
             case 1:
-                if(HttpUtils.isNetworkAvailable(context)){
-                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
-                }
                 loading();
                 initRecyclerView();
                 mRecyclerView.onHeaderRefreshComplete();
                 break;
             case 2:
-                Log.d("aaa","加载失败！");
-                if(HttpUtils.isNetworkAvailable(context)){
-                    Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
-                }
                 isloading = false;
                 wanLeAdapter.notifyDataSetChanged();
                 break;

@@ -35,7 +35,7 @@ public class ChuXingPersenter extends BasePresenter {
 
                     @Override
                     protected void _onError(String message) {
-                        listener.fail("连接服务器失败,",1);
+                        listener.fail("连接服务器失败",1);
                     }
                 });
         return subscription;

@@ -52,7 +52,6 @@ public class StoreFragment extends BaseFragment implements
     //sorting
     private List<SortSelect> sortSelects1,sortSelects2,sortSelects3;
     private Button pop_sorting_sure,pop_sorting_reset;
-    private EditText pop_sorting_et1,pop_sorting_et2;
     private GridView pop_sorting_gv1,pop_sorting_gv2,pop_sorting_gv3;
     private SortingMyAdapter sortingMyAdapter1,sortingMyAdapter2,sortingMyAdapter3;
     //pop_intelligent
@@ -192,7 +191,7 @@ public class StoreFragment extends BaseFragment implements
     }
 
     private void setPopwindow(View contentView) {
-        int screenHeight = dm.heightPixels * 2 / 4;
+        int screenHeight = dm.heightPixels;
         // 这里就给具体大小的数字，要不然位置不好计算
         popWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT,
                 screenHeight);
@@ -215,8 +214,6 @@ public class StoreFragment extends BaseFragment implements
             case 2:
                 pop_sorting_sure = (Button) contentView.findViewById(R.id.pop_sorting_sure);
                 pop_sorting_reset = (Button) contentView.findViewById(R.id.pop_sorting_reset);
-                pop_sorting_et1 = (EditText) contentView.findViewById(R.id.pop_sorting_et1);
-                pop_sorting_et2 = (EditText) contentView.findViewById(R.id.pop_sorting_et2);
                 pop_sorting_gv1 = (GridView) contentView.findViewById(R.id.pop_sorting_1);
                 pop_sorting_gv2 = (GridView) contentView.findViewById(R.id.pop_sorting_2);
                 pop_sorting_gv3 = (GridView) contentView.findViewById(R.id.pop_sorting_3);

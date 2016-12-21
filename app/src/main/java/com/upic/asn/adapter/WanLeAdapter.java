@@ -195,7 +195,7 @@ public class WanLeAdapter extends BaseAdapter {
         if (!showFooter) {
             return TYPE_ITEM_STORE;
         }
-        else if (position == 0) {
+        if (position == 0) {
             return TYPE_ITEM_HOME_HEAD;
         }
         else if (position == 1){

@@ -28,7 +28,8 @@ public class SortingMyAdapter extends SortingListAdapter {
         this.context = context;
         this.sortSelects = sortSelects;
         inflater = LayoutInflater.from(context);
-        for (int i = 0; i < sortSelects.size(); i++) {
+        vector.add(true);
+        for (int i = 0; i < sortSelects.size()-1; i++) {
             vector.add(false);
         }
     }
@@ -75,8 +76,12 @@ public class SortingMyAdapter extends SortingListAdapter {
      * @param position
      */
     public void changeState(int position) {
-        if (lastPosition != -1)
-            vector.setElementAt(false, lastPosition);                   //取消上一次的选中状态
+
+            if (lastPosition != -1){           //取消上一次的选中状态
+                vector.setElementAt(false, lastPosition);
+            } else if(lastPosition == -1){
+                vector.setElementAt(false, 0);
+            }
         vector.setElementAt(!vector.elementAt(position), position);     //直接取反即可
         lastPosition = position;                                        //记录本次选中的位置
         notifyDataSetChanged();

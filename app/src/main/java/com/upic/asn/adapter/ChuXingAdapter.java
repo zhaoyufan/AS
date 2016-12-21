@@ -209,7 +209,7 @@ public class ChuXingAdapter extends BaseAdapter {
         if (!showFooter) {
             return TYPE_ITEM_COMMUNITY;
         }
-        else if (position == 0) {
+        if (position == 0) {
             return TYPE_ITEM_HOME_HEAD;
         }
         else if (position == 1){

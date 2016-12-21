@@ -2,6 +2,7 @@ package com.upic.asn.ui.main;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -61,9 +62,8 @@ public class FragmentTab1_2 extends BaseFragment implements
                     && lastVisibleItem + 1 == chuXingAdapter.getItemCount()
                     && !isloading) {
                 isloading = true;
-                chuXingPersenter.loadMoreCommunity(FragmentTab1_2.this);
+                subscription = chuXingPersenter.loadMoreCommunity(FragmentTab1_2.this);
             }
-
         }
     };
 
@@ -92,6 +92,7 @@ public class FragmentTab1_2 extends BaseFragment implements
         mRecyclerView2.setCanScrollAtRereshing(false);//设置正在刷新时是否可以滑动，默认不可滑动
         mRecyclerView2.setCanPullDown(true);//设置是否可下拉
         mRecyclerView2.setCanPullUp(false);//设置是否可上拉
+        mRecyclerView2.addOnScrollListener(onScrollListener);
     }
 
     @Override
@@ -110,7 +111,7 @@ public class FragmentTab1_2 extends BaseFragment implements
     }
     void initRecyclerView() {
         chuXingAdapter = new ChuXingAdapter(context, listBanners, listcommunity,listmarks, this);
-        mRecyclerView2.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView2.setLayoutManager(layoutManager);
         chuXingAdapter.setOnItemClickListener(this);
         mRecyclerView2.setAdapter(chuXingAdapter);
     }
@@ -122,7 +123,7 @@ public class FragmentTab1_2 extends BaseFragment implements
      */
     @Override
     public void onHeaderRefresh(PullBaseView view) {
-        subscription = chuXingPersenter.getChuXingDatas(this);
+        doRefresh();
     }
 
     private void doRefresh() {
@@ -205,6 +206,9 @@ public class FragmentTab1_2 extends BaseFragment implements
             Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText(context,"请检查网络",Toast.LENGTH_SHORT).show();
+        }
+        if(subscription != null){
+            subscription.unsubscribe();
         }
         switch (type){
             case 1:

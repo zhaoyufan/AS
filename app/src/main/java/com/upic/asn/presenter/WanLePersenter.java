@@ -11,6 +11,7 @@ import com.upic.asn.model.view.WanLeListener;
 
 import java.util.List;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -23,8 +24,8 @@ public class WanLePersenter extends BasePresenter{
         service = ApiUtil.createApiService();
     }
 
-    public void getWanLeDatas(final WanLeListener listener){
-        service.getWanLeDatas()
+    public Subscription getWanLeDatas(final WanLeListener listener){
+        subscription = service.getWanLeDatas()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscribe<WanLe>() {
@@ -38,10 +39,11 @@ public class WanLePersenter extends BasePresenter{
                         listener.fail("连接服务器失败", 1);
                     }
                 });
+        return subscription;
     }
 
-    public void loadMoreStores(final WanLeListener listener){
-        service.loadMoreStores()
+    public Subscription loadMoreStores(final WanLeListener listener){
+        subscription = service.loadMoreStores()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscribe<List<Store>>() {
@@ -51,9 +53,10 @@ public class WanLePersenter extends BasePresenter{
                     }
                     @Override
                     protected void _onError(String message) {
-                        listener.fail("连接服务失败器",2);
+                        listener.fail("连接服务器失败",2);
                     }
                 });
+        return subscription;
     }
 
 }

@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
-    android:orientation="vertical">
+    android:background="@color/common_ui_bg"
+    android:orientation="vertical"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -17,7 +19,8 @@
         <TextView
             android:layout_marginLeft="10dp"
             android:text="时段"
-            android:textSize="30dp"
+            android:textSize="@dimen/pop_sorting_text_title"
+            android:textColor="#000"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -39,7 +42,8 @@
         <TextView
             android:layout_marginLeft="10dp"
             android:text="生态圈"
-            android:textSize="30dp"
+            android:textSize="@dimen/pop_sorting_text_title"
+            android:textColor="#000"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -60,31 +64,11 @@
         <TextView
             android:layout_marginLeft="10dp"
             android:text="人数"
-            android:textSize="30dp"
+            android:textSize="@dimen/pop_sorting_text_title"
+            android:textColor="#000"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/pop_sorting_et1"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/textview_broder"
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.14" />
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:textSize="30dp"
-            android:text="----"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/pop_sorting_et2"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/textview_broder"
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.14" />
     </LinearLayout>
     <include
         android:id="@+id/pop_sorting_3"

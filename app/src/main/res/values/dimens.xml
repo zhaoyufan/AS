@@ -18,4 +18,6 @@
     <!-- item_area -->
     <dimen name="area_textsize">14sp</dimen>
 
+    <dimen name="pop_sorting_text_title">10sp</dimen>
+    <dimen name="pop_sorting_text_select">10sp</dimen>
 </resources>
