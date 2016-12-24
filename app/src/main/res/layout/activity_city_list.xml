@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white">
-
         <ListView
             android:id="@+id/listview_all_city"
             android:layout_width="match_parent"

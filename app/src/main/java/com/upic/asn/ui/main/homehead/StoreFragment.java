@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.upic.asn.R;
-import com.upic.asn.adapter.BaseAdapter;
+import com.upic.asn.adapter.base.BaseAdapter;
 import com.upic.asn.ui.base.BaseFragment;
 import com.upic.asn.ui.main.homehead.adapter.IntelligentAdapter;
 import com.upic.asn.ui.main.homehead.adapter.SortingMyAdapter;
@@ -114,10 +113,10 @@ public class StoreFragment extends BaseFragment implements
     }
 
     private void loadRecyclerViewData() {
-        WanLeList wanLeList1 = new WanLeList("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg","1","1","1","1");
-        WanLeList wanLeList2 = new WanLeList("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg","2","2","2","2");
-        WanLeList wanLeList3 = new WanLeList("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg","3","3","3","3");
-        WanLeList wanLeList4 = new WanLeList("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg","4","4","4","4");
+        WanLeList wanLeList1 = new WanLeList("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg","天胜四不用农庄","51分钟/6千米","289","289");
+        WanLeList wanLeList2 = new WanLeList("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg","天胜四不用农庄","51分钟/6千米","289","289");
+        WanLeList wanLeList3 = new WanLeList("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg","天胜四不用农庄","51分钟/6千米","289","289");
+        WanLeList wanLeList4 = new WanLeList("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2040796625,1810502195&fm=111&gp=0.jpg","天胜四不用农庄","51分钟/6千米","289","289");
         listWanLeList.add(wanLeList1);
         listWanLeList.add(wanLeList2);
         listWanLeList.add(wanLeList3);
@@ -349,9 +348,9 @@ public class StoreFragment extends BaseFragment implements
         city2List3.add(city13);
         city2List3.add(city14);
         city2List3.add(city15);
-        City c1 = new City("城市1",city2List1);
-        City c2 = new City("城市2",city2List2);
-        City c3 = new City("城市3",city2List3);
+        City c1 = new City("玩乐",city2List1);
+        City c2 = new City("出行圈",city2List2);
+        City c3 = new City("品农",city2List3);
         cityList.add(c1);
         cityList.add(c2);
         cityList.add(c3);

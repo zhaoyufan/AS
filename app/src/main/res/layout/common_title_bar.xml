@@ -3,7 +3,7 @@
     android:id="@+id/title_bar"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@color/common_title_bg">
+    android:background="@color/common_ui_bg">
 
     <TextView
         android:id="@+id/common_title_bar_left"
@@ -31,7 +31,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="标题"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textSize="18sp" />
 
     <TextView

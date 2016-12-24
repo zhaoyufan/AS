@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/common_ui_bg"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -53,6 +54,10 @@
             android:text="智能排序"
             android:textSize="12sp" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/cut_off" />
 
     <com.upic.asn.view.pullrecyclerview.PullRecyclerView
         android:id="@+id/weekend_item_store_recyclerview"

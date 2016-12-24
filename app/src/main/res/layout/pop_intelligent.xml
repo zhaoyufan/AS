@@ -2,7 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFEBEBEB">
+    android:orientation="vertical"
+    android:background="@color/common_ui_bg">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/cut_off" />
     <ListView
         android:id="@+id/pop_intelligent_list"
         android:layout_width="match_parent"

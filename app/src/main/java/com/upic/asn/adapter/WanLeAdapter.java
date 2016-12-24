@@ -15,9 +15,11 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.upic.asn.R;
+import com.upic.asn.adapter.base.BaseAdapter;
 import com.upic.asn.model.ActivityArea;
 import com.upic.asn.model.Banner;
 import com.upic.asn.model.Store;
+import com.upic.asn.ui.main.adapter.MyPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,22 +146,30 @@ public class WanLeAdapter extends BaseAdapter {
             }
             storeViewHolder.storeName.setText(store.getStoreName());
             storeViewHolder.storeBrief.setText(store.getStoreBrief());
-            storeViewHolder.storePic.setOnClickListener(new View.OnClickListener() {
+//            storeViewHolder.storePic.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+////                    Toast.makeText(context,"点击商店图片"+store.getPicture(),Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//            storeViewHolder.storeBrief.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(context,"点击商店brief"+store.getStoreBrief(),Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//            storeViewHolder.goStore.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(context,"进店逛逛",Toast.LENGTH_SHORT).show();
+//                }
+//            });
+            storeViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context,"点击商店图片"+store.getPicture(),Toast.LENGTH_SHORT).show();
-                }
-            });
-            storeViewHolder.storeBrief.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context,"点击商店brief"+store.getStoreBrief(),Toast.LENGTH_SHORT).show();
-                }
-            });
-            storeViewHolder.goStore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context,"进店逛逛",Toast.LENGTH_SHORT).show();
+                    if(onItemClickListener != null){
+                        onItemClickListener.onItemClick(position - 3);
+                    }
                 }
             });
         }
@@ -312,28 +322,7 @@ public class WanLeAdapter extends BaseAdapter {
             });
             imageViews.add(view);
         }
-        holder.vp.setAdapter(new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return imageViews.size();
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup arg0, int arg1) {
-                arg0.addView(imageViews.get(arg1));
-                return imageViews.get(arg1);
-            }
-
-            @Override
-            public void destroyItem(ViewGroup arg0, int arg1, Object arg2) {
-                arg0.removeView((View) arg2);
-            }
-
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return view == object;
-            }
-        });
+        holder.vp.setAdapter(new MyPagerAdapter(imageViews));
         holder.indicator.setViewPager(holder.vp);
     }
 

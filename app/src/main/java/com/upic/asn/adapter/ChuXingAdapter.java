@@ -15,9 +15,11 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.upic.asn.R;
+import com.upic.asn.adapter.base.BaseAdapter;
 import com.upic.asn.model.Banner;
 import com.upic.asn.model.Community;
 import com.upic.asn.model.User;
+import com.upic.asn.ui.main.adapter.MyPagerAdapter;
 import com.upic.asn.utils.CircleImageView;
 import com.upic.asn.utils.PileLayout;
 
@@ -299,28 +301,7 @@ public class ChuXingAdapter extends BaseAdapter {
             });
             imageViews.add(view);
         }
-        holder.vp.setAdapter(new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return imageViews.size();
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup arg0, int arg1) {
-                arg0.addView(imageViews.get(arg1));
-                return imageViews.get(arg1);
-            }
-
-            @Override
-            public void destroyItem(ViewGroup arg0, int arg1, Object arg2) {
-                arg0.removeView((View) arg2);
-            }
-
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return view == object;
-            }
-        });
+        holder.vp.setAdapter(new MyPagerAdapter(imageViews));
         holder.indicator.setViewPager(holder.vp);
     }
 

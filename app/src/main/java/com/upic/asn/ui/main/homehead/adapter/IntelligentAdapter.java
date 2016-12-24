@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.upic.asn.R;
@@ -31,14 +32,15 @@ public class IntelligentAdapter extends MyBaseAdapter {
         }else{
             holder = (Holder) convertView.getTag();
         }
-        holder.img.setImageResource(R.mipmap.directions);
         holder.txt.setText(((Intelligent)listDatas.get(position)).getContent());
         if (super.position == position) {
-            holder.txt.setTextColor(0xFFFF8C00);
-            holder.img2.setVisibility(View.VISIBLE);
+            holder.txt.setTextColor(0xFF000000);
+            holder.img.setVisibility(View.VISIBLE);
+            holder.linearLayout.setBackgroundColor(0xFFCCCCCC);
         } else {
-            holder.txt.setTextColor(0xFF666666);
-            holder.img2.setVisibility(View.GONE);
+            holder.txt.setTextColor(0xFFCCCCCC);
+            holder.img.setVisibility(View.GONE);
+            holder.linearLayout.setBackgroundColor(0xFFFFFFFF);
         }
         return convertView;
     }
@@ -46,11 +48,11 @@ public class IntelligentAdapter extends MyBaseAdapter {
     class Holder {
         ImageView img;
         TextView txt;
-        ImageView img2;
+        LinearLayout linearLayout;
         public Holder(View view) {
             txt = (TextView) view.findViewById(R.id.pop_intelligent_text);
             img = (ImageView) view.findViewById(R.id.pop_intelligent_img);
-            img2 = (ImageView) view.findViewById(R.id.pop_intelligent_selector);
+            linearLayout = (LinearLayout) view.findViewById(R.id.pop_intelligent_layout);
         }
     }
 }

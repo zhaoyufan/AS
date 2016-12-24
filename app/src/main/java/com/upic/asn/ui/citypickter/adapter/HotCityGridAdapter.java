@@ -1,4 +1,4 @@
-package com.upic.asn.adapter.citypicker;
+package com.upic.asn.ui.citypickter.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -2,12 +2,11 @@ package com.upic.asn.ui.main;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.upic.asn.R;
-import com.upic.asn.adapter.BaseAdapter;
+import com.upic.asn.adapter.base.BaseAdapter;
 import com.upic.asn.adapter.WanLeAdapter;
 import com.upic.asn.model.ActivityArea;
 import com.upic.asn.model.Banner;
@@ -19,6 +18,7 @@ import com.upic.asn.model.view.WanLeListener;
 import com.upic.asn.presenter.WanLePersenter;
 import com.upic.asn.ui.base.BaseFragment;
 import com.upic.asn.ui.main.homehead.WeekendActivity;
+import com.upic.asn.ui.main.store_detail.StoreDetailActivity;
 import com.upic.asn.utils.HttpUtils;
 import com.upic.asn.utils.LogUtil;
 import com.upic.asn.utils.SysUtil;
@@ -150,7 +150,7 @@ public class FragmentTab1_1 extends BaseFragment implements
      */
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(context,"点击第"+position+"个商品",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(context, StoreDetailActivity.class));
     }
 
     @Override

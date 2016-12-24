@@ -6,16 +6,21 @@
     android:orientation="vertical"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp">
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/cut_off" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
 
         <ImageView
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:background="@android:drawable/star_big_on" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/pop_sorting_time"
+            android:layout_marginLeft="10dp"/>
         <TextView
             android:layout_marginLeft="10dp"
             android:text="时段"
@@ -33,12 +38,15 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
 
         <ImageView
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:background="@android:drawable/star_big_on" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/pop_sorting_people_structure"
+            android:layout_marginLeft="10dp"/>
         <TextView
             android:layout_marginLeft="10dp"
             android:text="生态圈"
@@ -56,11 +64,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:weightSum="1">
         <ImageView
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:background="@android:drawable/star_big_on" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@mipmap/pop_sorting_people" />
         <TextView
             android:layout_marginLeft="10dp"
             android:text="人数"
@@ -76,20 +87,25 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal">
         <Button
             android:text="确定"
-            android:layout_gravity="end"
-            android:layout_weight="1"
             android:id="@+id/pop_sorting_sure"
+            android:background="@color/pop_sorting_button"
+            android:textColor="@color/pop_sorting_btext"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            />
         <Button
             android:text="重置"
-            android:layout_gravity="start"
-            android:layout_weight="1"
             android:id="@+id/pop_sorting_reset"
+            android:background="@color/pop_sorting_button"
+            android:textColor="@color/pop_sorting_btext"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
 </LinearLayout>

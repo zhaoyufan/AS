@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_ui_bg">
+    <include layout="@layout/common_title_bar"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activity_product_details_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="235dp">
+
+    </android.support.v4.view.ViewPager>
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/activity_product_details_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_marginTop="-24dp"
+        app:ci_drawable="@drawable/indicator_common_selector"
+        app:ci_drawable_unselected="@drawable/indicator_common_unselector"
+        app:ci_height="6dp"
+        app:ci_margin="10dp"
+        app:ci_width="6dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/activity_product_details_book"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:background="@drawable/product_details_button_book"
+            android:textColor="@color/white"
+            android:layout_marginTop="16dp"
+            android:textSize="12sp"
+            android:text="预定"/>
+
+        <TextView
+            android:id="@+id/activity_product_details_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12.5dp"
+            android:textSize="@dimen/activity_product_details_activity"
+            android:textStyle="bold"
+            android:textColor="@color/activity_product_details_common"
+            android:text="骑马"/>
+        <TextView
+            android:id="@+id/activity_product_details_term"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/activity_product_details_term"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/activity_product_details_common"
+            android:text="仅限有骑马经验者"/>
+        <TextView
+            android:id="@+id/activity_product_details_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12.5dp"
+            android:textSize="@dimen/activity_product_details_content"
+            android:textColor="@color/activity_product_details_common"
+            android:text="的就撒来看的撒的健康撒打卡机顺路快递打开了时间到了看见爱上了肯德基萨洛克的加快了撒娇的快乐撒打了跨世纪的快乐撒娇的了撒娇的来看撒娇靠的就是克拉的卢卡斯健康"/>
+        <TextView
+            android:id="@+id/activity_product_details_book_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/activity_product_details_common"
+            android:text="需要提前一天预定"/>
+    </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_gravity="bottom"
+       android:gravity="bottom|center">
+       <Button
+           android:id="@+id/activity_product_details_book_now"
+           android:layout_width="match_parent"
+           android:layout_height="50dp"
+           android:layout_weight="1"
+           android:background="@color/activity_product_details_book_now"
+           android:textColor="@color/white"
+           android:text="立即预约"/>
+       <Button
+           android:id="@+id/activity_product_details_price"
+           android:layout_width="match_parent"
+           android:layout_height="50dp"
+           android:layout_weight="1"
+           android:background="@color/activity_product_details_price"
+           android:textColor="@color/activity_product_details_book_now"
+           android:text="369/人"/>
+   </LinearLayout>
+
+</LinearLayout>

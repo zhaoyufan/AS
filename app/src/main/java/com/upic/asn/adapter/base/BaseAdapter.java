@@ -1,4 +1,4 @@
-package com.upic.asn.adapter;
+package com.upic.asn.adapter.base;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -224,7 +224,7 @@ public class BaseAdapter extends RecyclerView.Adapter {
     /**
      * view的点击事件
      */
-    class ViewClickListener implements View.OnClickListener{
+    public class ViewClickListener implements View.OnClickListener{
         OnViewClickListener onViewClickListener;
         int position;
         int viewtype;

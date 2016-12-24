@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.upic.asn.R;
-import com.upic.asn.adapter.BaseAdapter;
+import com.upic.asn.adapter.base.BaseAdapter;
 import com.upic.asn.ui.main.homehead.bean.WanLeList;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class WeekendRecyclerAdapter extends BaseAdapter {
             wanLeListViewHolder.wanleTitle.setText(wanLeList.getTitle());
             wanLeListViewHolder.wanleCity.setText(wanLeList.getCity());
             wanLeListViewHolder.wanleDistance.setText(wanLeList.getDistance());
-            wanLeListViewHolder.wanleLabel.setText(wanLeList.getLabel());
+            wanLeListViewHolder.wanlePrice.setText(wanLeList.getLabel());
             wanLeListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -86,14 +86,14 @@ public class WeekendRecyclerAdapter extends BaseAdapter {
 
     class WanLeListViewHolder extends RecyclerView.ViewHolder{
         ImageView wanleImg;
-        TextView wanleTitle,wanleCity,wanleDistance,wanleLabel;
+        TextView wanleTitle,wanleCity,wanleDistance,wanleLabel,wanleType,wanlePrice;
         public WanLeListViewHolder(View view) {
             super(view);
             wanleImg = (ImageView) view.findViewById(R.id.item_wanle_list_img);
             wanleTitle = (TextView) view.findViewById(R.id.item_wanle_list_title);
-            wanleCity = (TextView) view.findViewById(R.id.item_wanle_list_city);
+            wanleCity = (TextView) view.findViewById(R.id.item_wanle_list_time);
             wanleDistance = (TextView) view.findViewById(R.id.item_wanle_list_distance);
-            wanleLabel = (TextView) view.findViewById(R.id.item_wanle_list_label);
+            wanlePrice = (TextView) view.findViewById(R.id.item_wanle_list_price);
         }
     }
     class FooterViewHolder extends RecyclerView.ViewHolder{

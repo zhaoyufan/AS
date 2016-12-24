@@ -1,13 +1,11 @@
 package com.upic.asn.ui.main;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.upic.asn.R;
-import com.upic.asn.adapter.BaseAdapter;
+import com.upic.asn.adapter.base.BaseAdapter;
 import com.upic.asn.adapter.ChuXingAdapter;
 import com.upic.asn.model.Banner;
 import com.upic.asn.model.ChuXing;
